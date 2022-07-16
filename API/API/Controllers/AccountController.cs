@@ -15,11 +15,13 @@ public class AccountController : ControllerBase
 {
     //private readonly UnitOfWork _unitOfWork;
     private readonly UserManager<AppUser> _userManager;
+    private readonly SignInManager<AppUser> _signInManager;
     private readonly ILogger<AccountController> _logger;
 
     public AccountController(
         //UnitOfWork unitOfWork,
         UserManager<AppUser> userManager,
+        SignInManager<AppUser> signInManager,
         //RoleManager<IdentityRole> roleManager,
         //IConfiguration configuration // (Jwt token)
         //TokenValidationParameters tokenValidationParams, // (Jwt token)
@@ -28,6 +30,7 @@ public class AccountController : ControllerBase
     {
         //_unitOfWork = unitOfWork;
         _userManager = userManager;
+        _signInManager = signInManager;
         _logger = logger;
     }
 
@@ -46,7 +49,7 @@ public class AccountController : ControllerBase
 
         // Check if email already exists
         var existingUser = await _userManager.FindByEmailAsync(requestDto.Email);
-        if (existingUser == null)
+        if (existingUser != null)
         {
             return BadRequest(new AuthResult()
             {
@@ -58,7 +61,7 @@ public class AccountController : ControllerBase
         var newUser = new AppUser()
         {
             Email = requestDto.Email,
-            UserName = requestDto.Email
+            UserName = requestDto.Name
         };
 
         var newUserIsCreated = await _userManager.CreateAsync(newUser, requestDto.Password);
@@ -100,8 +103,8 @@ public class AccountController : ControllerBase
         }
 
         // Verify password
-        var isCorrect = await _userManager.CheckPasswordAsync(existingUser, loginRequest.Password);
-        if (!isCorrect)
+        var passwordIsCorrect = await _userManager.CheckPasswordAsync(existingUser, loginRequest.Password);
+        if (!passwordIsCorrect)
         {
             return BadRequest(new AuthResult()
             {
@@ -110,10 +113,16 @@ public class AccountController : ControllerBase
             });
         }
 
+        // Password is verified, log the user in
+
         //var jwtToken = await GenerateJwtTokenAsync_1(existingUser);
 
         //return Ok(jwtToken);
         return Ok("Login successful");
     }
+
+    // Route for updating/editing IdentityUser (CRUD)
+
+    // Route for deleting IdentityUser (CRUD)https://www.youtube.com/watch?v=NRInHhtuXhg&list=PL82C6-O4XrHccS2fD8tdEF9UoO3VwKeGK&index=9
 
 }

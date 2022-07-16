@@ -14,7 +14,8 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(DataContext context)
     {
         _context = context;
-        // Inject the db context into other repositories
+
+        // Inject the same db context instance into other repositories
         AppUsers = new AppUserRepository(_context);
     }
 

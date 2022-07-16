@@ -14,13 +14,3 @@ public class DataContext: IdentityDbContext<AppUser>
 
     #endregion
 }
-//public class DataContext: DbContext
-//{
-//    public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-
-//    #region Tables
-//    public DbSet<AppUser> AppUsers { get; set; }
-
-
-//    #endregion
-//}
