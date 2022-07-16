@@ -121,7 +121,6 @@ public class AccountController : ControllerBase
         return Ok("Login successful");
     }
 
-    // Route for updating/editing IdentityUser (CRUD)
     [HttpPost("UpdateUsername")]
     public async Task<ActionResult> UpdateUsername(AppUser user)
     {
@@ -148,7 +147,23 @@ public class AccountController : ControllerBase
         return Ok("User successfully updated");
     }
 
+    [HttpDelete("DeleteUser")]
+    public async Task<ActionResult> DeleteUser (string email)
+    {
+        // Reference user by email
+        var existingUser = await _userManager.FindByEmailAsync(email);
+        if (existingUser == null)
+        {
+            return BadRequest(new AuthResult()
+            {
+                Success = false,
+                Errors = new List<string>() { "Email doesn't exist" }
+            });
+        }
 
-    // Route for deleting IdentityUser (CRUD)https://www.youtube.com/watch?v=NRInHhtuXhg&list=PL82C6-O4XrHccS2fD8tdEF9UoO3VwKeGK&index=9
+        // Delete user from db
+        await _userManager.DeleteAsync(existingUser);
 
+        return Ok("User successfully deleted");
+    }
 }
