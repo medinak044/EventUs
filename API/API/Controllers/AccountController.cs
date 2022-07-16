@@ -19,7 +19,7 @@ public class AccountController : ControllerBase
     private readonly ILogger<AccountController> _logger;
 
     public AccountController(
-        //UnitOfWork unitOfWork,
+        //UnitOfWork unitOfWork, // unitofwork wont work here
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
         //RoleManager<IdentityRole> roleManager,
@@ -122,6 +122,32 @@ public class AccountController : ControllerBase
     }
 
     // Route for updating/editing IdentityUser (CRUD)
+    [HttpPost("UpdateUsername")]
+    public async Task<ActionResult> UpdateUsername(AppUser user)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        // Reference user by email
+        var existingUser = await _userManager.FindByEmailAsync(user.Email);
+        if (existingUser == null)
+        {
+            return BadRequest(new AuthResult()
+            {
+                Success = false,
+                Errors = new List<string>() { "Email doesn't exist" }
+            });
+        }
+
+        // Change values
+        existingUser.UserName = user.UserName;
+
+        // Save changes to db
+        await _userManager.UpdateAsync(existingUser);
+
+        return Ok("User successfully updated");
+    }
+
 
     // Route for deleting IdentityUser (CRUD)https://www.youtube.com/watch?v=NRInHhtuXhg&list=PL82C6-O4XrHccS2fD8tdEF9UoO3VwKeGK&index=9
 

@@ -6,7 +6,7 @@ namespace API.Models;
 public class AppUser: IdentityUser
 {
     // Already includes (string) Id field
-    public string? DisplayName { get; set; }
+    public string? DisplayName { get; set; } // Username already provided
     //public string RefreshToken { get; set; }
     //public DateTime TokenCreated { get; set; }
     //public DateTime TokenExpires { get; set; }
