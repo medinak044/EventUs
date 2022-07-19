@@ -11,7 +11,6 @@ import { AppUserService } from 'src/app/services/app-user.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  // appUserRegister?: AppUserRegister
   registerForm!: FormGroup
   get f() { return this.registerForm.controls } // Getter method for displaying error messages
   validationErrors: string[] = []

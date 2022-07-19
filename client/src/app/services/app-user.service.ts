@@ -14,6 +14,9 @@ export class AppUserService {
 
   constructor(private http: HttpClient) { }
 
+  public getUserById(userId: string): Observable<AppUser> {
+    return this.http.get<AppUser>(`${environment.apiUrl}/${this.controllerUrl}/GetUserById/${userId}`)
+  }
 
   public getAppUsers(): Observable<AppUser[]> {
     return this.http.get<AppUser[]>
@@ -25,13 +28,16 @@ export class AppUserService {
       (`${environment.apiUrl}/${this.controllerUrl}/UpdateUsername`, appUser)
   }
 
-  public createAppUser(model: AppUserRegister): Observable<AppUserRegister[]> {
+  public createAppUser(body: AppUserRegister): Observable<AppUserRegister[]> {
     return this.http.post<AppUserRegister[]>
-      (`${environment.apiUrl}/${this.controllerUrl}/Register`, model)
+      (`${environment.apiUrl}/${this.controllerUrl}/Register`, body)
   }
 
-  public deleteAppUser(appUser: AppUser): Observable<AppUser[]> {
-    return this.http.delete<AppUser[]>
-      (`${environment.apiUrl}/${this.controllerUrl}/DeleteUser/${appUser.email}`)
+  // public deleteAppUser(appUser: AppUser): Observable<AppUser[]> {
+  //   return this.http.delete<AppUser[]>
+  //     (`${environment.apiUrl}/${this.controllerUrl}/DeleteUser/${appUser.id}`)
+  // }
+  public deleteAppUser(userId: string): Observable<AppUser[]> {
+    return this.http.delete<AppUser[]>(`${environment.apiUrl}/${this.controllerUrl}/DeleteUser/${userId}`)
   }
 }

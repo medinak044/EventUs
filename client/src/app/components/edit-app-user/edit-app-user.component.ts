@@ -16,15 +16,15 @@ export class EditAppUserComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // Create
-  public createAppUser(appUser: AppUser) {
-    this.appUserService
-      .updateAppUser(appUser)
-      .subscribe({
-        next: (appUsers: AppUser[]) => this.appUsersUpdated.emit(appUsers),
-        error: err => console.log(err)
-      })
-  }
+  // // Create
+  // public createAppUser(appUser: AppUser) {
+  //   this.appUserService
+  //     .updateAppUser(appUser)
+  //     .subscribe({
+  //       next: (appUsers: AppUser[]) => this.appUsersUpdated.emit(appUsers),
+  //       error: err => console.log(err)
+  //     })
+  // }
 
   // Update
   public updateAppUser(appUser: AppUser) {
@@ -37,12 +37,12 @@ export class EditAppUserComponent implements OnInit {
   }
 
   // Delete
-  public deleteAppUser(appUser: AppUser) {
-    this.appUserService
-      .deleteAppUser(appUser)
-      .subscribe({
-        next: (appUsers: AppUser[]) => this.appUsersUpdated.emit(appUsers),
-        error: err => console.log(err)
-      })
-  }
+  // public deleteAppUser(appUser: AppUser) {
+  //   this.appUserService
+  //     .deleteAppUser(appUser)
+  //     .subscribe({
+  //       next: (appUsers: AppUser[]) => this.appUsersUpdated.emit(appUsers),
+  //       error: err => console.log(err)
+  //     })
+  // }
 }

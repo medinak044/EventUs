@@ -15,9 +15,12 @@ export class ViewUsersComponent implements OnInit {
 
   constructor(private appUserService: AppUserService) { }
 
-  async ngOnInit(): Promise<void> {
-    // Get user data on page load
-    await this.appUserService
+  ngOnInit(): void {
+    this.getAllUsers() // Get user data on page load
+  }
+
+  getAllUsers() {
+    this.appUserService
       .getAppUsers()
       .subscribe((res: AppUser[]) => {
         return this.appUsers = res
@@ -28,13 +31,29 @@ export class ViewUsersComponent implements OnInit {
     this.appUsers = appUsers
   }
 
-  initNewAppUser() {
-    // Launch register form (new page or modal)
 
-    // this.appUserRegister = new AppUserRegister
-  }
+  // initNewAppUser() {
+  //   // Launch register form (new page or modal)
+
+  //   // this.appUserRegister = new AppUserRegister
+  // }
 
   editAppUser(appUser: AppUser) {
     this.appUserToEdit = appUser
   }
+
+  deleteAppUser(userId: string) {
+    this.appUserService.deleteAppUser(userId)
+      .subscribe({
+        next: () => {
+          this.ngOnInit() // Updates the displayed list
+        },
+        // next: (appUsers: AppUser[]) => {
+        //   this.updateAppUserList(appUsers) // Updates the displayed list
+        // },
+        error: err => console.log(err)
+      })
+  }
+
+
 }

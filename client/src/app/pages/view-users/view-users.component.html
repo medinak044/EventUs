@@ -1,21 +1,36 @@
 <!-- <app-edit-app-user [appUser]="appUserToEdit" (appUsersUpdated)="updateAppUserList($event)">
 </app-edit-app-user> -->
-<app-register></app-register>
-<button class="btn btn-primary" (click)="initNewAppUser()">Create New User</button>
 
-<table>
+<h1 class="text-center">Users</h1>
+<br>
+<table class="table table-striped">
     <thead>
         <th>FirstName</th>
         <th>LastName</th>
         <th>UserName</th>
         <th>Email</th>
+        <th>City</th>
+        <th>State</th>
     </thead>
     <tbody>
         <tr *ngFor="let appUser of appUsers">
-            <td>{{appUser.firstName}}</td>
-            <td>{{appUser.lastName}}</td>
-            <td>{{appUser.userName}}</td>
-            <td>{{appUser.email}}</td>
+            <td>{{appUser.firstName || "NULL"}}</td>
+            <td>{{appUser.lastName || "NULL"}}</td>
+            <td>{{appUser.userName || "NULL"}}</td>
+            <td>{{appUser.email || "NULL"}}</td>
+            <td>(City)</td>
+            <td>(State)</td>
+            <td>
+                <button class="btn btn-sm btn-info me-2">
+                    <i class="fa fa-search me-2"></i>Details</button>
+                <!-- Fire logic that redirects to profile page, using user id-->
+                <button class="btn btn-sm btn-warning me-2">
+                    <i class="fa fa-edit me-2"></i>Edit</button>
+                <!-- Fire logic that activates a modal form to be submitted-->
+                <button class="btn btn-sm btn-danger me-2" (click)="deleteAppUser(appUser.id)">
+                    <i class="fa fa-remove me-2"></i>Delete</button>
+                <!-- Fire logic that sends AppUser data to the delete service-->
+            </td>
         </tr>
     </tbody>
 </table>

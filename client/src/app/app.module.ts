@@ -12,6 +12,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ViewUsersComponent } from './pages/view-users/view-users.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
+import { SignUpComponent } from './pages/sign-up/sign-up.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 
 @NgModule({
@@ -23,7 +26,10 @@ import { LoginComponent } from './components/login/login.component';
     FooterComponent,
     ViewUsersComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    SignUpComponent,
+    LoginPageComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
