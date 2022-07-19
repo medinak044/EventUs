@@ -1,30 +1,28 @@
-export class AppUser {
-    id = ""
+export class AppUserRegister {
     firstName = ""
     lastName = ""
     userName = ""
     email = ""
-    // token = ""
+    password = ""
 }
-// export class AppUser {
-//     id: string
+// export class AppUserRegister {
 //     firstName: string
 //     lastName: string
 //     userName: string
 //     email: string
-//     // token: string
+//     password: string
 
 //     constructor(
-//         id: string,
 //         firstName: string,
 //         lastName: string,
 //         userName: string,
-//         email: string
+//         email: string,
+//         password: string
 //     ) {
-//         this.id = id
 //         this.firstName = firstName
 //         this.lastName = lastName
 //         this.userName = userName
 //         this.email = email
+//         this.password = password
 //     }
 // }

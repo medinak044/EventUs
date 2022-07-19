@@ -1,0 +1,21 @@
+<!-- <app-edit-app-user [appUser]="appUserToEdit" (appUsersUpdated)="updateAppUserList($event)">
+</app-edit-app-user> -->
+<app-register></app-register>
+<button class="btn btn-primary" (click)="initNewAppUser()">Create New User</button>
+
+<table>
+    <thead>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>UserName</th>
+        <th>Email</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let appUser of appUsers">
+            <td>{{appUser.firstName}}</td>
+            <td>{{appUser.lastName}}</td>
+            <td>{{appUser.userName}}</td>
+            <td>{{appUser.email}}</td>
+        </tr>
+    </tbody>
+</table>

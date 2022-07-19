@@ -1,1 +1,23 @@
-<p>edit-app-user works!</p>
+<div *ngIf="appUser">
+    <div>FirstName:
+        <input [(ngModel)]="appUser.firstName" placeholder="FirstName">
+    </div>
+    <div>LastName:
+        <input [(ngModel)]="appUser.lastName" placeholder="LastName">
+    </div>
+    <div>UserName:
+        <input [(ngModel)]="appUser.userName" placeholder="UserName">
+    </div>
+    <div>Email:
+        <input [(ngModel)]="appUser.email" placeholder="Email">
+    </div>
+    <!-- <div>Password:
+        <input [(ngModel)]="appUser.password" placeholder="Password">
+    </div> -->
+
+    <button (click)="updateAppUser(appUser)" *ngIf="appUser.id">Save</button>
+    <button (click)="deleteAppUser(appUser)" *ngIf="appUser.id">Delete</button>
+    <button (click)="createAppUser(appUser)" *ngIf="!appUser.id">Create</button>
+</div>
+
+<form></form>
