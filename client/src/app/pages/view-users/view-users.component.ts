@@ -54,16 +54,17 @@ export class ViewUsersComponent implements OnInit {
 
 
   deleteAppUser(userId: string) {
-    // Makeshift way to update UI due to some httperror after deleting
+    // Makeshift way (without using .subscribe()) to update UI due to some httperror after deleting
     this.appUsers = this.appUsers.filter(a => a.id !== userId)
     this.userAmount = this.appUsers.length
 
-    this.appUserService.deleteAppUser(userId).subscribe({
-      next: () => {
-        // this.appUsers = this.appUsers.filter(a => a.id !== userId)
-        console.log("Working")
-      },
-      error: (err) => { console.log(err) }
-    })
+    this.appUserService.deleteAppUser(userId)
+    // .subscribe({
+    //   next: () => {
+    //     // this.appUsers = this.appUsers.filter(a => a.id !== userId)
+    //     console.log("Working")
+    //   },
+    //   error: (err) => { console.log(err) }
+    // })
   }
 }
