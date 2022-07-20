@@ -35,10 +35,10 @@ export class ViewUsersComponent implements OnInit {
   }
 
   // See edit button launching modal demo: https://youtu.be/SS7qIPE2LsE?t=2764
-  initUserEdit() {
+  initUserEdit(appUser: AppUser) {
     // Launch edit form (modal child component, provide appUser data to it)
-    console.log("Object data: ${}")
-
+    this.appUserToEdit = appUser
+    console.log(this.appUserToEdit)
   }
 
   // See this to populate edit form on click https://youtu.be/eCbaZixsP-s?t=4883

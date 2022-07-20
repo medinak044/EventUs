@@ -27,14 +27,14 @@ export class EditAppUserComponent implements OnInit {
   // }
 
   // Update
-  public updateAppUser(appUser: AppUser) {
-    this.appUserService
-      .updateAppUser(appUser)
-      .subscribe({
-        next: (appUsers: AppUser[]) => this.appUsersUpdated.emit(appUsers),
-        error: err => console.log(err)
-      })
-  }
+  // public updateAppUser(appUser: AppUser) {
+  //   this.appUserService
+  //     .updateAppUser(appUser)
+  //     .subscribe({
+  //       next: (appUsers: AppUser[]) => this.appUsersUpdated.emit(appUsers),
+  //       error: err => console.log(err)
+  //     })
+  // }
 
   // Delete
   // public deleteAppUser(appUser: AppUser) {

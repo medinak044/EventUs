@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AppUserRegister } from '../models/appUserRegister';
+import { AppUserEdit } from '../models/appUserEdit';
 
 @Injectable({
   providedIn: 'root'
@@ -23,14 +24,14 @@ export class AppUserService {
       (`${environment.apiUrl}/${this.controllerUrl}/GetAllUsers`)
   }
 
-  public updateAppUser(appUser: AppUser): Observable<AppUser[]> {
-    return this.http.put<AppUser[]>
-      (`${environment.apiUrl}/${this.controllerUrl}/UpdateUsername`, appUser)
+  public updateAppUser(appUser: AppUser): Observable<AppUser> {
+    return this.http.post<AppUser>
+      (`${environment.apiUrl}/${this.controllerUrl}/UpdateUser`, appUser)
   }
 
-  public createAppUser(body: AppUserRegister): Observable<AppUserRegister[]> {
+  public createAppUser(appUserRegister: AppUserRegister): Observable<AppUserRegister[]> {
     return this.http.post<AppUserRegister[]>
-      (`${environment.apiUrl}/${this.controllerUrl}/Register`, body)
+      (`${environment.apiUrl}/${this.controllerUrl}/Register`, appUserRegister)
   }
 
   // public deleteAppUser(appUser: AppUser): Observable<AppUser[]> {

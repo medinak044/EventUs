@@ -24,13 +24,14 @@
             <td>(City)</td>
             <td>(State)</td>
             <td>
-                <button class="btn btn-sm btn-info me-2" routerLink="profile/:userId">
+                <button class="btn btn-sm btn-info me-2" routerLink="/profile/{{appUser.id}}">
                     <i class="fa fa-search me-2"></i>Details</button>
                 <!-- Fire logic that redirects to profile page, using user id-->
-                <button class="btn btn-sm btn-warning me-2">
+                <button class="btn btn-sm btn-warning me-2" (click)="initUserEdit(appUser)"
+                    routerLink="/edit-user/{{appUser.id}}">
                     <i class="fa fa-edit me-2"></i>Edit</button>
                 <!-- Fire logic that activates a modal form to be submitted-->
-                <button class="btn btn-sm btn-danger me-2" (click)="deleteAppUser(appUser.id)" routerLink="/view-users">
+                <button class="btn btn-sm btn-danger me-2" (click)="deleteAppUser(appUser.id)">
                     <i class="fa fa-remove me-2"></i>Delete</button>
                 <!-- Fire logic that sends AppUser data to the delete service-->
             </td>

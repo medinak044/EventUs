@@ -55,14 +55,14 @@ export class RegisterComponent implements OnInit {
     // Map registerForm to another model to be sent to api
     const { firstName, lastName, userName, email, password } = this.registerForm.value
 
-    let model: AppUserRegister = new AppUserRegister()
-    model.firstName = firstName
-    model.lastName = lastName
-    model.userName = userName
-    model.email = email
-    model.password = password
+    let newObj: AppUserRegister = new AppUserRegister()
+    newObj.firstName = firstName
+    newObj.lastName = lastName
+    newObj.userName = userName
+    newObj.email = email
+    newObj.password = password
 
-    this.appUserService.createAppUser(model).subscribe({
+    this.appUserService.createAppUser(newObj).subscribe({
       next: (res: any) => console.log("Success! Navigated to user profile"), // Navigate to user profile
       error: (err: any) => this.validationErrors = err // Add errors
     })
