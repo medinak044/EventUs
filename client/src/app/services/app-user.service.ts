@@ -37,7 +37,7 @@ export class AppUserService {
   //   return this.http.delete<AppUser[]>
   //     (`${environment.apiUrl}/${this.controllerUrl}/DeleteUser/${appUser.id}`)
   // }
-  public deleteAppUser(userId: string): Observable<AppUser[]> {
-    return this.http.delete<AppUser[]>(`${environment.apiUrl}/${this.controllerUrl}/DeleteUser/${userId}`)
+  public deleteAppUser(userId: string) {
+    return this.http.delete(`${environment.apiUrl}/${this.controllerUrl}/DeleteUser/${userId}`)
   }
 }

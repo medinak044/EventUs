@@ -10,7 +10,10 @@ public class DataContext: IdentityDbContext<AppUser>
 
     #region Tables
     public DbSet<AppUser> AppUsers { get; set; }
-
+    public DbSet<Address> Addresses { get; set; }
+    public DbSet<State> States { get; set; } // States (List of available states)
+    public DbSet<City> Cities { get; set; } // Cities (If possible, associate the cities with the states)
+    public DbSet<Event> Events { get; set; }
 
     #endregion
 }

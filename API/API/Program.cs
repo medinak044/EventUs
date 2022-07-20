@@ -22,7 +22,6 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-//TASK: Separate cors configuration logic into separate file
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(
     options =>

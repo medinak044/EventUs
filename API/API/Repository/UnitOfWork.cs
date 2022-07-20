@@ -1,8 +1,6 @@
 ﻿using API.Data;
 using API.Interfaces;
 using API.Models;
-using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 
 namespace API.Repository;
 
@@ -17,6 +15,7 @@ public class UnitOfWork : IUnitOfWork
 
         // Inject the same db context instance into other repositories
         AppUsers = new AppUserRepository(_context);
+        //Addresses = new 
     }
 
     public IAppUserRepository AppUsers { get; private set; }

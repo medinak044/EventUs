@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { AppUser } from 'src/app/models/appUser';
 import { AppUserRegister } from 'src/app/models/appUserRegister';
 import { AppUserService } from 'src/app/services/app-user.service';
@@ -11,7 +12,7 @@ import { AppUserService } from 'src/app/services/app-user.service';
 export class ViewUsersComponent implements OnInit {
   appUsers: AppUser[] = []
   appUserToEdit?: AppUser
-  appUserRegister?: AppUserRegister
+  userAmount?: Number
 
   constructor(private appUserService: AppUserService) { }
 
@@ -20,40 +21,49 @@ export class ViewUsersComponent implements OnInit {
   }
 
   getAllUsers() {
-    this.appUserService
-      .getAppUsers()
-      .subscribe((res: AppUser[]) => {
-        return this.appUsers = res
-      })
+    this.appUserService.getAppUsers().subscribe({
+      next: (appUsers: any) => {
+        this.appUsers = appUsers;
+        this.userAmount = this.appUsers.length
+      },
+      error: err => console.log(err)
+    })
   }
 
   updateAppUserList(appUsers: AppUser[]) {
     this.appUsers = appUsers
   }
 
+  // See edit button launching modal demo: https://youtu.be/SS7qIPE2LsE?t=2764
+  startUserEdit() {
+    // Launch edit form (modal child component, provide appUser data to it)
 
-  // initNewAppUser() {
-  //   // Launch register form (new page or modal)
 
-  //   // this.appUserRegister = new AppUserRegister
-  // }
-
-  editAppUser(appUser: AppUser) {
-    this.appUserToEdit = appUser
   }
+
+  // See this to populate edit form on click https://youtu.be/eCbaZixsP-s?t=4883
+  applyUserEdit(appUser: AppUser) {
+    this.appUserToEdit = appUser
+
+    // don't forget to clear the edit information
+    // this.appUserToEdit = new AppUser()
+
+    // Target the old appUser in appUsers(using id), then replace the values
+    // ^Use the .map method to apply changes and create a new array
+  }
+
 
   deleteAppUser(userId: string) {
-    this.appUserService.deleteAppUser(userId)
-      .subscribe({
-        next: () => {
-          this.ngOnInit() // Updates the displayed list
-        },
-        // next: (appUsers: AppUser[]) => {
-        //   this.updateAppUserList(appUsers) // Updates the displayed list
-        // },
-        error: err => console.log(err)
-      })
+    // Makeshift way to update UI due to some httperror after deleting
+    this.appUsers = this.appUsers.filter(a => a.id !== userId)
+    this.userAmount = this.appUsers.length
+
+    this.appUserService.deleteAppUser(userId).subscribe({
+      next: () => {
+        // this.appUsers = this.appUsers.filter(a => a.id !== userId)
+        console.log("Working")
+      },
+      error: (err) => { console.log(err) }
+    })
   }
-
-
 }

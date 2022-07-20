@@ -22,5 +22,5 @@ export class ProfileComponent implements OnInit {
     // this.appUserService.getUserById
   }
 
-
+  // Demonstration of clicking to go to profile https://youtu.be/xCkybV9mtk8?t=4266
 }

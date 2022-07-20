@@ -2,6 +2,7 @@
 using API.DTOs;
 using API.Models;
 using API.Repository;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ public class AccountController : ControllerBase
     //private readonly UnitOfWork _unitOfWork;
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
+    private readonly IMapper _mapper;
     private readonly ILogger<AccountController> _logger;
 
     public AccountController(
@@ -25,24 +27,34 @@ public class AccountController : ControllerBase
         //RoleManager<IdentityRole> roleManager,
         //IConfiguration configuration // (Jwt token)
         //TokenValidationParameters tokenValidationParams, // (Jwt token)
+        IMapper mapper,
         ILogger<AccountController> logger
         )
     {
         //_unitOfWork = unitOfWork;
         _userManager = userManager;
         _signInManager = signInManager;
+        _mapper = mapper;
         _logger = logger;
     }
 
     [HttpGet("GetAllUsers")]
     public async Task<ActionResult> GetAllUsers()
     {
-        var users = await _userManager.Users.ToListAsync();
+        var users = _mapper.Map<List<AppUserDto>>(await _userManager.Users.ToListAsync());
         return Ok(users);
     }
 
+    [HttpGet("GetUserById/{userId}")]
+    public async Task<ActionResult> GetUserById(string userId)
+    {
+        var user = _mapper.Map<AppUserDto>(await _userManager.FindByIdAsync(userId));
+        return Ok(user);
+    }
+
+
     [HttpPost("Register")]
-    public async Task<ActionResult> Register(UserRegistrationRequestDto requestDto)
+    public async Task<ActionResult> Register(AppUserRegistrationDto requestDto)
     {
         if (!ModelState.IsValid) 
             return BadRequest();
@@ -58,11 +70,7 @@ public class AccountController : ControllerBase
             });
         }
 
-        var newUser = new AppUser()
-        {
-            Email = requestDto.Email,
-            UserName = requestDto.Name
-        };
+        var newUser = _mapper.Map<AppUser>(requestDto);
 
         var newUserIsCreated = await _userManager.CreateAsync(newUser, requestDto.Password);
         if (!newUserIsCreated.Succeeded)
@@ -86,7 +94,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("Login")]
-    public async Task<ActionResult> Login(UserLoginRequestDto loginRequest)
+    public async Task<ActionResult> Login(AppUserLoginDto loginRequest)
     {
         if (!ModelState.IsValid)
             return BadRequest();
@@ -121,7 +129,7 @@ public class AccountController : ControllerBase
         return Ok("Login successful");
     }
 
-    [HttpPost("UpdateUsername")]
+    [HttpPost("UpdateUsername")] // Takes in userId and new userName
     public async Task<ActionResult> UpdateUsername(AppUser user)
     {
         if (!ModelState.IsValid)
@@ -147,17 +155,17 @@ public class AccountController : ControllerBase
         return Ok("User successfully updated");
     }
 
-    [HttpDelete("DeleteUser")]
-    public async Task<ActionResult> DeleteUser (string email)
+    [HttpDelete("DeleteUser/{userId}")]
+    public async Task<ActionResult> DeleteUser (string userId)
     {
-        // Reference user by email
-        var existingUser = await _userManager.FindByEmailAsync(email);
+        // Reference user by id
+        var existingUser = await _userManager.FindByIdAsync(userId);
         if (existingUser == null)
         {
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Email doesn't exist" }
+                Errors = new List<string>() { "User doesn't exist" }
             });
         }
 
