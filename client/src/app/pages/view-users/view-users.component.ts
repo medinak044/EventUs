@@ -35,9 +35,9 @@ export class ViewUsersComponent implements OnInit {
   }
 
   // See edit button launching modal demo: https://youtu.be/SS7qIPE2LsE?t=2764
-  startUserEdit() {
+  initUserEdit() {
     // Launch edit form (modal child component, provide appUser data to it)
-
+    console.log("Object data: ${}")
 
   }
 
@@ -59,12 +59,12 @@ export class ViewUsersComponent implements OnInit {
     this.userAmount = this.appUsers.length
 
     this.appUserService.deleteAppUser(userId)
-    // .subscribe({
-    //   next: () => {
-    //     // this.appUsers = this.appUsers.filter(a => a.id !== userId)
-    //     console.log("Working")
-    //   },
-    //   error: (err) => { console.log(err) }
-    // })
+      .subscribe({
+        next: () => {
+          // this.appUsers = this.appUsers.filter(a => a.id !== userId)
+          console.log("Working")
+        },
+        error: (err) => { console.log(err) }
+      })
   }
 }

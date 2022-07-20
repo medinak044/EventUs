@@ -15,6 +15,7 @@ import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { EditUserModalComponent } from './components/edit-user-modal/edit-user-modal.component';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
     SignUpComponent,
     LoginPageComponent,
     ProfileComponent,
+    EditUserModalComponent,
   ],
   imports: [
     BrowserModule,
