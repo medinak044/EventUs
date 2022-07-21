@@ -129,14 +129,14 @@ public class AccountController : ControllerBase
         return Ok("Login successful");
     }
 
-    [HttpPost("UpdateUsername")] // Takes in userId and new userName
-    public async Task<ActionResult> UpdateUsername(AppUser user)
+    [HttpPost("UpdateUser")]
+    public async Task<ActionResult> UpdateUser(AppUserDto updatedUserDto)
     {
         if (!ModelState.IsValid)
             return BadRequest();
 
-        // Reference user by email
-        var existingUser = await _userManager.FindByEmailAsync(user.Email);
+        // Reference user
+        var existingUser = await _userManager.FindByIdAsync(updatedUserDto.Id);
         if (existingUser == null)
         {
             return BadRequest(new AuthResult()
@@ -146,14 +146,16 @@ public class AccountController : ControllerBase
             });
         }
 
-        // Change values
-        existingUser.UserName = user.UserName;
+        // Map values
+        existingUser = _mapper.Map<AppUserDto, AppUser>(updatedUserDto, existingUser);
 
-        // Save changes to db
+        // Save updated values to db
         await _userManager.UpdateAsync(existingUser);
 
-        return Ok("User successfully updated");
+        //return Ok("User successfully updated");
+        return Ok(existingUser);
     }
+
 
     [HttpDelete("DeleteUser/{userId}")]
     public async Task<ActionResult> DeleteUser (string userId)
