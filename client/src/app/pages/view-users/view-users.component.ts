@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { AppUser } from 'src/app/models/appUser';
-import { AppUserRegister } from 'src/app/models/appUserRegister';
 import { AppUserService } from 'src/app/services/app-user.service';
 
 @Component({
@@ -30,15 +29,10 @@ export class ViewUsersComponent implements OnInit {
     })
   }
 
-  updateAppUserList(appUsers: AppUser[]) {
-    this.appUsers = appUsers
-  }
-
   // See edit button launching modal demo: https://youtu.be/SS7qIPE2LsE?t=2764
   initUserEdit(appUser: AppUser) {
-    // Launch edit form (modal child component, provide appUser data to it)
-    this.appUserToEdit = appUser
-    console.log(this.appUserToEdit)
+    // this.appUserToEdit = appUser // In case editing modal form is used
+    // Launch edit modal form
   }
 
   // See this to populate edit form on click https://youtu.be/eCbaZixsP-s?t=4883

@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'view-users', component: ViewUsersComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'login', component: LoginPageComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'profile/:userId', component: ProfileComponent },
   { path: 'edit-user/:userId', component: EditUserComponent },
   // { path: '**', component: PageNotFoundComponent }, // Wildcard route for a 404 page
 ];

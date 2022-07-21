@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppUser } from 'src/app/models/appUser';
-import { AppUserEdit } from 'src/app/models/appUserEdit';
 import { AppUserService } from 'src/app/services/app-user.service';
+import { PreviousRouteService } from 'src/app/services/previous-route.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -11,7 +11,7 @@ import { AppUserService } from 'src/app/services/app-user.service';
   styleUrls: ['./edit-user.component.css']
 })
 export class EditUserComponent implements OnInit {
-  // previousUrl!: string
+  previousUrl!: string
   userIdParam!: string
   appUser!: AppUser
   editForm!: FormGroup
@@ -19,14 +19,21 @@ export class EditUserComponent implements OnInit {
   validationErrors: string[] = []
 
 
-  constructor(private appUserService: AppUserService, private activatedRoute: ActivatedRoute, private fb: FormBuilder) { }
+  constructor(
+    private appUserService: AppUserService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private fb: FormBuilder,
+    private previousRouteService: PreviousRouteService
+  ) { }
 
   ngOnInit(): void {
     this.userIdParam = this.activatedRoute.snapshot.paramMap.get('userId') as string
+    this.previousUrl = this.previousRouteService.getPreviousUrl()!.toString()
     this.getUserData()
   }
 
-  async getUserData() {
+  getUserData() {
     this.appUserService.getUserById(this.userIdParam).subscribe({
       next: (appUser: any) => {
         this.appUser = appUser
@@ -47,11 +54,6 @@ export class EditUserComponent implements OnInit {
     })
   }
 
-  // editSubmit() {
-  //   // Redirect back to previous page
-  //   //^ Find out how to store previous route url
-  // }
-
   editSubmit() {
     // Map registerForm to another model to be sent to api
     const { firstName, lastName, userName, email } = this.editForm.value
@@ -63,11 +65,13 @@ export class EditUserComponent implements OnInit {
     updatedUser.userName = userName
     updatedUser.email = email
 
-    console.log(updatedUser)
-
     this.appUserService.updateAppUser(updatedUser).subscribe({
-      next: (res: any) => console.log("Success! Navigated to user profile"), // Navigate to user profile
+      next: (res: any) => {
+        // Navigate back to previous route
+        this.router.navigateByUrl(this.previousUrl)
+      },
       error: (err: any) => this.validationErrors = err // Add errors
     })
   }
+
 }

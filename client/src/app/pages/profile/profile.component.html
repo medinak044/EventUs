@@ -1,7 +1,9 @@
-<p>profile works!</p>
 <div class="container">
-    <!-- Profile -->
-    <div *ngIf="user">
-        {{user.userName}}
+    <div *ngIf="appUser">
+        <div>{{appUser.firstName}}</div>
+        <div>{{appUser.lastName}}</div>
+        <div>{{appUser.userName}}</div>
+        <div>{{appUser.email}}</div>
+        <div>(City), (State)</div>
     </div>
 </div>

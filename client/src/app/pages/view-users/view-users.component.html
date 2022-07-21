@@ -6,6 +6,7 @@
 </div>
 
 <br>
+
 <table class="table table-striped container">
     <thead>
         <th>FirstName</th>
@@ -30,10 +31,8 @@
                 <button class="btn btn-sm btn-warning me-2" (click)="initUserEdit(appUser)"
                     routerLink="/edit-user/{{appUser.id}}">
                     <i class="fa fa-edit me-2"></i>Edit</button>
-                <!-- Fire logic that activates a modal form to be submitted-->
                 <button class="btn btn-sm btn-danger me-2" (click)="deleteAppUser(appUser.id)">
                     <i class="fa fa-remove me-2"></i>Delete</button>
-                <!-- Fire logic that sends AppUser data to the delete service-->
             </td>
         </tr>
     </tbody>
