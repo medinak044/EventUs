@@ -8,17 +8,16 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly DataContext _context;
 
+    //public IAppUserRepository AppUsers { get; private set; }
 
     public UnitOfWork(DataContext context)
     {
         _context = context;
 
         // Inject the same db context instance into other repositories
-        AppUsers = new AppUserRepository(_context);
-        //Addresses = new 
+        //AppUsers = new AppUserRepository(_context); // (AppUser db data already handled by UserManager because IdentityUser was inherited)
+    
     }
-
-    public IAppUserRepository AppUsers { get; private set; }
 
     public void Dispose()
     {

@@ -10,7 +10,8 @@ public class Event
     public string? Title { get; set; }
     public string? Location { get; set; } // Online, specified address
     public string? Description { get; set; }
-    // Time, date
+    public DateTime StartDate { get; set; } 
+    public DateTime EndDate { get; set; } 
     public string? Image { get; set; }
     //[ForeignKey("Address")]
     //public int? AddressId { get; set; }

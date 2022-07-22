@@ -5,5 +5,5 @@ namespace API.Interfaces;
 public interface IUnitOfWork : IDisposable
 {
     Task<bool> Save();
-    IAppUserRepository AppUsers { get; }
+    //IAppUserRepository AppUsers { get; }
 }
