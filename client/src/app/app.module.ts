@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EditAppUserComponent } from './components/edit-app-user/edit-app-user.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -22,7 +21,6 @@ import { EditUserComponent } from './pages/edit-user/edit-user.component';
 @NgModule({
   declarations: [
     AppComponent,
-    EditAppUserComponent,
     HomeComponent,
     NavbarComponent,
     FooterComponent,

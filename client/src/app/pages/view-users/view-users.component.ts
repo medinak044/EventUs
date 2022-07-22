@@ -20,7 +20,7 @@ export class ViewUsersComponent implements OnInit {
   }
 
   getAllUsers() {
-    this.appUserService.getAppUsers().subscribe({
+    this.appUserService.getAllUsers().subscribe({
       next: (appUsers: any) => {
         this.appUsers = appUsers;
         this.userAmount = this.appUsers.length
@@ -47,12 +47,12 @@ export class ViewUsersComponent implements OnInit {
   }
 
 
-  deleteAppUser(userId: string) {
+  deleteUser(userId: string) {
     // Makeshift way (without using .subscribe()) to update UI due to some httperror after deleting
     this.appUsers = this.appUsers.filter(a => a.id !== userId)
     this.userAmount = this.appUsers.length
 
-    this.appUserService.deleteAppUser(userId)
+    this.appUserService.deleteUser(userId)
       .subscribe({
         next: () => {
           // this.appUsers = this.appUsers.filter(a => a.id !== userId)

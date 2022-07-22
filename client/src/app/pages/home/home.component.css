@@ -13,6 +13,10 @@
     padding-top: 16%;
 }
 
+#content-top h1 {
+    font-size: 5rem;
+}
+
 #content-top h1,
 h3 {
     color: white;

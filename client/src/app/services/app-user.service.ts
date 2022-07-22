@@ -1,44 +1,66 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppUser } from 'src/app/models/appUser';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AppUserRegister } from '../models/appUserRegister';
-import { AppUserEdit } from '../models/appUserEdit';
+import { AppUserLogin } from '../models/appUserLogin';
+import { AuthResult } from '../models/authResult';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppUserService {
-  private controllerUrl = "Account" // AccountController
+  private accountControllerUrl: string = "Account" // AccountController
+  // private currentUserSource = new ReplaySubject<AppUser>(1);
+  // currentUser$ = this.currentUserSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  public getUserById(userId: string): Observable<AppUser> {
-    return this.http.get<AppUser>(`${environment.apiUrl}/${this.controllerUrl}/GetUserById/${userId}`)
+  getUserById(userId: string): Observable<AppUser> {
+    return this.http.get<AppUser>
+      (`${environment.apiUrl}/${this.accountControllerUrl}/GetUserById/${userId}`)
   }
 
-  public getAppUsers(): Observable<AppUser[]> {
+  getAllUsers(): Observable<AppUser[]> {
     return this.http.get<AppUser[]>
-      (`${environment.apiUrl}/${this.controllerUrl}/GetAllUsers`)
+      (`${environment.apiUrl}/${this.accountControllerUrl}/GetAllUsers`)
   }
 
-  public updateAppUser(appUser: AppUser): Observable<AppUser> {
+  updateUser(appUser: AppUser): Observable<AppUser> {
     return this.http.post<AppUser>
-      (`${environment.apiUrl}/${this.controllerUrl}/UpdateUser`, appUser)
+      (`${environment.apiUrl}/${this.accountControllerUrl}/UpdateUser`, appUser)
   }
 
-  public createAppUser(appUserRegister: AppUserRegister): Observable<AppUserRegister[]> {
-    return this.http.post<AppUserRegister[]>
-      (`${environment.apiUrl}/${this.controllerUrl}/Register`, appUserRegister)
+  register(registerForm: AppUserRegister) {
+    return this.http.post
+      (`${environment.apiUrl}/${this.accountControllerUrl}/Register`, registerForm)
   }
 
-  // public deleteAppUser(appUser: AppUser): Observable<AppUser[]> {
-  //   return this.http.delete<AppUser[]>
-  //     (`${environment.apiUrl}/${this.controllerUrl}/DeleteUser/${appUser.id}`)
+  deleteUser(userId: string) {
+    return this.http.delete
+      (`${environment.apiUrl}/${this.accountControllerUrl}/DeleteUser/${userId}`)
+  }
+
+
+  // See Neil Cummings async pipe https://www.udemy.com/course/build-an-app-with-aspnet-core-and-angular-from-scratch/learn/lecture/22400670#questions
+
+  login(loginForm: AppUserLogin): Observable<AuthResult> {
+    return this.http.post<AuthResult>
+      (`${environment.apiUrl}/${this.accountControllerUrl}/Login`, loginForm)
+  }
+
+  // setCurrentUser(user: AppUser) {
+
   // }
-  public deleteAppUser(userId: string) {
-    return this.http.delete(`${environment.apiUrl}/${this.controllerUrl}/DeleteUser/${userId}`)
-  }
+
+  // logout() {
+
+
+  // }
+
+  // getDecodedToken(token: any) {
+  //   // Logic for retrieving a decoded token (see Neil Cummings for details)
+  //   return JSON.parse(atob(token.split('.'[1])))
+  // }
 }

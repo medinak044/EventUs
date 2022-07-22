@@ -1,2 +1,70 @@
-<p>login-page works!</p>
-<app-login></app-login>
+<form [formGroup]="loginForm" (submit)="loginSubmit()" autocomplete="off">
+    <div class="form-control">
+        <input formControlName="email" placeholder="Email">
+    </div>
+    <div class="form-control">
+        <input type="password" formControlName="password" placeholder="Password">
+    </div>
+
+    <button [disabled]="loginForm.invalid" class="btn btn-primary">Login</button>
+</form>
+
+<div>No account? <a routerLink="/sign-up">Create one!</a></div>
+
+<!-- <div class="justify-content-center">
+    <div class="card card-lg text-center">
+        <div class="card-body">
+            <div class="login-form">
+                <h2 class="text-center">Sign in</h2>
+                <div class="text-center social-btn">
+                    <form method="post" action="/Account/ExternalLogin?returnUrl=%2F">
+                        <button type="submit" value="Facebook" name="provider"
+                            class="btn btn-primary btn-block text-light"><i class="fa fa-facebook text-light"
+                                aria-hidden="true"></i> Sign in with <b>Facebook</b></button>
+                        <button type="submit" value="Google" name="provider"
+                            class="btn btn-danger btn-block text-light mb-1"><i class="fa fa-google"
+                                aria-hidden="true"></i>
+                            Sign in with <b>Google</b></button>
+                        <input name="__RequestVerificationToken" type="hidden"
+                            value="CfDJ8B2f53ipam9Jst0ZlduwODHEPwyFnFVXTIfBFYo4uezR7aMsi0hAJjqzv2e79bf4qnzhnxoT7PLxsOeAy8B-NrihbJQI8ZgS964K4RJwhZ1HuQ04Q6ZVSBCGTbmnqx2mU06iAQ-v1pseDoR8DuFdWLc">
+                    </form>
+                </div>
+                <div class="or-seperator"><i>or</i></div>
+                <form method="post" action="/Account/Login">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <span class="fa fa-user" aria-hidden="true"></span>
+                                </span>
+                            </div>
+                            <input type="text" placeholder="Email" class="form-control" data-val="true"
+                                data-val-required="Email address is required" id="EmailAddress" name="EmailAddress"
+                                value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <input type="password" placeholder="Password" class="form-control" data-val="true"
+                                data-val-required="The Password field is required." id="Password" name="Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block login-btn">Login</button>
+                    </div>
+                    <input name="__RequestVerificationToken" type="hidden"
+                        value="CfDJ8B2f53ipam9Jst0ZlduwODHEPwyFnFVXTIfBFYo4uezR7aMsi0hAJjqzv2e79bf4qnzhnxoT7PLxsOeAy8B-NrihbJQI8ZgS964K4RJwhZ1HuQ04Q6ZVSBCGTbmnqx2mU06iAQ-v1pseDoR8DuFdWLc">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <span class="text-small">Don't have an account yet? <a href="/Account/Register">Create one</a>
+        </span>
+    </div>
+</div> -->

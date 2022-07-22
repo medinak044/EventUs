@@ -65,7 +65,7 @@ export class EditUserComponent implements OnInit {
     updatedUser.userName = userName
     updatedUser.email = email
 
-    this.appUserService.updateAppUser(updatedUser).subscribe({
+    this.appUserService.updateUser(updatedUser).subscribe({
       next: (res: any) => {
         // Navigate back to previous route
         this.router.navigateByUrl(this.previousUrl)
