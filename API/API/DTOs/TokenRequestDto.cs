@@ -2,7 +2,7 @@
 
 namespace API.DTOs;
 
-public class TokenRequest
+public class TokenRequestDto
 {
     [Required]
     public string Token { get; set; }

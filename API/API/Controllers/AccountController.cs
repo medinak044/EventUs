@@ -23,7 +23,6 @@ namespace API.Controllers;
 public class AccountController : ControllerBase
 {
     private readonly DataContext _context;
-    //private readonly UnitOfWork _unitOfWork;
 
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
@@ -34,7 +33,6 @@ public class AccountController : ControllerBase
     private readonly ILogger<AccountController> _logger;
 
     public AccountController(
-        //UnitOfWork unitOfWork, // unitofwork wont work here
         DataContext context,
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
@@ -46,7 +44,6 @@ public class AccountController : ControllerBase
         )
     {
         _context = context;
-        //_unitOfWork = unitOfWork;
         _userManager = userManager;
         _signInManager = signInManager;
         _roleManager = roleManager;
@@ -132,7 +129,7 @@ public class AccountController : ControllerBase
         await _userManager.AddToRoleAsync(newUser, RoleNames.RoleTypeEnum.AppUser.ToString());
 
         // Generate the token
-        AuthResult? jwtToken = await GenerateJwtTokenAsync(newUser);
+        AuthResult jwtToken = await GenerateJwtTokenAsync(newUser);
 
         return Ok(jwtToken); // Return the token (Inside AuthResult object)
     }
@@ -166,18 +163,15 @@ public class AccountController : ControllerBase
         }
 
         // Give token to user (to be stored in browser local storage)
-        AuthResult? jwtToken = await GenerateJwtTokenAsync(existingUser);
+        AuthResult jwtTokenResult = await GenerateJwtTokenAsync(existingUser);
 
-        return Ok(jwtToken);
+        // Map user details
+        AppUserLoggedInDto loggedInUser = _mapper.Map<AppUserLoggedInDto>(existingUser);
+        // Then add on the token
+        _mapper.Map<AuthResult, AppUserLoggedInDto>(jwtTokenResult, loggedInUser);
+
+        return Ok(loggedInUser);
     }
-
-    //[HttpGet("Logout")]
-    //public async Task<ActionResult> Logout()
-    //{
-    //    await _signInManager.SignOutAsync();
-    //    return Ok();
-    //}
-
 
     [HttpPost("UpdateUser")]
     public async Task<ActionResult> UpdateUser(AppUserDto updatedUserDto)
@@ -228,7 +222,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("RefreshToken")]
-    public async Task<ActionResult> RefreshToken([FromBody] TokenRequest tokenRequest)
+    public async Task<ActionResult> RefreshToken([FromBody] TokenRequestDto tokenRequest)
     {
         if (!ModelState.IsValid)
         {
@@ -331,8 +325,7 @@ public class AccountController : ControllerBase
         return claims;
     }
 
-    //
-    private async Task<AuthResult> VerifyAndGenerateToken(TokenRequest tokenRequest)
+    private async Task<AuthResult> VerifyAndGenerateToken(TokenRequestDto tokenRequest)
     {
         var jwtTokenHandler = new JwtSecurityTokenHandler();
 
@@ -431,7 +424,6 @@ public class AccountController : ControllerBase
         }
     }
 
-    // Converts date data to DateTime
     private DateTime UnixTimeStampToDateTime(long unixTimeStamp)
     {
         var dateTimeVal = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
