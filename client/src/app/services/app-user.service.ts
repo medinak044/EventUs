@@ -43,42 +43,50 @@ export class AppUserService {
       (`${environment.apiUrl}/${this.accountControllerUrl}/DeleteUser/${userId}`)
   }
 
-  login(loginForm: AppUserLogin): Observable<AppUserLoggedIn> {
-    // return this.http.post
-    //   (`${environment.apiUrl}/${this.accountControllerUrl}/Login`, loginForm)
-    //   .pipe(
-    //     map((response: any) => {
-    //       const user = response;
-    //       if (user) {
-    //         //(set 'user' in localStorage here instead of login-page-component)
-    //         console.log(user)
-    //         this.setCurrentUser(user);
-    //       }
-    //     })
-    //   )
+  login(loginForm: AppUserLogin) {
+    return this.http.post
+      (`${environment.apiUrl}/${this.accountControllerUrl}/Login`, loginForm).pipe(
+        map((res: any) => {
+          const user = res;
+          if (user) {
+            // console.log(user)
+            this.setCurrentUser(user); // Sets 'user' in localStorage
+          }
+        })
+      )
 
-    return this.http.post<AppUserLoggedIn>
-      (`${environment.apiUrl}/${this.accountControllerUrl}/Login`, loginForm)
+    // return this.http.post<AppUserLoggedIn>
+    //   (`${environment.apiUrl}/${this.accountControllerUrl}/Login`, loginForm)
+
+    //Don't forget to set the currentUser$, along with its roles decoded from the token
   }
 
   setCurrentUser(user: AppUserLoggedIn) {
-    user.roles = [];
-    const roles = this.getDecodedToken(user.token).role; // Extract roles from token
-    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles); // Set found roles in user object
-    localStorage.setItem('user', JSON.stringify(user)); // Persist the login via localStorage
-    this.currentUserSource.next(user);
+    user.roles = []
+    const roles = this.getDecodedToken(user.token).role // Extract roles from token
+    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles) // Set found roles in user object
+    localStorage.setItem('user', JSON.stringify(user)) // Store user object as a string in localStorage
+    this.currentUserSource.next(user) // Reference the user object
   }
   getDecodedToken(token: any) {
-    return JSON.parse(atob(token.split('.'[1])))
+    var base64Url = token.split('.')[1]
+    var base64 = decodeURIComponent(atob(base64Url).split('').map(c => {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    }).join(''))
+
+    return JSON.parse(base64)
   }
 
-
-  logout() {
-    console.log("Logout success!")
-    localStorage.removeItem('user');
-    // localStorage.removeItem('token')
-    // localStorage.removeItem('refreshToken')
-    this.currentUserSource.next(null); // Clear current logged in user
+  logout(): boolean {
+    console.log(`${(localStorage.getItem('user')) ? "Logout success!" : "Already logged out!"}`)
+    // Check if user is already logged out
+    if (localStorage.getItem('user') == null) {
+      return false
+    } else {
+      localStorage.removeItem('user')
+      this.currentUserSource.next(null) // Clear current logged in user
+      return true
+    }
   }
 
 }

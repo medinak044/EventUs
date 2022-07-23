@@ -12,7 +12,9 @@ export class ViewUsersComponent implements OnInit {
   appUsers: AppUser[] = []
   userAmount?: Number
 
-  constructor(private appUserService: AppUserService) { }
+  constructor(
+    public appUserService: AppUserService
+  ) { }
 
   ngOnInit(): void {
     this.getAllUsers() // Get user data on page load

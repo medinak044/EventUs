@@ -14,17 +14,18 @@
                     <a class="nav-link" routerLink="view-users">Users</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="events">Events</a>
+                    <a class="nav-link" routerLink="events" *ngIf="(appUserService.currentUser$ | async)">Events</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="profile">Profile</a>
+                    <a class="nav-link" routerLink="profile" *ngIf="(appUserService.currentUser$ | async)">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="admin">Admin</a>
+                    <a class="nav-link" routerLink="admin" *appHasRole="['Admin']">Admin</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="login">Login</a>
-                    <button class="btn btn-danger" (click)="logout()">Logout</button>
+                    <a class="nav-link" routerLink="login" *ngIf="!(appUserService.currentUser$ | async)">Login</a>
+                    <button class="btn btn-danger" (click)="logout()"
+                        *ngIf="(appUserService.currentUser$ | async)">Logout</button>
                 </li>
                 <!-- <li class="nav-item">
                     <a class="nav-link" routerLink="sign-up">Sign up</a>

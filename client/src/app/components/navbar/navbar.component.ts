@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AppUserLoggedIn } from 'src/app/models/appUserLoggedIn';
 import { AppUserService } from 'src/app/services/app-user.service';
 import { PreviousRouteService } from 'src/app/services/previous-route.service';
 
@@ -12,7 +14,7 @@ export class NavbarComponent implements OnInit {
   previousUrl!: string
 
   constructor(
-    private appUserService: AppUserService,
+    public appUserService: AppUserService,
     private router: Router,
     private previousRouteService: PreviousRouteService,
   ) { }
@@ -22,7 +24,11 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.appUserService.logout()
-    this.router.navigateByUrl(this.previousUrl)
+    // First, check if user is logged in
+    if (localStorage.getItem('user')) {
+      if (this.appUserService.logout() === true) {
+        this.router.navigateByUrl('/home')
+      }
+    }
   }
 }

@@ -1,32 +1,38 @@
-<div class="text-center">
-    <h1>Users ({{userAmount}})</h1>
+<!-- <div *ngIf="(appUserService.currentUser$ | async) 
+                        && (appUserService.currentUser$ | async).roles[1] == 'Admin'"> -->
+<div *appHasRole="['Admin']">
+    <div class="text-center">
+        <h1>Users ({{userAmount}})</h1>
+    </div>
+    <br>
+    <table class="table table-striped container">
+        <thead>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>City</th>
+            <th>State</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let appUser of appUsers">
+                <td>{{appUser.firstName || "NULL"}}</td>
+                <td>{{appUser.lastName || "NULL"}}</td>
+                <td>{{appUser.userName || "NULL"}}</td>
+                <td>{{appUser.email || "NULL"}}</td>
+                <td>(City)</td>
+                <td>(State)</td>
+                <td>
+                    <button class="btn btn-sm btn-info me-2" routerLink="/profile/{{appUser.id}}">
+                        <i class="fa fa-search me-2"></i>Details</button>
+                    <button class="btn btn-sm btn-warning me-2" routerLink="/edit-user/{{appUser.id}}">
+                        <i class="fa fa-edit me-2"></i>Edit</button>
+                    <button class="btn btn-sm btn-danger me-2" (click)="deleteUser(appUser.id)">
+                        <i class="fa fa-remove me-2"></i>Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-<br>
-<table class="table table-striped container">
-    <thead>
-        <th>FirstName</th>
-        <th>LastName</th>
-        <th>UserName</th>
-        <th>Email</th>
-        <th>City</th>
-        <th>State</th>
-    </thead>
-    <tbody>
-        <tr *ngFor="let appUser of appUsers">
-            <td>{{appUser.firstName || "NULL"}}</td>
-            <td>{{appUser.lastName || "NULL"}}</td>
-            <td>{{appUser.userName || "NULL"}}</td>
-            <td>{{appUser.email || "NULL"}}</td>
-            <td>(City)</td>
-            <td>(State)</td>
-            <td>
-                <button class="btn btn-sm btn-info me-2" routerLink="/profile/{{appUser.id}}">
-                    <i class="fa fa-search me-2"></i>Details</button>
-                <button class="btn btn-sm btn-warning me-2" routerLink="/edit-user/{{appUser.id}}">
-                    <i class="fa fa-edit me-2"></i>Edit</button>
-                <button class="btn btn-sm btn-danger me-2" (click)="deleteUser(appUser.id)">
-                    <i class="fa fa-remove me-2"></i>Delete</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+
+<p class="text-center">(AppUser card list here)</p>

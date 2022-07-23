@@ -16,6 +16,8 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EditUserModalComponent } from './components/edit-user-modal/edit-user-modal.component';
 import { EditUserComponent } from './pages/edit-user/edit-user.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { HasRoleDirective } from './directives/has-role.directive';
 
 
 @NgModule({
@@ -32,6 +34,8 @@ import { EditUserComponent } from './pages/edit-user/edit-user.component';
     ProfileComponent,
     EditUserModalComponent,
     EditUserComponent,
+    PageNotFoundComponent,
+    HasRoleDirective,
   ],
   imports: [
     BrowserModule,

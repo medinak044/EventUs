@@ -26,14 +26,13 @@ export class LoginPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Prevents logged in user from logging in again
-    if (localStorage.getItem('token') != null) {
+    // If user is already logged in 
+    if (localStorage.getItem('user')) {
+      console.log('login: User is already logged in, redirecting to home page')
       this.router.navigateByUrl('/home')
-      console.log(`Existing token: ${localStorage.getItem('token')}`)
     }
 
     this.previousUrl = this.previousRouteService.getPreviousUrl()!
-    // console.log(`${localStorage.getItem('token') ? (`Existing token: ${localStorage.getItem('token')}`) : 'No token in localStorage'}`)
   }
 
   loginSubmit() {
@@ -45,14 +44,24 @@ export class LoginPageComponent implements OnInit {
 
     this.appUserService.login(newLoginForm)
       .subscribe({
-        next: (user: any) => {
-          console.log(`Login details: ${user}`)
-          localStorage.setItem('user', user)
-          // localStorage.setItem('token', res.token)
-          // localStorage.setItem('refreshToken', res.refreshToken)
+        next: () => {
+          // console.log(`Login details: ${user}`)
           this.router.navigateByUrl(this.previousUrl)
         },
         error: (err: any) => { console.log(err) }
       })
+  }
+
+  demoFillForm_Admin() {
+    this.loginForm = this.fb.group({
+      email: ['admin@example.com', Validators.pattern('[a-z0-9]+@[a-z]+\.[a-z]{2,3}')],
+      password: ['Password!23', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
+    })
+  }
+  demoFillForm_AppUser() {
+    this.loginForm = this.fb.group({
+      email: ['appuser@example.com', Validators.pattern('[a-z0-9]+@[a-z]+\.[a-z]{2,3}')],
+      password: ['Password!23', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
+    })
   }
 }

@@ -2,6 +2,9 @@
     <div id="content-top" class="container">
         <h1>Organize your events.</h1>
         <h3>Keep track of what's happening. Plan your events for success.</h3>
-        <button class="btn btn-large btn-info">Get started now</button>
+        <button class="btn btn-large btn-info" routerLink="/login" *ngIf="!(appUserService.currentUser$ | async)">Get
+            started now</button>
+        <button class="btn btn-large btn-info" routerLink="/events" *ngIf="(appUserService.currentUser$ | async)">View
+            your events</button>
     </div>
 </div>

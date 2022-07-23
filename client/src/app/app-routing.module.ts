@@ -1,6 +1,9 @@
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { EditUserComponent } from './pages/edit-user/edit-user.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
@@ -20,15 +23,17 @@ const routes: Routes = [
     ]
   },
   { path: 'home', component: HomeComponent },
-  // { path: 'view-users', component: ViewUsersComponent, },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'login', component: LoginPageComponent },
   { path: 'edit-user/:userId', component: EditUserComponent },
-  // { path: '**', component: PageNotFoundComponent }, // Wildcard route for a 404 page
+  { path: '**', component: PageNotFoundComponent }, // Wildcard route for a 404 page
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ]
 })
 export class AppRoutingModule { }
