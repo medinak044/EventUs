@@ -26,8 +26,14 @@ export class LoginPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.previousUrl = this.previousRouteService.getPreviousUrl()!.toString()
-    console.log(`${localStorage.getItem('token') ? (`Existing token: ${localStorage.getItem('token')}`) : 'No token in localStorage'}`)
+    // Prevents logged in user from logging in again
+    if (localStorage.getItem('token') != null) {
+      this.router.navigateByUrl('/home')
+      console.log(`Existing token: ${localStorage.getItem('token')}`)
+    }
+
+    this.previousUrl = this.previousRouteService.getPreviousUrl()!
+    // console.log(`${localStorage.getItem('token') ? (`Existing token: ${localStorage.getItem('token')}`) : 'No token in localStorage'}`)
   }
 
   loginSubmit() {
@@ -39,8 +45,11 @@ export class LoginPageComponent implements OnInit {
 
     this.appUserService.login(newLoginForm)
       .subscribe({
-        next: (res: any) => {
-          localStorage.setItem('token', res.token)
+        next: (user: any) => {
+          console.log(`Login details: ${user}`)
+          localStorage.setItem('user', user)
+          // localStorage.setItem('token', res.token)
+          // localStorage.setItem('refreshToken', res.refreshToken)
           this.router.navigateByUrl(this.previousUrl)
         },
         error: (err: any) => { console.log(err) }

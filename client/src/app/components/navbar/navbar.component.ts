@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppUserService } from 'src/app/services/app-user.service';
 import { PreviousRouteService } from 'src/app/services/previous-route.service';
 
 @Component({
@@ -11,16 +12,17 @@ export class NavbarComponent implements OnInit {
   previousUrl!: string
 
   constructor(
+    private appUserService: AppUserService,
     private router: Router,
     private previousRouteService: PreviousRouteService,
   ) { }
 
   ngOnInit(): void {
-    this.previousUrl = this.previousRouteService.getPreviousUrl()!.toString()
+    this.previousUrl = this.previousRouteService.getPreviousUrl()!
   }
 
   logout() {
-    localStorage.removeItem('token')
+    this.appUserService.logout()
     this.router.navigateByUrl(this.previousUrl)
   }
 }

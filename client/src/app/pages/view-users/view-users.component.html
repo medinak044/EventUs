@@ -1,12 +1,7 @@
-<!-- <app-edit-app-user [appUser]="appUserToEdit" (appUsersUpdated)="updateAppUserList($event)">
-</app-edit-app-user> -->
 <div class="text-center">
     <h1>Users ({{userAmount}})</h1>
-    <!-- <h1>Users ({{(appUsers$|async)?.length}})</h1> -->
 </div>
-
 <br>
-
 <table class="table table-striped container">
     <thead>
         <th>FirstName</th>
@@ -27,9 +22,7 @@
             <td>
                 <button class="btn btn-sm btn-info me-2" routerLink="/profile/{{appUser.id}}">
                     <i class="fa fa-search me-2"></i>Details</button>
-                <!-- Fire logic that redirects to profile page, using user id-->
-                <button class="btn btn-sm btn-warning me-2" (click)="initUserEdit(appUser)"
-                    routerLink="/edit-user/{{appUser.id}}">
+                <button class="btn btn-sm btn-warning me-2" routerLink="/edit-user/{{appUser.id}}">
                     <i class="fa fa-edit me-2"></i>Edit</button>
                 <button class="btn btn-sm btn-danger me-2" (click)="deleteUser(appUser.id)">
                     <i class="fa fa-remove me-2"></i>Delete</button>

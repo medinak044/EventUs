@@ -14,7 +14,13 @@ export class EditUserComponent implements OnInit {
   previousUrl!: string
   userIdParam!: string
   appUser!: AppUser
-  editForm!: FormGroup
+  editForm: FormGroup = this.fb.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    userName: ['', Validators.required],
+    email: ['', Validators.pattern('[a-z0-9]+@[a-z]+\.[a-z]{2,3}')],
+  }) // This assignment suppresses the formGroup console error
+
   get f() { return this.editForm.controls } // Getter method for displaying error messages
   validationErrors: string[] = []
 
@@ -29,7 +35,7 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.userIdParam = this.activatedRoute.snapshot.paramMap.get('userId') as string
-    this.previousUrl = this.previousRouteService.getPreviousUrl()!.toString()
+    this.previousUrl = this.previousRouteService.getPreviousUrl()!
     this.getUserData()
   }
 

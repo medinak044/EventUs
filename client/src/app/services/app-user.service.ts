@@ -5,15 +5,16 @@ import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AppUserRegister } from '../models/appUserRegister';
 import { AppUserLogin } from '../models/appUserLogin';
-import { AuthResult } from '../models/authResult';
+import { AppUserLoggedIn } from '../models/appUserLoggedIn';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppUserService {
   private accountControllerUrl: string = "Account" // AccountController
-  // private currentUserSource = new ReplaySubject<AppUser>(1);
-  // currentUser$ = this.currentUserSource.asObservable();
+  private currentUserSource = new ReplaySubject<any>(1); // <AppUserLoggedIn>
+  currentUser$ = this.currentUserSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -42,25 +43,42 @@ export class AppUserService {
       (`${environment.apiUrl}/${this.accountControllerUrl}/DeleteUser/${userId}`)
   }
 
+  login(loginForm: AppUserLogin): Observable<AppUserLoggedIn> {
+    // return this.http.post
+    //   (`${environment.apiUrl}/${this.accountControllerUrl}/Login`, loginForm)
+    //   .pipe(
+    //     map((response: any) => {
+    //       const user = response;
+    //       if (user) {
+    //         //(set 'user' in localStorage here instead of login-page-component)
+    //         console.log(user)
+    //         this.setCurrentUser(user);
+    //       }
+    //     })
+    //   )
 
-  // See Neil Cummings async pipe https://www.udemy.com/course/build-an-app-with-aspnet-core-and-angular-from-scratch/learn/lecture/22400670#questions
-
-  login(loginForm: AppUserLogin): Observable<AuthResult> {
-    return this.http.post<AuthResult>
+    return this.http.post<AppUserLoggedIn>
       (`${environment.apiUrl}/${this.accountControllerUrl}/Login`, loginForm)
   }
 
-  // setCurrentUser(user: AppUser) {
+  setCurrentUser(user: AppUserLoggedIn) {
+    user.roles = [];
+    const roles = this.getDecodedToken(user.token).role; // Extract roles from token
+    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles); // Set found roles in user object
+    localStorage.setItem('user', JSON.stringify(user)); // Persist the login via localStorage
+    this.currentUserSource.next(user);
+  }
+  getDecodedToken(token: any) {
+    return JSON.parse(atob(token.split('.'[1])))
+  }
 
-  // }
 
-  // logout() {
+  logout() {
+    console.log("Logout success!")
+    localStorage.removeItem('user');
+    // localStorage.removeItem('token')
+    // localStorage.removeItem('refreshToken')
+    this.currentUserSource.next(null); // Clear current logged in user
+  }
 
-
-  // }
-
-  // getDecodedToken(token: any) {
-  //   // Logic for retrieving a decoded token (see Neil Cummings for details)
-  //   return JSON.parse(atob(token.split('.'[1])))
-  // }
 }

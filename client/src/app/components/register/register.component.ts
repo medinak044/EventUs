@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.previousUrl = this.previousRouteService.getPreviousUrl()!.toString()
+    this.previousUrl = this.previousRouteService.getPreviousUrl()!
   }
 
   mustMatch(password: any, confirmPassword: any) {

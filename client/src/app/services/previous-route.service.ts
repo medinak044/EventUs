@@ -19,6 +19,6 @@ export class PreviousRouteService {
   }
 
   public getPreviousUrl() {
-    return this.previousUrl
+    return this.previousUrl?.toString()
   }
 }
