@@ -69,7 +69,7 @@ public class AccountController : ControllerBase
 
     // (Example of a route that requires user authorization)
     [HttpGet("GetUserProfile")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "AppUser")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     public async Task<ActionResult> GetUserProfile()
     {
         // Extract the user's Id from the token(claims)
@@ -258,7 +258,7 @@ public class AccountController : ControllerBase
         {
             Subject = new ClaimsIdentity(claims),
             //Expires = currentDate.AddSeconds(10), // Temp: For refresh token demo purposes
-            Expires = currentDate.AddMinutes(10),
+            Expires = currentDate.AddDays(1),
             NotBefore = currentDate,
             SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature)
         };
