@@ -27,7 +27,9 @@ export class NavbarComponent implements OnInit {
     // First, check if user is logged in
     if (localStorage.getItem('user')) {
       if (this.appUserService.logout() === true) {
-        this.router.navigateByUrl('/')
+        // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        //   this.router.navigateByUrl('/') // Quickly navigates to the first url, then to the second
+        // })
       }
     }
   }

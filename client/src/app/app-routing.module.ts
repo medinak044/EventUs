@@ -1,18 +1,22 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './auth/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { AdminComponent } from './pages/admin/admin.component';
 import { EditUserComponent } from './pages/edit-user/edit-user.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { ViewUsersComponent } from './pages/view-users/view-users.component';
+import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' }, // Redirect to home page
+  // Default redirect to home page
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  // Non-public paths
   {
     path: '',
     runGuardsAndResolvers: 'always',
@@ -20,8 +24,10 @@ const routes: Routes = [
     children: [
       { path: 'view-users', component: ViewUsersComponent },
       { path: 'profile/:userId', component: ProfileComponent },
+      { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
     ]
   },
+  // Public paths
   { path: 'home', component: HomeComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'login', component: LoginPageComponent },

@@ -7,6 +7,7 @@ import { AppUserRegister } from '../models/appUserRegister';
 import { AppUserLogin } from '../models/appUserLogin';
 import { AppUserLoggedIn } from '../models/appUserLoggedIn';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,10 @@ export class AppUserService {
   private currentUserSource = new ReplaySubject<any>(1); // <AppUserLoggedIn>
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) { }
 
   // A test route to see if token interceptor works
   getUserProfile() {
@@ -50,6 +54,7 @@ export class AppUserService {
         map((user: any) => {
           if (user) {
             this.setCurrentUser(user); // Logs user in, setting 'user' in localStorage
+            this.refreshComponents()
           }
         })
       )
@@ -61,6 +66,7 @@ export class AppUserService {
         map((user: any) => {
           if (user) {
             this.setCurrentUser(user); // Logs user in, setting 'user' in localStorage
+            this.refreshComponents()
           }
         })
       )
@@ -83,6 +89,7 @@ export class AppUserService {
   }
 
   logout(): boolean {
+    this.refreshComponents()
     console.log(`${(localStorage.getItem('user')) ? "Logout success!" : "Already logged out!"}`)
     // Check if user is already logged out
     if (localStorage.getItem('user') == null) {
@@ -94,4 +101,13 @@ export class AppUserService {
     }
   }
 
+
+  refreshComponents() {
+    location.reload() // Refresh navbar
+
+    // // Quickly navigates to the first url, then to the second
+    // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    //   this.router.navigateByUrl('/')
+    // })
+  }
 }

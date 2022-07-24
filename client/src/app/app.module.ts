@@ -18,6 +18,7 @@ import { EditUserModalComponent } from './components/edit-user-modal/edit-user-m
 import { EditUserComponent } from './pages/edit-user/edit-user.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { HasRoleDirective } from './directives/has-role.directive';
+import { AdminComponent } from './pages/admin/admin.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { HasRoleDirective } from './directives/has-role.directive';
     EditUserComponent,
     PageNotFoundComponent,
     HasRoleDirective,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
