@@ -71,7 +71,7 @@ export class RegisterComponent implements OnInit {
     newRegisterForm.password = password
 
     this.appUserService.register(newRegisterForm).subscribe({
-      next: (res: any) => { this.router.navigateByUrl(this.previousUrl) }, // (Won't redirect unless provided the correct Observable data type)
+      next: (res: any) => { this.router.navigateByUrl(this.previousUrl) },
       error: (err: any) => this.validationErrors = err // Add errors
     })
   }

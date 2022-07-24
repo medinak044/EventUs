@@ -39,24 +39,28 @@ export class AppUserService {
       (`${environment.apiUrl}/${this.accountControllerUrl}/UpdateUser`, appUser)
   }
 
-  register(registerForm: AppUserRegister) {
-    return this.http.post
-      (`${environment.apiUrl}/${this.accountControllerUrl}/Register`, registerForm)
-  }
-
   deleteUser(userId: string) {
     return this.http.delete
       (`${environment.apiUrl}/${this.accountControllerUrl}/DeleteUser/${userId}`)
   }
 
+  register(registerForm: AppUserRegister) {
+    return this.http.post
+      (`${environment.apiUrl}/${this.accountControllerUrl}/Register`, registerForm).pipe(
+        map((user: any) => {
+          if (user) {
+            this.setCurrentUser(user); // Logs user in, setting 'user' in localStorage
+          }
+        })
+      )
+  }
+
   login(loginForm: AppUserLogin) {
     return this.http.post
       (`${environment.apiUrl}/${this.accountControllerUrl}/Login`, loginForm).pipe(
-        map((res: any) => {
-          const user = res;
+        map((user: any) => {
           if (user) {
-            // console.log(user)
-            this.setCurrentUser(user); // Sets 'user' in localStorage
+            this.setCurrentUser(user); // Logs user in, setting 'user' in localStorage
           }
         })
       )
