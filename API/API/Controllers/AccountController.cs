@@ -103,7 +103,7 @@ public class AccountController : ControllerBase
             return BadRequest();
 
         // Check if email already exists
-        var existingUser = await _userManager.FindByEmailAsync(requestDto.Email);
+        AppUser existingUser = await _userManager.FindByEmailAsync(requestDto.Email);
         if (existingUser != null)
         {
             return BadRequest(new AuthResult()
@@ -113,7 +113,7 @@ public class AccountController : ControllerBase
             });
         }
 
-        var newUser = _mapper.Map<AppUser>(requestDto);
+        AppUser newUser = _mapper.Map<AppUser>(requestDto);
 
         var newUserIsCreated = await _userManager.CreateAsync(newUser, requestDto.Password);
         if (!newUserIsCreated.Succeeded)
@@ -125,13 +125,36 @@ public class AccountController : ControllerBase
             });
         }
 
+        // Grab the new user from db
+        AppUser newUserFromDb = await _userManager.FindByEmailAsync(requestDto.Email);
+        if (newUserFromDb == null)
+        {
+            return BadRequest(new AuthResult()
+            {
+                Success = false,
+                Errors = new List<string>() { "Failed to return newly created user from database" }
+            });
+        }
+
+
         // Add user to a default role
         await _userManager.AddToRoleAsync(newUser, RoleNames.RoleTypeEnum.AppUser.ToString());
 
-        // Generate the token
-        AuthResult jwtToken = await GenerateJwtTokenAsync(newUser);
+        //// Generate the token
+        //AuthResult jwtToken = await GenerateJwtTokenAsync(newUser);
 
-        return Ok(jwtToken); // Return the token (Inside AuthResult object)
+        //return Ok(jwtToken); // Return the token (Inside AuthResult object)
+
+        // Give token to user (to be stored in browser local storage client-side)
+        AuthResult jwtTokenResult = await GenerateJwtTokenAsync(newUserFromDb);
+
+        // Prepare to send data back to the client to indicate user has logged in
+        AppUserLoggedInDto loggedInUser = _mapper.Map<AppUserLoggedInDto>(newUserFromDb);
+        
+        // Then map the token data
+        _mapper.Map<AuthResult, AppUserLoggedInDto>(jwtTokenResult, loggedInUser);
+
+        return Ok(loggedInUser);
     }
 
     [HttpPost("Login")]
@@ -141,7 +164,7 @@ public class AccountController : ControllerBase
             return BadRequest();
 
         // Check if user exists
-        var existingUser = await _userManager.FindByEmailAsync(loginRequest.Email);
+        AppUser existingUser = await _userManager.FindByEmailAsync(loginRequest.Email);
         if (existingUser == null)
         {
             return BadRequest(new AuthResult()
@@ -162,12 +185,12 @@ public class AccountController : ControllerBase
             });
         }
 
-        // Give token to user (to be stored in browser local storage)
+        // Give token to user (to be stored in browser local storage client-side)
         AuthResult jwtTokenResult = await GenerateJwtTokenAsync(existingUser);
 
         // Map user details
         AppUserLoggedInDto loggedInUser = _mapper.Map<AppUserLoggedInDto>(existingUser);
-        // Then add on the token
+        // Then map the token data
         _mapper.Map<AuthResult, AppUserLoggedInDto>(jwtTokenResult, loggedInUser);
 
         return Ok(loggedInUser);
