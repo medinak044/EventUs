@@ -18,7 +18,7 @@ export class AppUserService {
 
   constructor(private http: HttpClient) { }
 
-  // Test route to see if token interceptor works
+  // A test route to see if token interceptor works
   getUserProfile() {
     return this.http.get<AppUser>
       (`${environment.apiUrl}/${this.accountControllerUrl}/getUserProfile`)

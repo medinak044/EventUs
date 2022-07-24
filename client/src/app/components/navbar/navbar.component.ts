@@ -32,11 +32,11 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  // Testing to see if token interceptor was able to configure headers with the token
-  testAuthEndpoint() {
-    this.appUserService.getUserProfile().subscribe({
-      next: (res: any) => console.log(res),
-      error: err => console.log(err)
-    })
-  }
+  // // Testing to see if token interceptor was able to configure headers with the token
+  // testAuthEndpoint() {
+  //   this.appUserService.getUserProfile().subscribe({
+  //     next: (res: any) => console.log(res),
+  //     error: err => console.log(err)
+  //   })
+  // }
 }
