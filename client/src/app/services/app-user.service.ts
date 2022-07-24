@@ -18,6 +18,12 @@ export class AppUserService {
 
   constructor(private http: HttpClient) { }
 
+  // Test route to see if token interceptor works
+  getUserProfile() {
+    return this.http.get<AppUser>
+      (`${environment.apiUrl}/${this.accountControllerUrl}/getUserProfile`)
+  }
+
   getUserById(userId: string): Observable<AppUser> {
     return this.http.get<AppUser>
       (`${environment.apiUrl}/${this.accountControllerUrl}/GetUserById/${userId}`)
@@ -54,11 +60,6 @@ export class AppUserService {
           }
         })
       )
-
-    // return this.http.post<AppUserLoggedIn>
-    //   (`${environment.apiUrl}/${this.accountControllerUrl}/Login`, loginForm)
-
-    //Don't forget to set the currentUser$, along with its roles decoded from the token
   }
 
   setCurrentUser(user: AppUserLoggedIn) {
@@ -83,7 +84,7 @@ export class AppUserService {
     if (localStorage.getItem('user') == null) {
       return false
     } else {
-      localStorage.removeItem('user')
+      localStorage.removeItem('user') // Remove 'user' object containing token
       this.currentUserSource.next(null) // Clear current logged in user
       return true
     }

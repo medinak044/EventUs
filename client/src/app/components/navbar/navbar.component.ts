@@ -27,8 +27,16 @@ export class NavbarComponent implements OnInit {
     // First, check if user is logged in
     if (localStorage.getItem('user')) {
       if (this.appUserService.logout() === true) {
-        this.router.navigateByUrl('/home')
+        this.router.navigateByUrl('/')
       }
     }
+  }
+
+  // Testing to see if token interceptor was able to configure headers with the token
+  testAuthEndpoint() {
+    this.appUserService.getUserProfile().subscribe({
+      next: (res: any) => console.log(res),
+      error: err => console.log(err)
+    })
   }
 }
