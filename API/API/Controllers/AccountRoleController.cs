@@ -1,5 +1,8 @@
 ﻿using API.DTOs;
 using API.Models;
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,38 +12,59 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     public class AccountRoleController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<AccountController> _logger;
+        private readonly IMapper _mapper;
 
         public AccountRoleController(
             UserManager<AppUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            ILogger<AccountController> logger
+            ILogger<AccountController> logger,
+            IMapper mapper
             )
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet("GetAllUsers")]
         public async Task<ActionResult> GetAllUsers()
         {
-            var users = await _userManager.Users.ToListAsync();
-            return Ok(users);
+            //var users = _mapper.Map<List<AppUserAdminDto>>(await _userManager.Users.ToListAsync());
+            List<AppUser> users = await _userManager.Users.ToListAsync();
+
+            List<AppUserAdminDto> resultList = new List<AppUserAdminDto>();
+
+            // Map respective roles on each user object
+            foreach (var user in users)
+            {
+                // Create new dto
+                AppUserAdminDto dto = new AppUserAdminDto();
+                // Map user values to dto
+                dto = _mapper.Map<AppUser, AppUserAdminDto>(user, dto);
+                // Add found roles to dto
+                dto.Roles = await _userManager.GetRolesAsync(user);
+                // Add dto to the list
+                resultList.Add(dto);
+            }
+
+            return Ok(resultList);
         }
 
-        [HttpGet("GetAllRoles")]
-        public async Task<ActionResult> GetAllRoles()
+        [HttpGet("GetAllAvailableRoles")]
+        public async Task<ActionResult> GetAllAvailableRoles()
         {
             var roles = await _roleManager.Roles.ToListAsync();
             return Ok(roles);
         }
 
-        [HttpGet("GetUserRoles")]
+        [HttpGet("GetUserRoles/{email}")]
         public async Task<ActionResult> GetUserRoles(string email)
         {
             // Check if email is valid
@@ -56,7 +80,7 @@ namespace API.Controllers
             return Ok(roles);
         }
 
-        [HttpPost("CreateRole")]
+        [HttpPost("CreateRole/{roleName}")]
         public async Task<ActionResult> CreateRole(string roleName)
         {
             // Check if role exists

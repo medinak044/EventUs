@@ -140,11 +140,6 @@ public class AccountController : ControllerBase
         // Add user to a default role
         await _userManager.AddToRoleAsync(newUser, RoleNames.RoleTypeEnum.AppUser.ToString());
 
-        //// Generate the token
-        //AuthResult jwtToken = await GenerateJwtTokenAsync(newUser);
-
-        //return Ok(jwtToken); // Return the token (Inside AuthResult object)
-
         // Give token to user (to be stored in browser local storage client-side)
         AuthResult jwtTokenResult = await GenerateJwtTokenAsync(newUserFromDb);
 
@@ -337,6 +332,7 @@ public class AccountController : ControllerBase
 
             if (role != null)
             {
+                //claims.Add(new Claim("Roles", userRole));
                 claims.Add(new Claim(ClaimTypes.Role, userRole));
 
                 var roleClaims = await _roleManager.GetClaimsAsync(role);

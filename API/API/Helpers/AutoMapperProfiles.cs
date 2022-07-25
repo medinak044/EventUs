@@ -14,5 +14,6 @@ public class AutoMapperProfiles : Profile
         CreateMap<AppUserRegistrationDto, AppUser>(); // When registering new user
         CreateMap<AppUser, AppUserLoggedInDto>(); // When logging user in, gives user info
         CreateMap<AuthResult, AppUserLoggedInDto>(); // When logging user in, gives token for the client
+        CreateMap<AppUser, AppUserAdminDto>(); // When user with "Admin" role gets all users (with more information)
     }
 }
