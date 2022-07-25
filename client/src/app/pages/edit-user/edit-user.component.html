@@ -21,15 +21,50 @@
     <br>
     <div *appHasRole="['Admin']">
         <div *ngIf="userIdParam != (appUserService.currentUser$|async).id">
-            <div class="" *ngFor="let role of accountRoles">
-                <button class="btn btn-danger" (click)="revokeRole(role.name)">x {{role}}</button>
+            <!-- Display account roles -->
+            <ul class="">
+                <b>Roles:</b>
+                <div *ngFor="let accountRole of appUserToBeEdited_Roles">
+                    <li>{{accountRole}}</li>
+                </div>
+                <!-- <button class="btn btn-danger" (click)="revokeRole(accountRole.name)">x {{accountRole}}</button> -->
+            </ul>
+            <!-- Split dropend button -->
+            <div class="btn-group dropend">
+                <button [disabled]="appUserToBeEdited_Roles.length <= 0" type="button" class="btn btn-primary">
+                    Revoke role
+                </button>
+                <button [disabled]="appUserToBeEdited_Roles.length <= 0" type="button"
+                    class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="visually-hidden">Toggle Dropend</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <div *ngFor="let accountRole of allAssignableRoles">
+                        <!-- Dropdown menu links -->
+                        <li class="dropdown-item" (click)="revokeRole(accountRole.name)">{{accountRole.name}}</li>
+                    </div>
+                </ul>
             </div>
-            <div class="">
-                <button [disabled]="accountRoles.length >= 2" class="btn btn-primary">Add role
-                    (should be a dropdown +
-                    button)
-                    <i class="fa fa-solid fa-circle-plus"></i></button>
+
+            <!-- Split dropend button -->
+            <div class="btn-group dropend">
+                <button [disabled]="appUserToBeEdited_Roles.length >= 2" type="button" class="btn btn-primary">
+                    Add role
+                </button>
+                <button [disabled]="appUserToBeEdited_Roles.length >= 2" type="button"
+                    class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="visually-hidden">Toggle Dropend</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <div *ngFor="let accountRole of allAssignableRoles">
+                        <!-- Dropdown menu links -->
+                        <li class="dropdown-item" (click)="addUserToRole(accountRole.name)">{{accountRole.name}}</li>
+                    </div>
+                </ul>
             </div>
+
         </div>
     </div>
 

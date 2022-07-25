@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.appUserService.logout()
+    this.router.navigateByUrl('/')
   }
 
   // // Testing to see if token interceptor was able to configure headers with the token

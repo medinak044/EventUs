@@ -17,6 +17,7 @@ export class EditUserComponent implements OnInit {
   previousUrl!: string
   userIdParam!: string
   appUserToBeEdited!: AppUser
+  appUserToBeEdited_Roles: AccountRole[] = [] // From currently displayed user
   editForm: FormGroup = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
@@ -27,8 +28,7 @@ export class EditUserComponent implements OnInit {
   validationErrors: string[] = []
 
   currentUser: any
-  accountRoles: AccountRole[] = []
-  allAvailableRoles: AccountRole[] = []
+  allAssignableRoles: AccountRole[] = [] // All roles that can be assigned to user
 
   constructor(
     public appUserService: AppUserService,
@@ -93,7 +93,9 @@ export class EditUserComponent implements OnInit {
 
   getAllAvailableRoles() {
     this.adminService.getAllAvailableRoles().subscribe({
-      next: (res) => { this.allAvailableRoles = res },
+      next: (res) => {
+        this.allAssignableRoles = res
+      },
       error: (err) => { console.log(err) }
     })
   }
@@ -101,15 +103,27 @@ export class EditUserComponent implements OnInit {
   getUserRoles(email: string) {
     this.adminService.getUserRoles(email).subscribe({
       next: (res) => {
-        this.accountRoles = res
+        this.appUserToBeEdited_Roles = res
       },
       error: (err) => { console.log(err) }
     })
   }
 
-  addUserToRole(accountRoleDto: AccountRoleDto) {
+  addUserToRole(roleName: string) {
+    // Check if user already has the role
+    if (this.appUserToBeEdited_Roles.find(r => roleName == r.name)) {
+      console.log(`This user already has the role: ${roleName}`)
+      return
+    }
+
+    let accountRoleDto = new AccountRoleDto()
+    accountRoleDto.email = this.appUserToBeEdited.email
+    accountRoleDto.roleName = roleName
+
     this.adminService.addUserToRole(accountRoleDto).subscribe({
-      next: (res) => { },
+      next: (res) => {
+        this.getUserRoles(this.appUserToBeEdited.email) // Update displayed roles
+      },
       error: (err) => { console.log(err) }
     })
   }
@@ -120,7 +134,9 @@ export class EditUserComponent implements OnInit {
     accountRoleDto.roleName = roleName
 
     this.adminService.removeUserFromRole(accountRoleDto).subscribe({
-      next: () => { },
+      next: (res) => {
+        this.getUserRoles(this.appUserToBeEdited.email) // Update displayed roles
+      },
       error: (err) => { console.log(err) }
     })
   }
