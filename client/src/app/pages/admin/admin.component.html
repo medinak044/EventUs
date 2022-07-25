@@ -1,6 +1,6 @@
 <div *appHasRole="['Admin']">
     <div class="text-center">
-        <h1>Users ({{userAmount}})</h1>
+        <h1>Users ({{appUsers.length}})</h1>
     </div>
     <br>
     <table class="table table-striped container">
@@ -11,15 +11,22 @@
             <th>Email</th>
             <th>City</th>
             <th>State</th>
+            <th>Roles</th>
         </thead>
+
         <tbody>
             <tr *ngFor="let appUser of appUsers">
-                <td>{{appUser.firstName || "NULL"}}</td>
-                <td>{{appUser.lastName || "NULL"}}</td>
-                <td>{{appUser.userName || "NULL"}}</td>
-                <td>{{appUser.email || "NULL"}}</td>
+                <td><i class="fa fa-solid fa-star" *ngIf="appUser.id == currentUser.id"></i> {{appUser.firstName ||
+                    html_FalsyValue}}</td>
+                <td>{{appUser.lastName || html_FalsyValue}}</td>
+                <td>{{appUser.userName || html_FalsyValue}}</td>
+                <td>{{appUser.email || html_FalsyValue}}</td>
                 <td>(City)</td>
                 <td>(State)</td>
+                <!-- <td>{{((appUser.roles!.length > 0)? appUser.roles : html_FalsyValue)}}</td> -->
+                <td>
+                    <p *ngFor="let role of appUser.roles">{{role}}</p>
+                </td>
                 <td>
                     <button class="btn btn-sm btn-info me-2" routerLink="/profile/{{appUser.id}}">
                         <i class="fa fa-search me-2"></i>Details</button>

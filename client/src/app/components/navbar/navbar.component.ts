@@ -24,14 +24,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    // First, check if user is logged in
-    if (localStorage.getItem('user')) {
-      if (this.appUserService.logout() === true) {
-        // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        //   this.router.navigateByUrl('/') // Quickly navigates to the first url, then to the second
-        // })
-      }
-    }
+    this.appUserService.logout()
   }
 
   // // Testing to see if token interceptor was able to configure headers with the token

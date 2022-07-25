@@ -40,13 +40,14 @@ export class JwtInterceptor implements HttpInterceptor {
             tap(
                 succ => { },
                 err => {
-                    if (err.status >= 400 && err.status < 500) {
-                        this.appUserService.logout() // Get rid current token
-                        this.router.navigateByUrl('/login') // Redirect to login
-                    }
+                    // if (err.status >= 400 && err.status < 500) {
+                    //     this.appUserService.logout() // Get rid current token
+                    //     this.router.navigateByUrl('/login') // Redirect to login
+                    // }
+                    console.log("jtw.interceptor.ts:", err)
                 }
             )
         )
-
     }
+
 }

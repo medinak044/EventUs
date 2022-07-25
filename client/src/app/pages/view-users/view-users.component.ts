@@ -13,7 +13,7 @@ export class ViewUsersComponent implements OnInit {
   userAmount?: Number
 
   constructor(
-    public appUserService: AppUserService
+    public appUserService: AppUserService,
   ) { }
 
   ngOnInit(): void {
@@ -41,4 +41,5 @@ export class ViewUsersComponent implements OnInit {
         error: (err) => { console.log(err) }
       })
   }
+
 }

@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AppUserService {
-  private accountControllerUrl: string = "Account" // AccountController
+  private controllerUrl: string = "Account" // AccountController
   private currentUserSource = new ReplaySubject<any>(1); // <AppUserLoggedIn>
   currentUser$ = this.currentUserSource.asObservable();
 
@@ -25,32 +25,32 @@ export class AppUserService {
   // A test route to see if token interceptor works
   getUserProfile() {
     return this.http.get<AppUser>
-      (`${environment.apiUrl}/${this.accountControllerUrl}/getUserProfile`)
+      (`${environment.apiUrl}/${this.controllerUrl}/GetUserProfile`)
   }
 
   getUserById(userId: string): Observable<AppUser> {
     return this.http.get<AppUser>
-      (`${environment.apiUrl}/${this.accountControllerUrl}/GetUserById/${userId}`)
+      (`${environment.apiUrl}/${this.controllerUrl}/GetUserById/${userId}`)
   }
 
   getAllUsers(): Observable<AppUser[]> {
     return this.http.get<AppUser[]>
-      (`${environment.apiUrl}/${this.accountControllerUrl}/GetAllUsers`)
+      (`${environment.apiUrl}/${this.controllerUrl}/GetAllUsers`)
   }
 
   updateUser(appUser: AppUser): Observable<AppUser> {
     return this.http.post<AppUser>
-      (`${environment.apiUrl}/${this.accountControllerUrl}/UpdateUser`, appUser)
+      (`${environment.apiUrl}/${this.controllerUrl}/UpdateUser`, appUser)
   }
 
   deleteUser(userId: string) {
     return this.http.delete
-      (`${environment.apiUrl}/${this.accountControllerUrl}/DeleteUser/${userId}`)
+      (`${environment.apiUrl}/${this.controllerUrl}/DeleteUser/${userId}`)
   }
 
   register(registerForm: AppUserRegister) {
     return this.http.post
-      (`${environment.apiUrl}/${this.accountControllerUrl}/Register`, registerForm).pipe(
+      (`${environment.apiUrl}/${this.controllerUrl}/Register`, registerForm).pipe(
         map((user: any) => {
           if (user) {
             this.setCurrentUser(user); // Logs user in, setting 'user' in localStorage
@@ -62,7 +62,7 @@ export class AppUserService {
 
   login(loginForm: AppUserLogin) {
     return this.http.post
-      (`${environment.apiUrl}/${this.accountControllerUrl}/Login`, loginForm).pipe(
+      (`${environment.apiUrl}/${this.controllerUrl}/Login`, loginForm).pipe(
         map((user: any) => {
           if (user) {
             this.setCurrentUser(user); // Logs user in, setting 'user' in localStorage
@@ -109,5 +109,10 @@ export class AppUserService {
     // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
     //   this.router.navigateByUrl('/')
     // })
+  }
+
+  getLocalStorageUser() {
+    const userStr: any = localStorage.getItem('user')
+    if (userStr) { return JSON.parse(userStr) }
   }
 }
