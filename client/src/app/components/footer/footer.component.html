@@ -15,9 +15,12 @@
                 <h4>Navigation</h4>
                 <ul>
                     <li><a routerLink="home">Home</a></li>
-                    <li><a routerLink="view-users">Users</a></li>
-                    <li><a href="">Events</a></li>
-                    <li><a href="">Profile</a></li>
+                    <li *ngIf="appUserService.currentUser$ | async"><a routerLink="view-users">Users</a></li>
+                    <li *ngIf="appUserService.currentUser$ | async"><a href="/events">Events</a></li>
+                    <li *ngIf="(appUserService.currentUser$ | async) as currentUser"><a
+                            href="/profile/{{currentUser.id}}">Profile</a>
+                    </li>
+                    <li *appHasRole="['Admin']"><a routerLink="/admin">Admin</a></li>
                 </ul>
             </div>
             <div class="footer-col">

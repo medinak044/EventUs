@@ -1,0 +1,14 @@
+.container-edit {
+    margin-top: 4rem;
+    margin-bottom: 0.5rem;
+}
+
+.errorMessage {
+    color: tomato;
+}
+
+/* Stretch update button */
+.btn-block {
+    display: block;
+    width: 100%;
+}

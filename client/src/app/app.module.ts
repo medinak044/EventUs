@@ -18,6 +18,7 @@ import { EditUserComponent } from './pages/edit-user/edit-user.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { HasRoleDirective } from './directives/has-role.directive';
 import { AdminComponent } from './pages/admin/admin.component';
+import { EventPageComponent } from './pages/event-page/event-page.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { AdminComponent } from './pages/admin/admin.component';
     PageNotFoundComponent,
     HasRoleDirective,
     AdminComponent,
+    EventPageComponent,
   ],
   imports: [
     BrowserModule,

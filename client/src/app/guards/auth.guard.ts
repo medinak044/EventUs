@@ -39,8 +39,7 @@ export class AuthGuard implements CanActivate {
     } else {
       // Assume 'AppUser' was not included in the jwt token 'role' claim
       console.log('Access denied, must be a valid user')
-      this.appUserService.logout() // Remove bad user data from localStorage
-      this.router.navigateByUrl('/login') // Redirect user to login page
+      this.appUserService.logout('/login') // Remove bad user data from localStorage
       return false
     }
   }

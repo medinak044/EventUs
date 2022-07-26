@@ -11,7 +11,7 @@
                     <a class="nav-link" routerLink="home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="view-users">Users</a>
+                    <a class="nav-link" routerLink="view-users" *ngIf="(appUserService.currentUser$ | async)">Users</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="events" *ngIf="(appUserService.currentUser$ | async)">Events</a>

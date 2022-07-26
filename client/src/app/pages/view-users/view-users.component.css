@@ -1,0 +1,54 @@
+.mr-4 {
+    margin-right: 2.25rem !important;
+}
+
+.card {
+    margin-right: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+a {
+    color: #212529;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+/* Controlled profile picture sizes */
+.avatar.avatar-lg {
+    width: 7.5rem;
+    height: 7.5rem;
+}
+
+/* .avatar-2.avatar-lg-2 {
+    width: 182px;
+    height: 182px;
+} */
+
+/* Rounded profile picture edges */
+.rounded {
+    border-radius: 0.25rem;
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+.userName-text {
+    word-wrap: break-word;
+    width: 120px;
+}
+
+.fade-in {
+    animation: fade-in 0.3s;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

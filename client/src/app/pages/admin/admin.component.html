@@ -32,7 +32,8 @@
                         <i class="fa fa-search me-2"></i>Details</button>
                     <button class="btn btn-sm btn-warning me-2" routerLink="/edit-user/{{appUser.id}}">
                         <i class="fa fa-edit me-2"></i>Edit</button>
-                    <button class="btn btn-sm btn-danger me-2" (click)="deleteUser(appUser.id)">
+                    <button *ngIf="appUser.id != currentUser.id" class="btn btn-sm btn-danger me-2"
+                        (click)="deleteUser(appUser.id)">
                         <i class="fa fa-remove me-2"></i>Delete</button>
                 </td>
             </tr>

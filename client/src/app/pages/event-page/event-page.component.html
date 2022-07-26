@@ -1,0 +1,62 @@
+<div id="dashboard-events" class="container smooth-transition">
+    <div class="row">
+        <h1>Your Events</h1>
+        <div><button class="btn btn-info">+ Create a new event</button></div>
+    </div>
+    <hr>
+
+    <!-- Display list of available events (that user owns/invited to) -->
+    <div class="row">
+        <div class="card" style="width: 18rem;">
+            <a routerLink="#">
+                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                    class="card-img-top" alt="...">
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">Event Title</h5>
+                <p class="card-text">This is a description of the event.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Invited by: Owner</li>
+                <li class="list-group-item">Location: Over there</li>
+                <li class="list-group-item">StartDate/EndDate
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                            aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0"
+                            aria-valuemax="100" style="width: 0%"></div>
+                    </div>
+                </li>
+            </ul>
+            <div class="card-body">
+                <!-- <div class="d-grid gap-2 col-12 mx-auto">
+                    <button class="btn btn-info">Open</button>
+                </div> -->
+            </div>
+        </div>
+
+        <div class="card" style="width: 18rem;">
+            <img src="https://images.unsplash.com/photo-1472653431158-6364773b2a56?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80"
+                class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Awesome Interview</h5>
+                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Your event</li>
+                <li class="list-group-item">Location: <span class="badge text-bg-primary">Online</span></li>
+                <li class="list-group-item">(Event in progress...)
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                            aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0"
+                            aria-valuemax="100" style="width: 75%"></div>
+                    </div>
+                </li>
+            </ul>
+            <div class="card-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Current event component opens when an event is choosen -->
+<!-- <span class="badge text-bg-primary">Owner</span> -->

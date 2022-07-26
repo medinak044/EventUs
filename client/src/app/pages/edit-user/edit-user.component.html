@@ -1,72 +1,56 @@
-<!-- Use a bootstrap card? -->
-<div class="container">
-    <h2 class="text-center">Edit User</h2>
-    <form [formGroup]="editForm" (submit)="editSubmit()" autocomplete="off">
-        <div class="form-group">
-            <label>First Name: <input formControlName="firstName" placeholder="First Name"></label>
-        </div>
-        <div class="form-group">
-            <label>Last Name: <input formControlName="lastName" placeholder="Last Name"></label>
-        </div>
-        <div class="form-group">
-            <label>User Name: <input formControlName="userName" placeholder="UserName"></label>
-        </div>
-        <div class="form-group">
-            <label>Email: <input formControlName="email" placeholder="Email"></label>
-            <span *ngIf="f['email'].getError('pattern')!=null" class="errorMessage">Invalid Email</span>
-        </div>
-
-        <button class="btn btn-primary">Update</button>
-    </form>
-    <br>
-    <div *appHasRole="['Admin']">
-        <div *ngIf="userIdParam != (appUserService.currentUser$|async).id">
-            <!-- Display account roles -->
-            <ul class="">
-                <b>Roles:</b>
-                <div *ngFor="let accountRole of appUserToBeEdited_Roles">
-                    <li>{{accountRole}}</li>
+<div class="container container-edit col-lg-4 col-md-6 col-sm-6">
+    <div class="justify-content-center">
+        <div class="card card-lg text-center">
+            <div class="card-body" style="padding: 2.25rem;">
+                <div>
+                    <h2 class="text-center" style="margin-bottom: 2.25rem;">Update Information</h2>
+                    <form [formGroup]="editForm" (submit)="editSubmit()" autocomplete="off">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">
+                                    <span class="fa fa-user" aria-hidden="true"></span>
+                                </span>
+                                <input class="form-control" formControlName="firstName" placeholder="First Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">
+                                    <span class="fa fa-user" aria-hidden="true"></span>
+                                </span>
+                                <input class="form-control" formControlName="lastName" placeholder="Last Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>User Name</label>
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">
+                                    <span class="fa fa-user" aria-hidden="true"></span>
+                                </span>
+                                <input class="form-control" formControlName="userName" placeholder="User Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">
+                                    <span class="fa fa-user" aria-hidden="true"></span>
+                                </span>
+                                <input class="form-control" formControlName="email" placeholder="Email">
+                            </div>
+                        </div>
+                        <div>
+                            <div *ngIf="f['email'].getError('pattern')!=null" class="errorMessage">Invalid
+                                Email</div>
+                        </div>
+                        <div class="form-group">
+                            <button [disabled]="editForm.invalid" class="btn btn-success btn-block">Update</button>
+                        </div>
+                    </form>
                 </div>
-                <!-- <button class="btn btn-danger" (click)="revokeRole(accountRole.name)">x {{accountRole}}</button> -->
-            </ul>
-            <!-- Split dropend button -->
-            <div class="btn-group dropend">
-                <button [disabled]="appUserToBeEdited_Roles.length <= 0" type="button" class="btn btn-primary">
-                    Revoke role
-                </button>
-                <button [disabled]="appUserToBeEdited_Roles.length <= 0" type="button"
-                    class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <span class="visually-hidden">Toggle Dropend</span>
-                </button>
-                <ul class="dropdown-menu">
-                    <div *ngFor="let accountRole of allAssignableRoles">
-                        <!-- Dropdown menu links -->
-                        <li class="dropdown-item" (click)="revokeRole(accountRole.name)">{{accountRole.name}}</li>
-                    </div>
-                </ul>
             </div>
-
-            <!-- Split dropend button -->
-            <div class="btn-group dropend">
-                <button [disabled]="appUserToBeEdited_Roles.length >= 2" type="button" class="btn btn-primary">
-                    Add role
-                </button>
-                <button [disabled]="appUserToBeEdited_Roles.length >= 2" type="button"
-                    class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <span class="visually-hidden">Toggle Dropend</span>
-                </button>
-                <ul class="dropdown-menu">
-                    <div *ngFor="let accountRole of allAssignableRoles">
-                        <!-- Dropdown menu links -->
-                        <li class="dropdown-item" (click)="addUserToRole(accountRole.name)">{{accountRole.name}}</li>
-                    </div>
-                </ul>
-            </div>
-
         </div>
     </div>
-
-
 </div>

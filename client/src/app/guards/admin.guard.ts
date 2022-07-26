@@ -39,8 +39,7 @@ export class AdminGuard implements CanActivate {
     } else {
       // Assume 'Admin' was not included in the jwt token 'role' claim
       console.log('Access denied, must have "Admin" role')
-      this.appUserService.logout() // Remove bad user data from localStorage
-      this.router.navigateByUrl('/login') // Redirect user to login page
+      this.appUserService.logout('/login') // Remove bad user data from localStorage
       return false
     }
   }
@@ -54,9 +53,7 @@ export class AdminGuard implements CanActivate {
           return true
         } else {
           console.log('Access denied, must have "Admin" role')
-          this.appUserService.logout() // Remove bad user data from localStorage
-          this.router.navigateByUrl('/login') // Redirect login page
-          // this.router.navigateByUrl('/') // Redirect user to home
+          this.appUserService.logout('/login') // Remove bad user data from localStorage
           return false
         }
       })

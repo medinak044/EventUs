@@ -1,76 +1,78 @@
-<!-- <div *ngIf="appUser">
-    <div>FirstName:
-        <input [(ngModel)]="appUser.firstName" placeholder="FirstName">
-    </div>
-    <div>LastName:
-        <input [(ngModel)]="appUser.lastName" placeholder="LastName">
-    </div>
-    <div>UserName:
-        <input [(ngModel)]="appUser.userName" placeholder="UserName">
-    </div>
-    <div>Email:
-        <input [(ngModel)]="appUser.email" placeholder="Email">
-    </div>
+<div class="container container-register col-lg-4 col-md-6 col-sm-6">
+    <div class="justify-content-center">
+        <div class="card card-lg text-center">
+            <div class="card-body" style="padding: 2.25rem;">
+                <div>
+                    <h2 class="text-center" style="margin-bottom: 2.25rem;">Register</h2>
+                    <form [formGroup]="registerForm" (submit)="registerSubmit()" autocomplete="off">
+                        <div class="form-group">
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">
+                                    <span class="fa fa-user" aria-hidden="true"></span>
+                                </span>
+                                <input class="form-control" formControlName="firstName" placeholder="First Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">
+                                    <span class="fa fa-user" aria-hidden="true"></span>
+                                </span>
+                                <input class="form-control" formControlName="lastName" placeholder="Last Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">
+                                    <span class="fa fa-user" aria-hidden="true"></span>
+                                </span>
+                                <input class="form-control" formControlName="userName" placeholder="User Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">
+                                    <span class="fa fa-user" aria-hidden="true"></span>
+                                </span>
+                                <input class="form-control" formControlName="email" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">
+                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                </span>
+                                <input class="form-control" type="password" formControlName="password"
+                                    placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">
+                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                </span>
+                                <input class="form-control" type="password" formControlName="confirmPassword"
+                                    placeholder="Confirm Password">
 
-    <button (click)="updateAppUser(appUser)" *ngIf="appUser.id">Save</button>
-    <button (click)="deleteAppUser(appUser)" *ngIf="appUser.id">Delete</button>
-    <button (click)="createAppUser(appUser)" *ngIf="!appUser.id">Create</button>
-</div> -->
-
-<!-- <form #registerForm="ngForm" (ngSubmit)="createAppUser" autocomplete="off">
-    <div class="form-group mb-2">
-        <input type="text" name="FirstName" [(ngModel)]="appUserRegister?.firstName"> -->
-<!-- <input type="text" class="form-control" [(ngModel)]="appUserRegister!.firstName" #FirstName="ngModel"
-                name="FirstName" placeholder="FirstName">
-        <input type="text" class="form-control" [(ngModel)]="appUserRegister!.lastName" #FirstName="ngModel"
-            name="LastName" placeholder="LastName">
-        <input type="text" class="form-control" [(ngModel)]="appUserRegister!.userName" #FirstName="ngModel"
-            name="UserName" placeholder="UserName">
-        <input type="email" class="form-control" [(ngModel)]="appUserRegister!.email" #FirstName="ngModel" name="Email"
-            placeholder="Email">
-        <input type="password" class="form-control" [(ngModel)]="appUserRegister!.password" #Password="ngModel"
-            name="Password" placeholder="Password"> -->
-<!-- </div>
-
-    <button class="btn btn-success mr-2" type="submit">Register</button>
-</form> -->
-
-<!-- <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="box">
-
+                            </div>
+                        </div>
+                        <div>
+                            <div *ngIf="f['email'].getError('pattern')!=null" class="errorMessage">Invalid
+                                Email</div>
+                            <div hidden *ngIf="f['confirmPassword'].getError('required')!=null" class="errorMessage">
+                                Must confirm
+                                password</div>
+                            <div *ngIf="f['confirmPassword'].getError('MustMatch')!=null" class="errorMessage">Passwords
+                                are not
+                                matching</div>
+                        </div>
+                        <div class="form-group">
+                            <button [disabled]="registerForm.invalid"
+                                class="btn btn-success btn-block">Register</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</div> -->
-
-<form [formGroup]="registerForm" (submit)="registerSubmit()" autocomplete="off">
-    <div class="form-control">
-        <input formControlName="firstName" placeholder="First Name">
-    </div>
-    <div class="form-control">
-        <input formControlName="lastName" placeholder="Last Name">
-    </div>
-    <div class="form-control">
-        <input formControlName="userName" placeholder="UserName">
-    </div>
-    <div class="form-control">
-        <input formControlName="email" placeholder="Email">
-        <span *ngIf="f['email'].getError('pattern')!=null" class="errorMessage">Invalid Email</span>
-    </div>
-    <div class="form-control">
-        <input type="password" formControlName="password" placeholder="Password">
-    </div>
-    <div class="form-control">
-        <input type="password" formControlName="confirmPassword" placeholder="Confirm Password">
-        <span hidden *ngIf="f['confirmPassword'].getError('required')!=null" class="errorMessage">Must confirm
-            password</span>
-        <span *ngIf="f['confirmPassword'].getError('MustMatch')!=null" class="errorMessage">Passwords are not
-            matching</span>
-    </div>
-
-    <button [disabled]="registerForm.invalid" class="btn btn-primary">Register</button>
-</form>
+</div>

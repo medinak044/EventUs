@@ -20,7 +20,7 @@ export class ViewUsersComponent implements OnInit {
     this.getAllUsers() // Get user data on page load
   }
 
-  getAllUsers() {
+  async getAllUsers() {
     this.appUserService.getAllUsers().subscribe({
       next: (appUsers: any) => {
         this.appUsers = appUsers;
@@ -41,5 +41,8 @@ export class ViewUsersComponent implements OnInit {
         error: (err) => { console.log(err) }
       })
   }
+
+
+  // Pagination, switching through groups of paginated results (<< 1,2,3 >>)
 
 }

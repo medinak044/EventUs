@@ -12,6 +12,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { ViewUsersComponent } from './pages/view-users/view-users.component';
 import { AdminGuard } from './guards/admin.guard';
+import { EventPageComponent } from './pages/event-page/event-page.component';
 
 const routes: Routes = [
   // Default redirect to home page
@@ -23,7 +24,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'view-users', component: ViewUsersComponent },
+      { path: 'events', component: EventPageComponent },
+      // { path: 'events/:userId', component: EventPageComponent },
       { path: 'profile/:userId', component: ProfileComponent },
+      { path: 'edit-user/:userId', component: EditUserComponent },
       { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
     ]
   },
@@ -31,8 +35,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'login', component: LoginPageComponent },
-  { path: 'edit-user/:userId', component: EditUserComponent },
-  { path: '**', component: PageNotFoundComponent }, // Wildcard route for a 404 page
+  { path: '**', component: PageNotFoundComponent }, // Wildcard route
 ];
 
 @NgModule({

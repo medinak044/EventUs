@@ -88,8 +88,8 @@ export class AppUserService {
     return JSON.parse(base64)
   }
 
-  logout(): boolean {
-    this.refreshComponents()
+  logout(redirectUrl: string): boolean {
+    this.refreshComponents() // Refresh navbar
     console.log(`${(localStorage.getItem('user')) ? "Logout success!" : "Already logged out!"}`)
     // Check if user is already logged out
     if (localStorage.getItem('user') == null) {
@@ -97,13 +97,14 @@ export class AppUserService {
     } else {
       localStorage.removeItem('user') // Remove 'user' object containing token
       this.currentUserSource.next(null) // Clear current logged in user
+      this.router.navigateByUrl(redirectUrl ? redirectUrl : '/')
       return true
     }
   }
 
 
   refreshComponents() {
-    location.reload() // Refresh navbar
+    location.reload()
 
     // // Quickly navigates to the first url, then to the second
     // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
