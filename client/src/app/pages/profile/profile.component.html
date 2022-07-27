@@ -1,16 +1,72 @@
 <!-- <div *ngIf="(appUserService.currentUser$ | async) 
                         && (appUserService.currentUser$ | async).roles[1] == 'Admin'"> -->
 
-<h1>Profile</h1>
-<div class="card m-5" style="width:18rem" *ngIf="appUser">
-    <ul class="list-group">
-        <li class="list-group-item">{{appUser.firstName}} {{appUser.lastName}}</li>
-        <li class="list-group-item">{{appUser.userName}}</li>
-        <li class="list-group-item">{{appUser.email}}</li>
-        <li class="list-group-item">(City), (State)</li>
-    </ul>
-</div>
+<div class="space-top">
+    <div class="container">
+        <div class="row">
+            <!-- Left side start -->
+            <div class="col-12 col-md-4 mb-4 mb-md-0">
+                <!-- Profile card start -->
+                <div class="card mb-4" style="width: 18rem;">
+                    <img src="{{profileImgUrl}}" class="card-img-top" alt="...">
+                    <div class="card-body text-center">
+                        <h5><b>{{profileUser.userName}}</b></h5>
+                        <h6>{{profileUser.firstName}} {{profileUser.lastName}}</h6>
+                        <h6>{{profileUser.email}}</h6>
+                        <div>
+                            <!-- Badge indicating current user is either a friend or is you -->
+                        </div>
+                        <div *ngIf="(profileUser.id != loggedInUser.id) && !(html_IsAlreadyAdded(profileUser.id))">
+                            <button class="btn btn-primary"><i class="fa fa-solid fa-user-plus"></i> Add user</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Profile card end -->
+                <!-- Message list start -->
+                <div class="card" style="width: 18rem;" *ngIf="(profileUser.id == loggedInUser.id)">
+                    <div class=" card-header d-flex fustify-content-between">
+                        <div>
+                            <h6>Recent Messages</h6>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">SomeUser69: Waasssaaappp</li>
+                            <li class="list-group-item">ExampleUser: (the most recent message of a message thread)</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Message list end -->
+            </div>
+            <!-- Left side end -->
+            <!-- Right side start -->
+            <div class="col-12 col-md-8">
+                <div>
+                    <div id="event-invite-list"
+                        *ngIf="html_IsAlreadyAdded(profileUser.id) && !(profileUser.id == loggedInUser.id)">
+                        <h2>Invite
+                            to
+                            event:</h2>
+                        <hr>
+                        <div>
+                            <!-- (List of events here) -->
+                        </div>
+                    </div>
 
+                    <div id="saved-users-list" *ngIf="(profileUser.id == loggedInUser.id)">
+                        <h2>Saved Users:</h2>
+                        <hr>
+                        <div>
+                            <!-- (List of saved users here) -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Right side end -->
+        </div>
+    </div>
+</div>
 <!-- <div class="container">
     <div *ngIf="appUser">
         <div>{{appUser.firstName}}</div>

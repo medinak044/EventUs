@@ -1,3 +1,7 @@
+.img {
+    border-radius: 2%;
+}
+
 #dashboard-events {
     animation: slide-up 0.9s;
 }

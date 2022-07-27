@@ -66,15 +66,25 @@
     </div>
 </div> -->
 
+<div class="d-flex justify-content-center" style="
+    position: fixed;
+    top: 50%;
+    left: 50%;" *ngIf="!appUsers">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
 
 <div class="container mt-5 fade-in">
     <div class="card card-sm">
-        <div class="card-header d-flex bg-primary justify-content-between align-items-center">
+        <div class="card-header d-flex bg-primary justify-content-between align-items-center"
+            style="color: rgb(215, 215, 215);">
             <div>
-                <h6>Find users</h6>
+                <h6><b>Find users</b> </h6>
             </div>
             <div class="d-flex align-items-center">
-                <span class="mr-2 text-small text-nowrap">Filter by state</span>
+                <div class="mr-2 text-small text-nowrap" style="margin-right: 0.25rem;">Filter by state</div>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -96,9 +106,11 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div class="media align-items-center">
-                        <a routerLink="/profile/{{appUser.id}}"><img class="rounded avatar avatar-lg"
-                                src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-                                alt="User image"></a>
+                        <div class="card-img-wrapper">
+                            <a routerLink="/profile/{{appUser.id}}"><img class="rounded avatar avatar-lg"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+                                    alt="User image"></a>
+                        </div>
                         <div class="media-body">
                             <div class="d-flex justify-content-between mb-2">
                                 <div>
@@ -107,8 +119,11 @@
                                     <div>City, State</div>
                                 </div>
                             </div>
-                            <span class="badge text-bg-success">Added</span>
-                            <span class="badge text-bg-warning">Pending</span>
+                            <span class="badge text-bg-success" *ngIf="(html_IsAlreadyAdded(appUser.id))">Added</span>
+                            <div *ngIf="!(html_IsAlreadyAdded(appUser.id))">
+                                <button class="btn btn-primary" (click)="addUser(appUser.id)">Add</button>
+                            </div>
+                            <!-- <span class="badge text-bg-warning">Pending</span> -->
                         </div>
                     </div>
                 </li>
@@ -133,7 +148,3 @@
         </ul>
     </nav>
 </div>
-
-
-
-<p class="text-center">(Don't forget to display user connections amount)</p>
