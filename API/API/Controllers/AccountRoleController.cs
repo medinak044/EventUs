@@ -44,10 +44,8 @@ namespace API.Controllers
             // Map respective roles on each user object
             foreach (var user in users)
             {
-                // Create new dto
-                AppUserAdminDto dto = new AppUserAdminDto();
-                // Map user values to dto
-                dto = _mapper.Map<AppUser, AppUserAdminDto>(user, dto);
+                // Map user values to a dto
+                AppUserAdminDto dto = _mapper.Map<AppUserAdminDto>(user);
                 // Add found roles to dto
                 dto.Roles = await _userManager.GetRolesAsync(user);
                 // Add dto to the list

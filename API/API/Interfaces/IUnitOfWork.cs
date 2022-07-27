@@ -6,4 +6,5 @@ public interface IUnitOfWork : IDisposable
 {
     Task<bool> Save();
     //IAppUserRepository AppUsers { get; }
+    IUserConnectionRepository UserConnectionRepository { get; }
 }

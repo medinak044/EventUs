@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Models;
 
@@ -10,4 +11,7 @@ public class Address
     public string? City { get; set; }
     public string? State { get; set; }
     public string? ZipCode { get; set; }
+    [ForeignKey("AppUser")]
+    public string? UserId { get; set; }
+
 }

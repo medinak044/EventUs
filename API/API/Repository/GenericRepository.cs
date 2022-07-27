@@ -22,9 +22,14 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return true;
     }
 
-    public virtual async Task<bool> Exists(Expression<Func<T, bool>> predicate)
+    //public virtual async Task<bool> Exists(Expression<Func<T, bool>> predicate)
+    //{
+    //    return await _dbSet.AnyAsync(predicate);
+    //}
+
+    public virtual IEnumerable<T> GetSome(Expression<Func<T, bool>> predicate)
     {
-        return await _dbSet.AnyAsync(predicate);
+        return _dbSet.Where(predicate);
     }
 
     public virtual async Task<IEnumerable<T>> GetAll()

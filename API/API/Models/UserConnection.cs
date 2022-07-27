@@ -6,9 +6,8 @@ public class UserConnection
 {
     [Key]
     public int Id { get; set; }
-
-    //(Don't forget to establish DbSet in DataContext)
-
-    //Find out how to do friend request system
-    // Then connect this to AppUser
+    [Required]
+    public string AddedById { get; set; }
+    [Required]
+    public string SavedUserId { get; set; }
 }

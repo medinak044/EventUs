@@ -136,7 +136,6 @@ public class AccountController : ControllerBase
             });
         }
 
-
         // Add user to a default role
         await _userManager.AddToRoleAsync(newUser, RoleNames.RoleTypeEnum.AppUser.ToString());
 
