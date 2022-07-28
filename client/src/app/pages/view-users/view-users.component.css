@@ -1,59 +1,7 @@
-.mr-4 {
-    margin-right: 2.25rem !important;
-}
-
-.card {
-    margin-right: 3rem;
-    margin-bottom: 2rem;
-}
-
-.card:hover img {
-    transform: scale(1.2, 1.2);
-    transition-duration: 250ms;
-    transition-timing-function: ease-out;
-    opacity: 0.7;
-}
-
-.card img {
-    transform: scale(1, 1);
-    transition-duration: 100ms;
-    transition-timing-function: ease-out;
-}
-
-.card-img-wrapper {
-    overflow: hidden;
-}
-
 a {
     color: #212529;
     text-decoration: none;
     background-color: transparent;
-}
-
-/* Controlled profile picture sizes */
-.avatar.avatar-lg {
-    width: 7.5rem;
-    height: 7.5rem;
-}
-
-/* .avatar-2.avatar-lg-2 {
-    width: 182px;
-    height: 182px;
-} */
-
-/* Rounded profile picture edges */
-.rounded {
-    border-radius: 0.25rem;
-}
-
-img {
-    vertical-align: middle;
-    border-style: none;
-}
-
-.userName-text {
-    word-wrap: break-word;
-    width: 120px;
 }
 
 .fade-in {

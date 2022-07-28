@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppUser } from 'src/app/models/appUser';
+import { EventDto } from 'src/app/models/eventDto';
 import { UserConnectionResponseDto } from 'src/app/models/userConnectionResponseDto';
 import { AppUserService } from 'src/app/services/app-user.service';
 import { UserConnectionService } from 'src/app/services/user-connection.service';
@@ -15,7 +16,8 @@ export class ProfileComponent implements OnInit {
   profileUser!: AppUser
 
   loggedInUser!: AppUser
-  alreadyAddedUsers?: string[] // Get all the logged in user's added users' ids
+  alreadyAddedUsers?: UserConnectionResponseDto[] // Get all the logged in user's added users
+  events?: EventDto[]
 
   defaultImg?: string = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
   profileImgUrl?: string = this.defaultImg
@@ -34,7 +36,8 @@ export class ProfileComponent implements OnInit {
 
     this.userConnectionService.getAddedUsers(this.appUserService.getLocalStorageUser().id).subscribe({
       next: (res: UserConnectionResponseDto[]) => {
-        this.alreadyAddedUsers = res.map(u => u.id) // Get an array of userIds
+        // this.alreadyAddedUsers = res.map(u => u.id) // Get an array of userIds
+        this.alreadyAddedUsers = res // Get an array of users
       },
       error: (err) => console.log(err)
     })
@@ -42,7 +45,7 @@ export class ProfileComponent implements OnInit {
   }
 
   html_IsAlreadyAdded(userId: string): any {
-    const result = this.alreadyAddedUsers?.find(uId => uId == userId)
+    const result = this.alreadyAddedUsers?.find(user => user.id == userId)
     return result // Return a truthy or falsy value
   }
 
@@ -61,6 +64,25 @@ export class ProfileComponent implements OnInit {
     // send http request
     // Update connections dashboard to display connection request by user: xxxx
   }
+
+
+  // ---- (Start) Logged in user's own profile view ---- //
+  inviteToEvent() {
+
+  }
+
+  removeUser(userConnectionId: number) {
+    this.alreadyAddedUsers = this.alreadyAddedUsers?.filter(u => u.userConnectionId != userConnectionId) // Update display of users
+
+    this.userConnectionService.removeUserConnection(userConnectionId).subscribe({
+      next: (res) => {
+
+      },
+      error: (err) => { console.log(err) }
+    })
+  }
+
+  // ---- (End) Logged in user's own profile view ---- //
 
   // acceptRequest() {
 

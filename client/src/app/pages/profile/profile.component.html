@@ -49,15 +49,51 @@
                             event:</h2>
                         <hr>
                         <div>
-                            <!-- (List of events here) -->
+                            <!-- (List of events) -->
                         </div>
                     </div>
 
                     <div id="saved-users-list" *ngIf="(profileUser.id == loggedInUser.id)">
                         <h2>Saved Users:</h2>
                         <hr>
-                        <div>
-                            <!-- (List of saved users here) -->
+                        <div style="height: 35rem; overflow-y: auto;">
+                            <!-- (List of saved users) -->
+                            <div class="card" *ngFor="let user of alreadyAddedUsers">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img class="img-fluid width:100%;
+    max-width:170px;" src="{{defaultImg}}" alt="image">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h4 class="mt-2">{{user.userName}}</h4>
+                                        <h6>{{user.firstName}} {{user.lastName}}</h6>
+                                        <h6>{{user.email}}</h6>
+                                        <div class="mt-4">
+
+                                            <div class="btn-group" role="group"
+                                                aria-label="Button group with nested dropdown">
+                                                <button type="button" class="btn btn-danger"
+                                                    (click)="removeUser(user.userConnectionId)">Remove</button>
+                                                <button type="button" class="btn btn-primary">Message</button>
+
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Invite
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li (click)="inviteToEvent()">Event 1</li>
+                                                        <li (click)="inviteToEvent()">Event 2</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
                     </div>
 

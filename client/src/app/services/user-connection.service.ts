@@ -26,5 +26,9 @@ export class UserConnectionService {
       (`${environment.apiUrl}/${this.controllerUrl}/CreateUserConnection/${savedUserId}`)
   }
 
+  removeUserConnection(userConnectionId: number) {
+    return this.http.delete
+      (`${environment.apiUrl}/${this.controllerUrl}/RemoveUserConnection/${userConnectionId}`)
+  }
 
 }

@@ -13,9 +13,10 @@ import { UserConnectionService } from 'src/app/services/user-connection.service'
 export class ViewUsersComponent implements OnInit {
   appUsers: AppUser[] = []
   userAmount?: Number
+  defaultImg?: string = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
 
   loggedInUser!: AppUser
-  alreadyAddedUsers?: string[] // Get all the logged in user's added users' ids
+  alreadyAddedUsers_Id?: string[] // Get all the logged in user's added users' ids
 
   constructor(
     public appUserService: AppUserService,
@@ -27,7 +28,7 @@ export class ViewUsersComponent implements OnInit {
     this.getAllUsers() // Get user data on page load
     this.userConnectionService.getAddedUsers(this.appUserService.getLocalStorageUser().id).subscribe({
       next: (res: UserConnectionResponseDto[]) => {
-        this.alreadyAddedUsers = res.map(u => u.id) // Get an array of userIds
+        this.alreadyAddedUsers_Id = res.map(u => u.id) // Get an array of userIds
       },
       error: (err) => console.log(err)
     })
@@ -35,7 +36,7 @@ export class ViewUsersComponent implements OnInit {
 
   // Logic for html template
   html_IsAlreadyAdded(userId: string): any {
-    const result = this.alreadyAddedUsers?.find(uId => uId == userId)
+    const result = this.alreadyAddedUsers_Id?.find(uId => uId == userId)
     return result // Return a truthy or falsy value
   }
 
@@ -51,7 +52,7 @@ export class ViewUsersComponent implements OnInit {
 
   // Saving users to account for inviting to event
   addUser(savedUserId: string) {
-    this.alreadyAddedUsers?.push(savedUserId) // Add user id to update display
+    this.alreadyAddedUsers_Id?.push(savedUserId) // Add user id to update display
     this.userConnectionService.createUserConnection(savedUserId).subscribe({
       next: (res) => {
         // console.log(res)

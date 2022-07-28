@@ -1,42 +1,46 @@
 <div *appHasRole="['Admin']">
-    <div class="text-center">
-        <h1>Users ({{appUsers.length}})</h1>
-    </div>
-    <br>
-    <table class="table table-striped container">
-        <thead>
-            <th>FirstName</th>
-            <th>LastName</th>
-            <th>UserName</th>
-            <th>Email</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Roles</th>
-        </thead>
 
-        <tbody>
-            <tr *ngFor="let appUser of appUsers">
-                <td><i class="fa fa-solid fa-star" *ngIf="appUser.id == currentUser.id"></i> {{appUser.firstName ||
-                    html_FalsyValue}}</td>
-                <td>{{appUser.lastName || html_FalsyValue}}</td>
-                <td>{{appUser.userName || html_FalsyValue}}</td>
-                <td>{{appUser.email || html_FalsyValue}}</td>
-                <td>(City)</td>
-                <td>(State)</td>
-                <!-- <td>{{((appUser.roles!.length > 0)? appUser.roles : html_FalsyValue)}}</td> -->
-                <td>
-                    <p *ngFor="let role of appUser.roles">{{role}}</p>
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-info me-2" routerLink="/profile/{{appUser.id}}">
-                        <i class="fa fa-search me-2"></i>Details</button>
-                    <button class="btn btn-sm btn-warning me-2" routerLink="/edit-user/{{appUser.id}}">
-                        <i class="fa fa-edit me-2"></i>Edit</button>
-                    <button *ngIf="appUser.id != currentUser.id" class="btn btn-sm btn-danger me-2"
-                        (click)="deleteUser(appUser.id)">
-                        <i class="fa fa-remove me-2"></i>Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div style="height: 43rem; overflow: auto;">
+        <div class="text-center">
+            <h1>Users ({{appUsers.length}})</h1>
+        </div>
+        <br>
+        <table class="table table-striped container">
+            <thead>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>UserName</th>
+                <th>Email</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Roles</th>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let appUser of appUsers">
+                    <td><i class="fa fa-solid fa-star" *ngIf="appUser.id == currentUser.id"></i> {{appUser.firstName ||
+                        html_FalsyValue}}</td>
+                    <td>{{appUser.lastName || html_FalsyValue}}</td>
+                    <td>{{appUser.userName || html_FalsyValue}}</td>
+                    <td>{{appUser.email || html_FalsyValue}}</td>
+                    <td>(City)</td>
+                    <td>(State)</td>
+                    <!-- <td>{{((appUser.roles!.length > 0)? appUser.roles : html_FalsyValue)}}</td> -->
+                    <td>
+                        <p *ngFor="let role of appUser.roles">{{role}}</p>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-info me-2" routerLink="/profile/{{appUser.id}}">
+                            <i class="fa fa-search me-2"></i>Details</button>
+                        <button class="btn btn-sm btn-warning me-2" routerLink="/edit-user/{{appUser.id}}">
+                            <i class="fa fa-edit me-2"></i>Edit</button>
+                        <button *ngIf="appUser.id != currentUser.id" class="btn btn-sm btn-danger me-2"
+                            (click)="deleteUser(appUser.id)">
+                            <i class="fa fa-remove me-2"></i>Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
