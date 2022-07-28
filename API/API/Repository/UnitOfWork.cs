@@ -16,14 +16,17 @@ public class UnitOfWork : IUnitOfWork
     }
 
     //public IAppUserRepository AppUsers { get; private set; }
-    public IUserConnectionRepository UserConnectionRepository => new UserConnectionRepository(_context);
+    public IAttendeeRepository Attendees => new AttendeeRepository(_context);
+    public IEventRepository Events => new EventRepository(_context);
+    public IEventRoleRepository EventRoles => new EventRoleRepository(_context);
+    public IUserConnectionRepository UserConnections => new UserConnectionRepository(_context);
 
     public void Dispose()
     {
         _context.Dispose();
     }
 
-    public async Task<bool> Save()
+    public async Task<bool> SaveAsync()
     {
         var saved = await _context.SaveChangesAsync(); // Returns a number
         return saved > 0 ? true : false;

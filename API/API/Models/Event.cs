@@ -13,10 +13,6 @@ public class Event
     public DateTime StartDate { get; set; } 
     public DateTime EndDate { get; set; } 
     public string? Image { get; set; }
-    //[ForeignKey("Address")]
-    //public int? AddressId { get; set; }
-    //public Address? Address { get; set; }
-
     [ForeignKey("AppUser")]
     public string? OwnerId { get; set; }
     public AppUser? Owner { get; set; }

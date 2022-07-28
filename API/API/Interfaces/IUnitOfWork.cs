@@ -4,7 +4,10 @@ namespace API.Interfaces;
 
 public interface IUnitOfWork : IDisposable
 {
-    Task<bool> Save();
+    Task<bool> SaveAsync();
     //IAppUserRepository AppUsers { get; }
-    IUserConnectionRepository UserConnectionRepository { get; }
+    IAttendeeRepository Attendees { get; }
+    IEventRepository Events { get; }
+    IEventRoleRepository EventRoles { get; }
+    IUserConnectionRepository UserConnections { get; }
 }

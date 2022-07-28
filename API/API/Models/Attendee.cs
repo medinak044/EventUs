@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using API.DTOs;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API.Models;
@@ -12,7 +13,7 @@ public class Attendee
     public EventRole? EventRole { get; set; } // "Attendee" role should be the default value
     [ForeignKey("AppUser")]
     public string? AppUserId { get; set; }
-    public AppUser? AppUser { get; set; }
+    public AppUserDto? AppUser { get; set; }
     [ForeignKey("Event")]
     public int EventId { get; set; } // One specific event
     public Event? Event { get; set; }

@@ -9,6 +9,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using API.Configurations;
+using API.Interfaces;
 
 namespace API.Controllers;
 
@@ -16,20 +17,17 @@ namespace API.Controllers;
 [ApiController]
 public class UserConnectionController : ControllerBase
 {
-    //private readonly UnitOfWork _unitOfWork;
-    private readonly DataContext _context;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly UserManager<AppUser> _userManager;
     private readonly IMapper _mapper;
 
     public UserConnectionController(
-        //UnitOfWork unitOfWork,
-        DataContext context,
+        IUnitOfWork unitOfWork,
         UserManager<AppUser> userManager,
         IMapper mapper
         )
     {
-        //_unitOfWork = unitOfWork;
-        _context = context;
+        _unitOfWork = unitOfWork;
         _userManager = userManager;
         _mapper = mapper;
     }
@@ -37,8 +35,7 @@ public class UserConnectionController : ControllerBase
     [HttpGet("GetAddedUsers/{userId}")] // Get a list of all users added by user
     public async Task<ActionResult> GetAddedUsers(string userId)
     {
-        //var allAddedUsers = _unitOfWork.UserConnectionRepository.GetSome(c => c.AddedById == userId);
-        var userConnections = _context.UserConnections.Where(c => c.AddedById == userId);
+        var userConnections = _unitOfWork.UserConnections.GetSome(c => c.AddedById == userId);
 
         var resultList = new List<UserConnectionResponseDto>();
         // Foreach added user id, get their user info and store it in a list
@@ -85,8 +82,8 @@ public class UserConnectionController : ControllerBase
             SavedUserId = savedUserId
         };
 
-        await _context.UserConnections.AddAsync(userConnection);
-        if (await _context.SaveChangesAsync() <= 0)
+        await _unitOfWork.UserConnections.AddAsync(userConnection);
+        if (!await _unitOfWork.SaveAsync())
         {
             return BadRequest(new AuthResult()
             {
@@ -101,7 +98,7 @@ public class UserConnectionController : ControllerBase
     [HttpDelete("RemoveUserConnection/{userConnectionId}")]
     public async Task<ActionResult> RemoveUserConnection(int userConnectionId)
     {
-        var userConnectionToDelete = await _context.UserConnections.FindAsync(userConnectionId);
+        var userConnectionToDelete = await _unitOfWork.UserConnections.GetByIdAsync(userConnectionId);
 
         if (userConnectionToDelete == null)
             return NotFound();
@@ -109,8 +106,15 @@ public class UserConnectionController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        _context.UserConnections.Remove(userConnectionToDelete);
-        _context.SaveChanges();
+        await _unitOfWork.UserConnections.RemoveAsync(userConnectionToDelete);
+        if (await _unitOfWork.SaveAsync() == false)
+        {
+            return BadRequest(new AuthResult()
+            {
+                Success = false,
+                Errors = new List<string>() { "Something went wrong while saving" }
+            });
+        }
 
         return Ok("Successfully deleted a user connection");
     }

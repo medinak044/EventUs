@@ -18,5 +18,8 @@ public class AutoMapperProfiles : Profile
         
         CreateMap<AppUser, AppUserAdminDto>(); // When user with "Admin" role gets all users (with more information)
         CreateMap<AppUser, UserConnectionResponseDto>(); // Basically AppUserAdminDto + userConnectionId
+
+        CreateMap<EventRequestDto, Event>(); // When user creates an Event
+        CreateMap<Event, EventRequestDto>(); // When user creates an Event
     }
 }
