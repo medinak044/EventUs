@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppUser } from 'src/app/models/appUser';
-import { EventDto } from 'src/app/models/eventDto';
+import { UserEvent } from 'src/app/models/userEvent';
 import { UserConnectionResponseDto } from 'src/app/models/userConnectionResponseDto';
 import { AppUserService } from 'src/app/services/app-user.service';
 import { UserConnectionService } from 'src/app/services/user-connection.service';
@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
 
   loggedInUser!: AppUser
   alreadyAddedUsers?: UserConnectionResponseDto[] // Get all the logged in user's added users
-  events?: EventDto[]
+  events?: UserEvent[]
 
   defaultImg?: string = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
   profileImgUrl?: string = this.defaultImg
