@@ -63,7 +63,7 @@ public class UserConnectionController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { $"addedById is null: {addedById}" }
+                Messages = new List<string>() { $"addedById is null: {addedById}" }
             });
         }
         if (addedById == savedUserId)
@@ -71,7 +71,7 @@ public class UserConnectionController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Cannot add yourself as a saved user" }
+                Messages = new List<string>() { "Cannot add yourself as a saved user" }
             });
         }
 
@@ -88,11 +88,15 @@ public class UserConnectionController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Something went wrong while saving" }
+                Messages = new List<string>() { "Something went wrong while saving" }
             });
         } 
 
-        return Ok("Successfully created a user connection");
+        return Ok(new AuthResult()
+        {
+            Success = true,
+            Messages = new List<string>() { "Successfully created a user connection" }
+        });
     }
 
     [HttpDelete("RemoveUserConnection/{userConnectionId}")]
@@ -112,10 +116,14 @@ public class UserConnectionController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Something went wrong while saving" }
+                Messages = new List<string>() { "Something went wrong while saving" }
             });
         }
 
-        return Ok("Successfully deleted a user connection");
+        return Ok(new AuthResult()
+        {
+            Success = true,
+            Messages = new List<string>() { "Successfully deleted a user connection" }
+        });
     }
 }

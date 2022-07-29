@@ -31,6 +31,23 @@ public class EventRoleController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("GetEventRole/{eventRoleId}")]
+    public async Task<ActionResult> GetEventRole([FromRoute] int eventRoleId)
+    {
+        var eventRole = await _unitOfWork.EventRoles.GetByIdAsync(eventRoleId);
+        if (eventRole == null)
+        {
+            return NotFound(new AuthResult()
+            {
+                Success = false,
+                Messages = new List<string>() { "Role doesn't exist" }
+            });
+        }
+
+        return Ok();
+    }
+
+
     [HttpPost("CreateEventRole")]
     public async Task<ActionResult> CreateEventRole([FromBody] EventRole eventRole)
     {
@@ -46,7 +63,7 @@ public class EventRoleController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Role already exists" }
+                Messages = new List<string>() { "Role already exists" }
             });
         }
 
@@ -57,7 +74,7 @@ public class EventRoleController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Something went wrong while saving" }
+                Messages = new List<string>() { "Something went wrong while saving" }
             });
         }
 
@@ -76,7 +93,7 @@ public class EventRoleController : ControllerBase
             return NotFound(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Event role not found" }
+                Messages = new List<string>() { "Event role not found" }
             });
 
         }
@@ -90,7 +107,7 @@ public class EventRoleController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Something went wrong while updating" }
+                Messages = new List<string>() { "Something went wrong while updating" }
             });
         }
 
@@ -111,7 +128,7 @@ public class EventRoleController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Something went wrong while saving" }
+                Messages = new List<string>() { "Something went wrong while saving" }
             });
         }
 

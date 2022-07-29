@@ -17,9 +17,11 @@ public class UnitOfWork : IUnitOfWork
 
     //public IAppUserRepository AppUsers { get; private set; }
     public IAttendeeRepository Attendees => new AttendeeRepository(_context);
+    public ICheckListItemRepository CheckListItems => new CheckListItemRepository(_context);
     public IEventRepository Events => new EventRepository(_context);
     public IEventRoleRepository EventRoles => new EventRoleRepository(_context);
     public IUserConnectionRepository UserConnections => new UserConnectionRepository(_context);
+
 
     public void Dispose()
     {

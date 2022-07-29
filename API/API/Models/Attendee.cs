@@ -16,6 +16,6 @@ public class Attendee
     public AppUserDto? AppUser { get; set; }
     [ForeignKey("Event")]
     public int EventId { get; set; } // One specific event
-    public Event? Event { get; set; }
+    //public Event? Event { get; set; } //(Consider removing field, it seems only the event id is needed)
     public ICollection<CheckListItem>? CheckListItems { get; set; }
 }

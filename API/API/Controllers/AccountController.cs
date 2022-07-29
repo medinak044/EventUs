@@ -79,7 +79,7 @@ public class AccountController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { $"userId is null: {userId}" }
+                Messages = new List<string>() { $"userId is null: {userId}" }
             });
         }
         var user = _mapper.Map<AppUserDto>(await _userManager.FindByIdAsync(userId));
@@ -88,7 +88,7 @@ public class AccountController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "User is not found" }
+                Messages = new List<string>() { "User is not found" }
             });
         }
 
@@ -109,7 +109,7 @@ public class AccountController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "This email address is already in use" }
+                Messages = new List<string>() { "This email address is already in use" }
             });
         }
 
@@ -121,7 +121,7 @@ public class AccountController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Server error" }
+                Messages = new List<string>() { "Server error" }
             });
         }
 
@@ -132,7 +132,7 @@ public class AccountController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Failed to return newly created user from database" }
+                Messages = new List<string>() { "Failed to return newly created user from database" }
             });
         }
 
@@ -164,7 +164,7 @@ public class AccountController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Email doesn't exist" }
+                Messages = new List<string>() { "Email doesn't exist" }
             });
         }
 
@@ -175,7 +175,7 @@ public class AccountController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Invalid credentials" }
+                Messages = new List<string>() { "Invalid credentials" }
             });
         }
 
@@ -203,7 +203,7 @@ public class AccountController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Email doesn't exist" }
+                Messages = new List<string>() { "Email doesn't exist" }
             });
         }
 
@@ -228,7 +228,7 @@ public class AccountController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "User doesn't exist" }
+                Messages = new List<string>() { "User doesn't exist" }
             });
         }
 
@@ -246,7 +246,7 @@ public class AccountController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Invalid payload" }
+                Messages = new List<string>() { "Invalid payload" }
             });
         }
 
@@ -256,7 +256,7 @@ public class AccountController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Invalid token" }
+                Messages = new List<string>() { "Invalid token" }
             });
         }
         return Ok(result);
@@ -377,7 +377,7 @@ public class AccountController : ControllerBase
                 return new AuthResult()
                 {
                     Success = false,
-                    Errors = new List<string>() { "Token has not yet expired" }
+                    Messages = new List<string>() { "Token has not yet expired" }
                 };
             }
 
@@ -390,7 +390,7 @@ public class AccountController : ControllerBase
                 return new AuthResult()
                 {
                     Success = false,
-                    Errors = new List<string>() { "Token does not exist" }
+                    Messages = new List<string>() { "Token does not exist" }
                 };
             }
 
@@ -400,7 +400,7 @@ public class AccountController : ControllerBase
                 return new AuthResult()
                 {
                     Success = false,
-                    Errors = new List<string>() { "Token has been used" }
+                    Messages = new List<string>() { "Token has been used" }
                 };
             }
 
@@ -410,7 +410,7 @@ public class AccountController : ControllerBase
                 return new AuthResult()
                 {
                     Success = false,
-                    Errors = new List<string>() { "Token has been revoked" }
+                    Messages = new List<string>() { "Token has been revoked" }
                 };
             }
 
@@ -423,7 +423,7 @@ public class AccountController : ControllerBase
                 return new AuthResult()
                 {
                     Success = false,
-                    Errors = new List<string>() { "Token does not match" }
+                    Messages = new List<string>() { "Token does not match" }
                 };
             }
 

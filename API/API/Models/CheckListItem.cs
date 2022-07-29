@@ -12,5 +12,4 @@ public class CheckListItem // Associated with one Attendee (exclusive to an even
 
     [ForeignKey("Attendee")]
     public int AttendeeId { get; set; }
-    public Attendee? Attendee { get; set; }
 }

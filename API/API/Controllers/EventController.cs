@@ -47,7 +47,7 @@ public class EventController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "User id is null" }
+                Messages = new List<string>() { "User id is null" }
             });
         }
 
@@ -80,7 +80,7 @@ public class EventController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Something went wrong while saving" }
+                Messages = new List<string>() { "Something went wrong while saving" }
             });
         }
 
@@ -100,7 +100,7 @@ public class EventController : ControllerBase
             return NotFound(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Event not found" }
+                Messages = new List<string>() { "Event not found" }
             });
 
         }
@@ -117,7 +117,7 @@ public class EventController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Something went wrong while updating" }
+                Messages = new List<string>() { "Something went wrong while updating" }
             });
         }
 
@@ -139,7 +139,7 @@ public class EventController : ControllerBase
             return BadRequest(new AuthResult()
             {
                 Success = false,
-                Errors = new List<string>() { "Something went wrong while saving" }
+                Messages = new List<string>() { "Something went wrong while saving" }
             });
         }
 
