@@ -1,17 +1,22 @@
 ﻿using API.Data;
 using API.Interfaces;
 using API.Models;
+using AutoMapper;
 
 namespace API.Repository;
 
 public class UnitOfWork : IUnitOfWork
 {
     private readonly DataContext _context;
+    private readonly IMapper _mapper;
 
-
-    public UnitOfWork(DataContext context)
+    public UnitOfWork(
+        DataContext context,
+        IMapper mapper
+        )
     {
         _context = context;
+        _mapper = mapper;
         //AppUsers = new AppUserRepository(_context); // (AppUser db data already handled by UserManager because IdentityUser was inherited)
     }
 

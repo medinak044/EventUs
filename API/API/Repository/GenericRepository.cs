@@ -30,7 +30,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     public virtual IEnumerable<T> GetSome(Expression<Func<T, bool>> predicate)
     {
         return _dbSet.Where(predicate);
-    }
+    } 
 
     public virtual async Task<IEnumerable<T>> GetAllAsync()
     {

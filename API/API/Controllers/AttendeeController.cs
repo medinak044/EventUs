@@ -47,7 +47,6 @@ public class AttendeeController : ControllerBase
         // Populate each attendee object with data based on each foreign key
         foreach (var attendee in attendees)
         {
-            var attendeeToAdd = new Attendee();
             // Event role
             attendee.EventRole = await _unitOfWork.EventRoles.GetByIdAsync(attendee.RoleId);
             // AppUserDto

@@ -15,6 +15,6 @@ public class Event
     public string? Image { get; set; }
     [ForeignKey("AppUser")]
     public string? OwnerId { get; set; }
-    public AppUser? Owner { get; set; }
+    //public AppUser? Owner { get; set; }
     public ICollection<Attendee> Attendees { get; set; }
 }

@@ -115,7 +115,7 @@ public class CheckListItemController : ControllerBase
     }
 
     [HttpDelete("RemoveCheckListItem/{checkListItemId}")]
-    public async Task<ActionResult> RemoveAttendee([FromRoute] int checkListItemId)
+    public async Task<ActionResult> RemoveCheckListItem([FromRoute] int checkListItemId)
     {
         var checkListItemToDelete = await _unitOfWork.CheckListItems.GetByIdAsync(checkListItemId);
 

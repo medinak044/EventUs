@@ -37,14 +37,14 @@ public class EventRoleController : ControllerBase
         var eventRole = await _unitOfWork.EventRoles.GetByIdAsync(eventRoleId);
         if (eventRole == null)
         {
-            return NotFound(new AuthResult()
+            return NotFound(new RequestResult()
             {
                 Success = false,
-                Messages = new List<string>() { "Role doesn't exist" }
+                Messages = new List<string>() { $"Role doesn't exist" }
             });
         }
 
-        return Ok();
+        return Ok(eventRole);
     }
 
 
@@ -60,7 +60,7 @@ public class EventRoleController : ControllerBase
             .FirstOrDefault();
         if (anyMatchingRole != null)
         {
-            return BadRequest(new AuthResult()
+            return BadRequest(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "Role already exists" }
@@ -71,7 +71,7 @@ public class EventRoleController : ControllerBase
         await _unitOfWork.EventRoles.AddAsync(eventRole);
         if (await _unitOfWork.SaveAsync() == false)
         {
-            return BadRequest(new AuthResult()
+            return BadRequest(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "Something went wrong while saving" }
@@ -90,7 +90,7 @@ public class EventRoleController : ControllerBase
         // Check if exists in db
         if (await _unitOfWork.EventRoles.ExistsAsync(e => e.Role == updatedEventRole.Role) == null)
         {
-            return NotFound(new AuthResult()
+            return NotFound(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "Event role not found" }
@@ -104,7 +104,7 @@ public class EventRoleController : ControllerBase
         await _unitOfWork.EventRoles.UpdateAsync(updatedEventRole);
         if (!await _unitOfWork.SaveAsync())
         {
-            return BadRequest(new AuthResult()
+            return BadRequest(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "Something went wrong while updating" }
@@ -125,7 +125,7 @@ public class EventRoleController : ControllerBase
         await _unitOfWork.EventRoles.RemoveAsync(eventRoleToDelete);
         if (await _unitOfWork.SaveAsync() == false)
         {
-            return BadRequest(new AuthResult()
+            return BadRequest(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "Something went wrong while saving" }

@@ -36,12 +36,12 @@ public class EventController : ControllerBase
     }
 
     [HttpGet("GetUserEvents")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "AppUser")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "AppUser")]
     public async Task<ActionResult> GetUserEvents()
     {
         // Extract the user's Id from the token(claims)
-        //string ownerId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
-        string ownerId = "81702d33-3eef-4221-8690-f9c07f686eb1";
+        string ownerId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
+        //string ownerId = "81702d33-3eef-4221-8690-f9c07f686eb1"; // (Test user)
         if (ownerId == null)
         {
             return BadRequest(new AuthResult()
@@ -51,17 +51,20 @@ public class EventController : ControllerBase
             });
         }
 
-        //var userEvents = _mapper.Map<List<EventRequestDto>>(_unitOfWork.Events.GetSome(e => e.OwnerId == ownerId)) ;
-        var userEvents = _unitOfWork.Events.GetSome(e => e.OwnerId == ownerId); // Includes events' id
-
+        var userEvents = await _unitOfWork.Events.GetAllAsync(); // Get entire list of events from db
         var resultList = new List<Event>();
-        //foreach (var userEvent in userEvents)
-        //{
-        //    // Search for all attendees attending the event by event id
-        //    userEvent.Attendees.Add();
-        //}
+        foreach (var userEvent in userEvents)
+        {
+            // Add all events that have a matching owner id
+            if (userEvent.OwnerId == ownerId)
+            {
+                // Add attendee data using event id
+                userEvent.Attendees = _unitOfWork.Attendees.GetSome(a => a.EventId == userEvent.Id).ToList();
+                resultList.Add(userEvent); 
+            } 
+        }
 
-        return Ok(userEvents);
+        return Ok(resultList);
     }
 
     [HttpPost("CreateEvent")]
@@ -84,6 +87,7 @@ public class EventController : ControllerBase
             });
         }
 
+        // (Client-side): Add the owner as an Attendee by default, with the "Owner" role
 
         return Ok(userEvent);
     }
