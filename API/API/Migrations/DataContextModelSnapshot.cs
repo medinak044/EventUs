@@ -40,7 +40,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("API.Models.AppUser", b =>
@@ -141,7 +141,7 @@ namespace API.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Attendees");
+                    b.ToTable("Attendees", (string)null);
                 });
 
             modelBuilder.Entity("API.Models.CheckListItem", b =>
@@ -163,7 +163,7 @@ namespace API.Migrations
 
                     b.HasIndex("AttendeeId");
 
-                    b.ToTable("CheckListItems");
+                    b.ToTable("CheckListItems", (string)null);
                 });
 
             modelBuilder.Entity("API.Models.City", b =>
@@ -182,7 +182,7 @@ namespace API.Migrations
 
                     b.HasIndex("StateId");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("API.Models.Event", b =>
@@ -216,7 +216,7 @@ namespace API.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("API.Models.EventRole", b =>
@@ -231,7 +231,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EventRoles");
+                    b.ToTable("EventRoles", (string)null);
                 });
 
             modelBuilder.Entity("API.Models.RefreshToken", b =>
@@ -271,7 +271,7 @@ namespace API.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("API.Models.State", b =>
@@ -291,7 +291,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("States");
+                    b.ToTable("States", (string)null);
                 });
 
             modelBuilder.Entity("API.Models.UserConnection", b =>
@@ -310,7 +310,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserConnections");
+                    b.ToTable("UserConnections", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

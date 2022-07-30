@@ -21,6 +21,9 @@ public class AutoMapperProfiles : Profile
 
         CreateMap<EventRequestDto, Event>(); // When user creates an Event
         CreateMap<Event, EventRequestDto>(); // When user creates an Event
+        CreateMap<Event, EventResponseDto>();
+        CreateMap<EventRequestDto, EventResponseDto>();
+
 
         CreateMap<AttendeeRequestDto, Attendee>(); // When updating an Attendee
     }

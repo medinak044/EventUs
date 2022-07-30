@@ -1,21 +1,17 @@
-﻿using API.DTOs;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using API.Models;
 
-namespace API.Models;
+namespace API.DTOs;
 
-public class Event
+public class EventResponseDto
 {
-    [Key]
     public int Id { get; set; }
     public string? Title { get; set; }
     public string? Location { get; set; } // Online, specified address
     public string? Description { get; set; }
-    public DateTime StartDate { get; set; } 
-    public DateTime EndDate { get; set; } 
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
     public string? Image { get; set; }
-    [ForeignKey("AppUser")]
     public string? OwnerId { get; set; }
-    public AppUser? Owner { get; set; }
+    public AppUserDto? Owner { get; set; }
     public ICollection<Attendee>? Attendees { get; set; }
 }

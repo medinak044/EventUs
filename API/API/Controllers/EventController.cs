@@ -8,6 +8,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -17,14 +18,17 @@ namespace API.Controllers;
 public class EventController : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly UserManager<AppUser> _userManager;
     private readonly IMapper _mapper;
 
     public EventController(
         IUnitOfWork unitOfWork,
+        UserManager<AppUser> userManager,
         IMapper mapper
         )
     {
         _unitOfWork = unitOfWork;
+        _userManager = userManager;
         _mapper = mapper;
     }
 
@@ -36,12 +40,12 @@ public class EventController : ControllerBase
     }
 
     [HttpGet("GetUserEvents")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "AppUser")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "AppUser")]
     public async Task<ActionResult> GetUserEvents()
     {
         // Extract the user's Id from the token(claims)
-        string ownerId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
-        //string ownerId = "81702d33-3eef-4221-8690-f9c07f686eb1"; // (Test user)
+        //string ownerId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
+        string ownerId = "81702d33-3eef-4221-8690-f9c07f686eb1"; // (Test user)
         if (ownerId == null)
         {
             return BadRequest(new AuthResult()
@@ -52,15 +56,18 @@ public class EventController : ControllerBase
         }
 
         var userEvents = await _unitOfWork.Events.GetAllAsync(); // Get entire list of events from db
-        var resultList = new List<Event>();
+        var resultList = new List<EventResponseDto>();
         foreach (var userEvent in userEvents)
         {
             // Add all events that have a matching owner id
             if (userEvent.OwnerId == ownerId)
             {
+                var resultEvent = _mapper.Map<EventResponseDto>(userEvent);
                 // Add attendee data using event id
-                userEvent.Attendees = _unitOfWork.Attendees.GetSome(a => a.EventId == userEvent.Id).ToList();
-                resultList.Add(userEvent); 
+                resultEvent.Attendees = _unitOfWork.Attendees.GetSome(a => a.EventId == resultEvent.Id).ToList();
+                // Add owner data as well base on owner id
+                resultEvent.Owner = _mapper.Map<AppUserDto>(await _userManager.FindByIdAsync(resultEvent.OwnerId));
+                resultList.Add(resultEvent); 
             } 
         }
 
