@@ -1,3 +1,4 @@
+import { AppUser } from "./appUser"
 import { Attendee } from "./attendee"
 
 export interface UserEvent {
@@ -9,5 +10,6 @@ export interface UserEvent {
     endDate?: Date
     image: string
     ownerId: string
+    owner: AppUser
     attendees: Attendee[]
 }

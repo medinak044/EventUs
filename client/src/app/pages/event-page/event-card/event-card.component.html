@@ -1,0 +1,27 @@
+<div class="card" style="width: 18rem; margin-right: 1.5rem">
+    <a (click)="sendEventDetails()">
+        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+            class="card-img-top" alt="...">
+    </a>
+    <div class="card-body">
+        <h5 class="card-title">{{eventDetails.title}}</h5>
+        <p class="card-text">{{eventDetails.description}}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Owned by: {{eventDetails.owner.userName}}
+            <span class="badge text-bg-success" *ngIf="(html_IsLoggedInUser())">Your event</span>
+            <span class="badge text-bg-warning" *ngIf="!(html_IsLoggedInUser())">Invited</span>
+        <li class="list-group-item">Location: {{eventDetails.location}}</li>
+        <li class="list-group-item">{{eventDetails.startDate | date: 'MM/dd/yyyy'}} - {{eventDetails.endDate| date:
+            'MM/dd/yyyy'}}
+            <!-- *ngIf currentDate is greater than startDate -->
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                    aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                    style="width: 0%"></div>
+            </div>
+        </li>
+    </ul>
+    <div class="card-body">
+    </div>
+</div>

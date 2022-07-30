@@ -1,14 +1,14 @@
-<div id="dashboard-events" class="container smooth-transition">
+<div id="dashboard-events" class="container smooth-transition"
+    *ngIf="(currentEvent == null) && (isCreatingNewEvent == false)">
     <div class="row">
         <h1>Your Events</h1>
-        <div><button class="btn btn-info">+ Create a new event</button></div>
+        <div><button class="btn btn-info" (click)="switchFormState(true)">+ Create a new event</button></div>
     </div>
     <hr>
 
     <div style="height: 43rem; overflow: auto;">
-        <!-- Display list of available events (that user owns/invited to) -->
-        <div class="row">
-            <div class="card" style="width: 18rem; margin-right: 1.5rem">
+        <div class="row" *ngFor="let event of (events$|async)">
+            <!-- <div class="card" style="width: 18rem; margin-right: 1.5rem">
                 <a routerLink="#">
                     <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
                         class="card-img-top" alt="...">
@@ -29,11 +29,8 @@
                     </li>
                 </ul>
                 <div class="card-body">
-                    <!-- <div class="d-grid gap-2 col-12 mx-auto">
-                    <button class="btn btn-info">Open</button>
-                </div> -->
                 </div>
-            </div>
+            </div> -->
 
             <div class="card" style="width: 18rem;">
                 <img src="https://images.unsplash.com/photo-1472653431158-6364773b2a56?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80"
@@ -56,9 +53,17 @@
                 <div class="card-body">
                 </div>
             </div>
+
+            <app-event-card [eventDetails]="event" (sentEventDetails)="setCurrentEvent($event)"></app-event-card>
         </div>
     </div>
 </div>
 
 <!-- Current event component opens when an event is choosen -->
+<div *ngIf="(currentEvent != null) && (isCreatingNewEvent == false)">
+    <app-event-view [eventDetails]="currentEvent" (sentEventDetails)="updateCurrentEvent($event)"></app-event-view>
+</div>
 <!-- <span class="badge text-bg-primary">Owner</span> -->
+<div *ngIf="(isCreatingNewEvent == true)">
+    <app-event-form [currentUser]="loggedInUser" (isFormActive)="switchFormState($event)"></app-event-form>
+</div>

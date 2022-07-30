@@ -19,6 +19,9 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { HasRoleDirective } from './directives/has-role.directive';
 import { AdminComponent } from './pages/admin/admin.component';
 import { EventPageComponent } from './pages/event-page/event-page.component';
+import { EventCardComponent } from './pages/event-page/event-card/event-card.component';
+import { EventFormComponent } from './pages/event-page/event-form/event-form.component';
+import { EventViewComponent } from './pages/event-page/event-view/event-view.component';
 
 
 @NgModule({
@@ -38,6 +41,9 @@ import { EventPageComponent } from './pages/event-page/event-page.component';
     HasRoleDirective,
     AdminComponent,
     EventPageComponent,
+    EventCardComponent,
+    EventFormComponent,
+    EventViewComponent,
   ],
   imports: [
     BrowserModule,
