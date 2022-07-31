@@ -53,11 +53,78 @@
                                             *ngIf="!checkListItem.isChecked"></i> </a>
                                     <a (click)="checkBox(false, checkListItem)"><i class="fa fa-solid fa-check"
                                             *ngIf="checkListItem.isChecked"></i> </a>
-                                    {{checkListItem.description}}
+                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                        (click)="initCheckListItem(attendee.id, checkListItem)">{{checkListItem.description}}</a>
                                 </p>
                                 <hr>
                             </div>
-                            <button class="btn btn-primary" (click)="addCheckListitem()">+ Add checklist Item</button>
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal" (click)="initCheckListItem(attendee.id)">
+                                + Add checklist Item
+                            </button>
+
+                            <!-- Modal -->
+                            <form class=" modal fade" id="exampleModal" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true" [formGroup]="checkListItemForm"
+                                (submit)="submitCheckListItemForm()" autocomplete="off">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Create new checklist item
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <div class="input-group mb-4" [hidden]="true">
+                                                    <span class="input-group-text">
+                                                        <span class="fa fa-user" aria-hidden="true"></span>
+                                                    </span>
+                                                    <input class="form-control" formControlName="id" placeholder="id">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group mb-4" [hidden]="true">
+                                                    <span class="input-group-text">
+                                                        <span class="fa fa-user" aria-hidden="true"></span>
+                                                    </span>
+                                                    <input class="form-control" formControlName="isChecked"
+                                                        placeholder="isChecked">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group mb-4" [hidden]="false">
+                                                    <span class="input-group-text">
+                                                        <span class="fa fa-user" aria-hidden="true"></span>
+                                                    </span>
+                                                    <input class="form-control" formControlName="description"
+                                                        placeholder="description">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group mb-4" [hidden]="true">
+                                                    <span class="input-group-text">
+                                                        <span class="fa fa-user" aria-hidden="true"></span>
+                                                    </span>
+                                                    <input class="form-control" formControlName="attendeeId"
+                                                        placeholder="attendeeId">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                                                (click)="submitCheckListItemForm()">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
                         </div>
 
                     </div>

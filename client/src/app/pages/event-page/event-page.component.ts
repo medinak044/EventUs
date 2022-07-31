@@ -68,4 +68,13 @@ export class EventPageComponent implements OnInit {
     updateCurrentEvent(eventDetails: UserEvent) {
         this.currentEvent = eventDetails
     }
+
+    removeEvent(eventId: number) {
+        this.eventService.removeEvent(eventId).subscribe({
+            next: (res: any) => {
+                // Update visual display
+            },
+            error: (err) => { console.log(err) }
+        })
+    }
 }
