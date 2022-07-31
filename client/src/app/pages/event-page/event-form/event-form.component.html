@@ -1,6 +1,10 @@
-<div class="container mt-2">
+<div class="container mt-2" *ngIf="!inputEvent">
     <button class="btn btn-danger" (click)="disableForm()">
         << Back to event dashboard</button>
+</div>
+<div class="container mt-2" *ngIf="inputEvent">
+    <button class="btn btn-danger" (click)="disableForm()">
+        << Back to event</button>
 </div>
 
 <div class="container container-register col-lg-4 col-md-6 col-sm-6">
@@ -8,8 +12,9 @@
         <div class="card card-lg text-center">
             <div class="card-body" style="padding: 2.25rem;">
                 <div>
-                    <h2 class="text-center" style="margin-bottom: 2.25rem;">Create Event</h2>
-                    <form [formGroup]="eventForm" (submit)="createNewEvent()" autocomplete="off">
+                    <h2 class="text-center" style="margin-bottom: 2.25rem;" *ngIf="!inputEvent">Create Event</h2>
+                    <h2 class="text-center" style="margin-bottom: 2.25rem;" *ngIf="inputEvent">Edit Event</h2>
+                    <form [formGroup]="eventForm" (submit)="submitEventForm()" autocomplete="off">
                         <div class="form-group">
                             <div class="input-group mb-4">
                                 <span class="input-group-text">
@@ -37,17 +42,19 @@
                         <div class="form-group">
                             <div class="input-group mb-4">
                                 <span class="input-group-text">
-                                    <span class="fa fa-user" aria-hidden="true"></span>
+                                    <span class="fa fa-regular fa-calendar me-1" aria-hidden=" true"></span>
                                 </span>
-                                <input class="form-control" formControlName="startDate" placeholder="Start Date">
+                                <input type="date" class="form-control" formControlName="startDate"
+                                    placeholder="Start Date">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group mb-4">
                                 <span class="input-group-text">
-                                    <span class="fa fa-user" aria-hidden="true"></span>
+                                    <span class="fa fa-regular fa-calendar me-1" aria-hidden="true"></span>
                                 </span>
-                                <input class="form-control" formControlName="endDate" placeholder="End Date">
+                                <input type="date" class="form-control" formControlName="endDate"
+                                    placeholder="End Date">
                             </div>
                         </div>
                         <!-- <div class="form-group">

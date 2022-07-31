@@ -57,7 +57,6 @@ export class EventPageComponent implements OnInit {
 
     switchFormState(isFormActive: boolean) {
         this.isCreatingNewEvent = isFormActive
-        // ^ Try a modal?
     }
 
     // 

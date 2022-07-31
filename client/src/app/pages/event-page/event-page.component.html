@@ -61,9 +61,11 @@
 
 <!-- Current event component opens when an event is choosen -->
 <div *ngIf="(currentEvent != null) && (isCreatingNewEvent == false)">
-    <app-event-view [eventDetails]="currentEvent" (sentEventDetails)="updateCurrentEvent($event)"></app-event-view>
+    <app-event-view [eventDetails]="currentEvent" (sentEventDetails)="updateCurrentEvent($event)"
+        (isFormActive)="switchFormState($event)"></app-event-view>
 </div>
 <!-- <span class="badge text-bg-primary">Owner</span> -->
 <div *ngIf="(isCreatingNewEvent == true)">
-    <app-event-form [currentUser]="loggedInUser" (isFormActive)="switchFormState($event)"></app-event-form>
+    <app-event-form [currentUser]="loggedInUser" [inputEvent]="currentEvent" (isFormActive)="switchFormState($event)">
+    </app-event-form>
 </div>

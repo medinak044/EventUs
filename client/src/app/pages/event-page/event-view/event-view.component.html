@@ -1,3 +1,69 @@
-<p>event-view works!</p>
+<div class="container mt-2">
+    <button class="btn btn-secondary" (click)="clearCurrentEvent()">
+        << Back to event dashboard</button>
+</div>
 
-<button class="btn btn-primary" (click)="clearCurrentEvent()">Back to event dashboard</button>
+<div class="container mt-5">
+    <div class="row">
+
+        <div class="col-12 col-md-4 mb-4 mb-md-0">
+            <app-event-card [eventDetails]="eventDetails"></app-event-card>
+
+            <button class="btn btn-warning mt-2 col-6 mx-auto" (click)="initEditEvent()">Edit this event</button>
+        </div>
+
+        <div class="col-12 col-md-8">
+            <h2>Attendees:</h2>
+            <hr>
+
+            <div style="height: 35rem; overflow-y: auto;">
+                <div class="card" *ngFor="let attendee of attendees">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-fluid width:100%;
+                                        max-width:170px;" src="{{defaultImg}}" alt="image">
+                        </div>
+                        <div class="col-md-4">
+                            <h4 class="mt-2">{{attendee.appUser.userName}}</h4>
+                            <h6>{{attendee.appUser.firstName}} {{attendee.appUser.lastName}}</h6>
+                            <h6>{{attendee.appUser.email}}</h6>
+                            <div class="mt-4">
+
+                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                    <button type="button" class="btn btn-danger">Remove</button>
+                                    <button type="button" class="btn btn-primary">Message</button>
+
+                                    <!-- <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Check List Items
+                                        </button>
+                                        <ul class="dropdown-menu" *ngFor="let checkListItem of attendee.checkListItems">
+                                            <li>{{checkListItem.description}}</li>
+                                        </ul>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 height: 1rem; overflow-y: auto;">
+                            <div *ngFor="let checkListItem of attendee.checkListItems">
+                                <p>
+                                    <a (click)="checkBox(true, checkListItem)"><i class="fa fa-solid fa-square"
+                                            *ngIf="!checkListItem.isChecked"></i> </a>
+                                    <a (click)="checkBox(false, checkListItem)"><i class="fa fa-solid fa-check"
+                                            *ngIf="checkListItem.isChecked"></i> </a>
+                                    {{checkListItem.description}}
+                                </p>
+                                <hr>
+                            </div>
+                            <button class="btn btn-primary" (click)="addCheckListitem()">+ Add checklist Item</button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
