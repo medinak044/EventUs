@@ -93,26 +93,47 @@ export class EventViewComponent implements OnInit {
     const checkListItemForm = this.checkListItemForm.value
 
     if (checkListItemForm.id > 0) {
-      // Update item in db
-      console.log("Updated!", checkListItemForm)
-      // this.updateCheckListItem()
+      this.updateCheckListItem(checkListItemForm)
     } else {
-      // Add item to db
-      console.log("Added!", checkListItemForm)
-      // this.addCheckListitem()
+      this.addCheckListItem(checkListItemForm)
     }
   }
 
-  updateCheckListItem() {
-    // Change existing item in db
+  updateCheckListItem(checkListItemForm: CheckListItem) {
+    this.eventService.updateCheckListItem(checkListItemForm.id, checkListItemForm).subscribe({
+      next: (res: any) => {
+        this.getEventAttendees() // Update visuals
+      },
+      error: (err) => { console.log(err) }
+    })
   }
 
-  addCheckListitem() {
-    // Add new item to db
-    // this.eventService.createCheckListItem()
+  addCheckListItem(checkListItemForm: CheckListItem) {
+    this.eventService.createCheckListItem(checkListItemForm).subscribe({
+      next: (res: any) => {
+        this.getEventAttendees() // Update visuals
+      },
+      error: (err) => { console.log(err) }
+    })
   }
 
+  removeCheckListItem(checkListItemForm: CheckListItem) {
+    this.eventService.removeCheckListItem(checkListItemForm.id).subscribe({
+      next: (res: any) => {
+        this.getEventAttendees() // Update visuals
+      },
+      error: (err) => { console.log(err) }
+    })
+  }
 
+  removeAttendeeFromEvent(attendeeId: number) {
+    this.eventService.removeAttendee(attendeeId).subscribe({
+      next: (res: any) => {
+        this.getEventAttendees() // Update visuals
+      },
+      error: (err) => { console.log(err) }
+    })
+  }
 
   initEditEvent() {
     this.isFormActive.emit(true)

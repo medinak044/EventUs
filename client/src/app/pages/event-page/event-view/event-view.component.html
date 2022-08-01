@@ -30,18 +30,9 @@
                             <div class="mt-4">
 
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                    <button type="button" class="btn btn-danger">Remove</button>
+                                    <button type="button" class="btn btn-danger"
+                                        (click)="removeAttendeeFromEvent(attendee.id)">Remove</button>
                                     <button type="button" class="btn btn-primary">Message</button>
-
-                                    <!-- <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-primary dropdown-toggle"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            Check List Items
-                                        </button>
-                                        <ul class="dropdown-menu" *ngFor="let checkListItem of attendee.checkListItems">
-                                            <li>{{checkListItem.description}}</li>
-                                        </ul>
-                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -49,9 +40,9 @@
                         <div class="col-md-4 height: 1rem; overflow-y: auto;">
                             <div *ngFor="let checkListItem of attendee.checkListItems">
                                 <p>
-                                    <a (click)="checkBox(true, checkListItem)"><i class="fa fa-solid fa-square"
+                                    <a (click)="checkBox(true, checkListItem)"><i class="fa fa-solid fa-square me-1"
                                             *ngIf="!checkListItem.isChecked"></i> </a>
-                                    <a (click)="checkBox(false, checkListItem)"><i class="fa fa-solid fa-check"
+                                    <a (click)="checkBox(false, checkListItem)"><i class="fa fa-solid fa-check me-1"
                                             *ngIf="checkListItem.isChecked"></i> </a>
                                     <a data-bs-toggle="modal" data-bs-target="#exampleModal"
                                         (click)="initCheckListItem(attendee.id, checkListItem)">{{checkListItem.description}}</a>
@@ -72,7 +63,11 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Create new checklist item
+                                            <h5 class="modal-title" id="exampleModalLabel"
+                                                *ngIf="(checkListItemForm.value.id > 0)">Update checklist item
+                                            </h5>
+                                            <h5 class="modal-title" id="exampleModalLabel"
+                                                *ngIf="(checkListItemForm.value.id <= 0)">Create new checklist item
                                             </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
@@ -120,6 +115,9 @@
                                                 data-bs-dismiss="modal">Close</button>
                                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
                                                 (click)="submitCheckListItemForm()">Save changes</button>
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                                (click)="removeCheckListItem(checkListItemForm.value)"
+                                                *ngIf="(checkListItemForm.value.id > 0)">Delete</button>
                                         </div>
                                     </div>
                                 </div>

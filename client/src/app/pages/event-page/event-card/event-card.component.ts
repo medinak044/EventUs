@@ -10,6 +10,7 @@ import { AppUserService } from 'src/app/services/app-user.service';
 export class EventCardComponent implements OnInit {
   @Input() eventDetails!: UserEvent
   @Output() sentEventDetails = new EventEmitter<any>() // Emit the event id to the parent component
+  @Output() deleteEventId = new EventEmitter<number>() // Emit the event id to the parent component
 
   constructor(
     public appUserService: AppUserService,
@@ -29,6 +30,10 @@ export class EventCardComponent implements OnInit {
     } else {
       return false
     }
+  }
+
+  emitRemoveEvent(eventId: number) {
+    this.deleteEventId.emit(eventId)
   }
 
 }

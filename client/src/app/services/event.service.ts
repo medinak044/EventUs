@@ -116,9 +116,9 @@ export class EventService {
       (`${environment.apiUrl}/${this.checkListItemControllerUrl}/GetAttendeeCheckListItems/${attendeeId}`)
   }
 
-  createCheckListItem(updatedCheckListItem: CheckListItem) {
+  createCheckListItem(newCheckListItem: CheckListItem) {
     return this.http.post
-      (`${environment.apiUrl}/${this.checkListItemControllerUrl}/CreateCheckListItem`, updatedCheckListItem)
+      (`${environment.apiUrl}/${this.checkListItemControllerUrl}/CreateCheckListItem`, newCheckListItem)
   }
 
   updateCheckListItem(checkListItemId: number, updatedCheckListItem: CheckListItem): Observable<CheckListItem> {

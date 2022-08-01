@@ -25,8 +25,8 @@ export class EventFormComponent implements OnInit {
     description: [''],
     startDate: [''],
     endDate: [''],
-    // image: [''],
-    // ownerId: ['']
+    image: [''],
+    ownerId: ['']
   })
 
   constructor(
@@ -36,20 +36,26 @@ export class EventFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.inputEvent)
+    // this.getCurrentDate()
     this.initiateForm()  // If event data was passed on to this component, fill out form
+  }
+
+  getCurrentDate() {
+    let d = new Date()
   }
 
   initiateForm() {
     if (this.inputEvent) {
-      const { title, location, description, startDate, endDate } = this.inputEvent
+      const { title, location, description, image, startDate, endDate, ownerId } = this.inputEvent
 
       this.eventForm = this.fb.group({
         title: [title],
         location: [location],
         description: [description],
+        image: [image],
         startDate: [startDate],
         endDate: [endDate],
+        ownerId: [ownerId]
       })
     }
   }
@@ -64,47 +70,28 @@ export class EventFormComponent implements OnInit {
     }
   }
 
-  createNewEvent(eventForm: any) {
-    // Map eventForm to another model to be sent to api
-    let eventRequestDto = {
-      id: 0,
-      ...eventForm,
-      // Add the rest of the neccessary properties to object
-      image: "",
-      ownerId: this.currentUser.id
-    }
-    console.log(eventRequestDto)
+  createNewEvent(eventForm: UserEventRequestDto) {
+    eventForm.ownerId = this.currentUser.id // Make sure to include the owner's id of the new event
+    // console.log("Added!", eventForm)
 
-    // //Currently UserEventRequestDto uses "interface"
-    // //MAybe check how Neil Cummings handles forms
-    // let newEventForm: UserEventRequestDto = new UserEventRe
-
-    // this.eventService.createEvent().subscribe({
-    //   next: (res: any) => {
-    //     console.log(res)
-    //     // this.sentEventDetails.emit(res) // Send back newly created event from db to parent
-    //     this.disableForm() // Go back to event dashboard
-    //   },
-    //   error: (err) => { console.log(err) }
-    // })
+    this.eventService.createEvent(eventForm).subscribe({
+      next: (res: UserEvent) => {
+        this.sentEventDetails.emit(res) // Send back newly created event from db to parent
+        this.disableForm() // Go back to event dashboard
+      },
+      error: (err) => { console.log(err) }
+    })
   }
 
-  editEvent(eventForm: any) {
-    let eventRequestDto = {
-      id: this.inputEvent?.id,
-      ...eventForm,
-      // Add the rest of the neccessary properties to object
-      image: this.inputEvent?.image,
-      ownerId: this.inputEvent?.ownerId
-    }
-    console.log(eventRequestDto)
-
-    // this.eventService.updateEvent(this.inputEvent?.id, eventRequestDto).subscribe({
-    //   next: (res: UserEvent) => {
-    //     console.log(res)
-    //   },
-    //   error: (err) => {console.log(err)}
-    // })
+  editEvent(eventForm: UserEventRequestDto) {
+    // console.log("Updated!", eventForm)
+    this.eventService.updateEvent(this.inputEvent?.id, eventForm).subscribe({
+      next: (res: UserEvent) => {
+        this.sentEventDetails.emit(res) // Send back newly edited event from db to parent
+        this.disableForm() // Go back to event dashboard
+      },
+      error: (err) => { console.log(err) }
+    })
   }
 
   disableForm() {

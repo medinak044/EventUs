@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { AppUser } from 'src/app/models/appUser';
 import { AppUserLoggedIn } from 'src/app/models/appUserLoggedIn';
+import { Attendee } from 'src/app/models/attendee';
+import { CheckListItem } from 'src/app/models/checkListItem';
 import { UserEvent } from 'src/app/models/userEvent';
 import { AppUserService } from 'src/app/services/app-user.service';
 import { EventService } from 'src/app/services/event.service';
@@ -19,10 +22,9 @@ export class EventPageComponent implements OnInit {
 
     isCreatingNewEvent: boolean = false // Switch display over to event form
 
-    //DONT FORGET: Configure the event page route to take in userId (/events/{{userId}})
     constructor(
         public appUserService: AppUserService,
-        public eventService: EventService
+        public eventService: EventService,
     ) { }
 
     ngOnInit(): void {
@@ -32,7 +34,7 @@ export class EventPageComponent implements OnInit {
     }
 
     getUserEvents() {
-        this.events$ = this.eventService.getUserEvents()
+        this.events$ = this.eventService.getUserEvents() // Refresh collection of Events
 
         // let tempEvents: UserEvent[]
 
@@ -52,14 +54,12 @@ export class EventPageComponent implements OnInit {
         //     },
         //     error: (err) => { console.log(err) }
         // })
-
     }
 
     switchFormState(isFormActive: boolean) {
         this.isCreatingNewEvent = isFormActive
     }
 
-    // 
     setCurrentEvent(eventDetails: UserEvent) {
         this.currentEvent = eventDetails // Set the current event based on emitted event id from child component
     }
@@ -70,11 +70,13 @@ export class EventPageComponent implements OnInit {
     }
 
     removeEvent(eventId: number) {
-        this.eventService.removeEvent(eventId).subscribe({
-            next: (res: any) => {
-                // Update visual display
-            },
-            error: (err) => { console.log(err) }
-        })
+        if (eventId > 0) {
+            this.eventService.removeEvent(eventId).subscribe({
+                next: (res: any) => {
+                    this.getUserEvents() // Update visual display
+                },
+                error: (err) => { console.log(err) }
+            })
+        }
     }
 }

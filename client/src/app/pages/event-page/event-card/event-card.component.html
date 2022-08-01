@@ -4,7 +4,8 @@
             class="card-img-top" alt="...">
     </a>
     <div class="card-body">
-        <h5 class="card-title">{{eventDetails.title}}</h5>
+        <h5 class="card-title">{{eventDetails.title}} <a style="float: right;"
+                (click)="emitRemoveEvent(eventDetails.id)" *ngIf="html_IsLoggedInUser()">x</a></h5>
         <p class="card-text">{{eventDetails.description}}</p>
     </div>
     <ul class="list-group list-group-flush">

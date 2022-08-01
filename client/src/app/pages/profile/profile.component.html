@@ -16,6 +16,9 @@
                         <div>
                             <!-- Badge indicating current user is either a friend or is you -->
                         </div>
+                        <button class="btn btn-sm btn-warning me-2" routerLink="/edit-user/{{loggedInUser.id}}"
+                            *ngIf="(profileUser.id == loggedInUser.id)">
+                            <i class="fa fa-edit me-2"></i>Edit</button>
                         <div *ngIf="(profileUser.id != loggedInUser.id) && !(html_IsAlreadyAdded(profileUser.id))">
                             <button class="btn btn-primary"><i class="fa fa-solid fa-user-plus"></i> Add user</button>
                         </div>
@@ -70,17 +73,20 @@
                                             <div class="btn-group" role="group"
                                                 aria-label="Button group with nested dropdown">
                                                 <button type="button" class="btn btn-danger"
-                                                    (click)="removeUser(user.userConnectionId)">Remove</button>
+                                                    (click)="removeUser(user.userConnectionId, user.id)">Remove</button>
                                                 <button type="button" class="btn btn-primary">Message</button>
 
                                                 <div class="btn-group" role="group">
                                                     <button type="button" class="btn btn-primary dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Invite
+                                                        Invite to:
                                                     </button>
+                                                    <!-- <ul class="dropdown-menu" *ngFor="let userEvent of (events$|async)"> -->
                                                     <ul class="dropdown-menu">
-                                                        <li (click)="inviteToEvent()">Event 1</li>
-                                                        <li (click)="inviteToEvent()">Event 2</li>
+                                                        <li class="dropdown-item"
+                                                            (click)="inviteToEvent(user.id, userEvent.id)"
+                                                            *ngFor="let userEvent of (events$|async)">
+                                                            {{userEvent.title}}</li>
                                                     </ul>
                                                 </div>
                                             </div>
