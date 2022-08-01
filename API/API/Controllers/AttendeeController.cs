@@ -79,15 +79,18 @@ public class AttendeeController : ControllerBase
                 Messages = new List<string>() { "Event not found" }
             });
         }
-        // Check if attendee exists
-        var foundAttendee = await _userManager.FindByIdAsync(attendeeRequestDto.AppUserId);
-        if (foundAttendee == null)
+        // Make sure Attendee doesn't already attends the specified event
+        var foundAttendees = _unitOfWork.Attendees.GetSome(a => a.AppUserId == attendeeRequestDto.AppUserId).ToList();
+        foreach (var attendee in foundAttendees)
         {
-            return BadRequest(new AuthResult()
+            if (attendee.EventId == attendeeRequestDto.EventId)
             {
-                Success = false,
-                Messages = new List<string>() { "Attendee not found" }
-            });
+                return BadRequest(new AuthResult()
+                {
+                    Success = false,
+                    Messages = new List<string>() { "Attendee already attends this event" }
+                });
+            }
         }
         // Check if event role exists
         var foundEventRole = await _unitOfWork.EventRoles.GetByIdAsync(attendeeRequestDto.RoleId);

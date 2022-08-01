@@ -23,13 +23,13 @@ public class CheckListItemController : ControllerBase
     public async Task<ActionResult> GetAllCheckListItems()
     {
         var result = await _unitOfWork.CheckListItems.GetAllAsync();
-        //return Ok(result);
-        return Ok(new RequestResult()
-        {
-            DataObject = result,
-            Success = true,
-            Messages = new List<string>() { "Successfully retrieved all CheckListItems" }
-        });
+        return Ok(result);
+        //return Ok(new RequestResult()
+        //{
+        //    DataObject = result,
+        //    Success = true,
+        //    Messages = new List<string>() { "Successfully retrieved all CheckListItems" }
+        //});
     }
 
     [HttpGet("GetAttendeeCheckListItems/{attendeeId}")]
@@ -41,13 +41,13 @@ public class CheckListItemController : ControllerBase
     }
 
     [HttpPost("CreateCheckListItem")] // Used when inviting users to an event
-    public async Task<ActionResult> CreateCheckListItem([FromBody] CheckListItem updatedCheckListItem)
+    public async Task<ActionResult> CreateCheckListItem([FromBody] CheckListItem newCheckListItem)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
         // Check if attendee exists
-        var foundAttendee = await _unitOfWork.Attendees.GetByIdAsync(updatedCheckListItem.AttendeeId);
+        var foundAttendee = await _unitOfWork.Attendees.GetByIdAsync(newCheckListItem.AttendeeId);
         if (foundAttendee == null)
         {
             return BadRequest(new RequestResult()
@@ -58,10 +58,10 @@ public class CheckListItemController : ControllerBase
         }
 
         // Make sure "IsChecked" is false by default
-        updatedCheckListItem.IsChecked = false;
+        newCheckListItem.IsChecked = false;
 
         // Save to db
-        await _unitOfWork.CheckListItems.UpdateAsync(updatedCheckListItem);
+        await _unitOfWork.CheckListItems.UpdateAsync(newCheckListItem);
         if (await _unitOfWork.SaveAsync() == false)
         {
             return BadRequest(new RequestResult()

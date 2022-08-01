@@ -40,12 +40,12 @@ public class EventController : ControllerBase
     }
 
     [HttpGet("GetUserEvents")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "AppUser")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "AppUser")]
     public async Task<ActionResult> GetUserEvents()
     {
         // Extract the user's Id from the token(claims)
-        //string ownerId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
-        string ownerId = "81702d33-3eef-4221-8690-f9c07f686eb1"; // (Test user)
+        string ownerId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
+        //string ownerId = "81702d33-3eef-4221-8690-f9c07f686eb1"; // (Test user)
         if (ownerId == null)
         {
             return BadRequest(new AuthResult()
@@ -93,6 +93,8 @@ public class EventController : ControllerBase
                 Messages = new List<string>() { "Something went wrong while saving" }
             });
         }
+
+        // Get the newly generated id from db attach it to response object
 
         // (Client-side): Add the owner as an Attendee by default, with the "Owner" role
 
@@ -144,6 +146,7 @@ public class EventController : ControllerBase
         if (eventToDelete == null)
             return NotFound();
 
+
         await _unitOfWork.Events.RemoveAsync(eventToDelete);
         if (await _unitOfWork.SaveAsync() == false)
         {
@@ -154,6 +157,7 @@ public class EventController : ControllerBase
             });
         }
 
+        // (Client-side): Remove all Attendees associated with the event (by event id)
         return Ok(eventToDelete);
     }
 
