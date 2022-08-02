@@ -1,4 +1,4 @@
-<div id="dashboard-events" class="container smooth-transition"
+<div id="dashboard-events" class="container smooth-transition text-center"
     *ngIf="(currentEvent == null) && (isCreatingNewEvent == false)">
     <div class="row">
         <h1>Your Events</h1>
@@ -30,7 +30,7 @@
             </div>
         </div> -->
 
-        <div class="row" *ngFor="let event of (events$|async)">
+        <div class="d-flex justify-content-center mb-2" *ngFor="let event of (events$|async)">
             <app-event-card class="" [eventDetails]="event" (sentEventDetails)="setCurrentEvent($event)"
                 (deleteEventId)="removeEvent($event)"></app-event-card>
         </div>
