@@ -39,14 +39,37 @@ public class EventController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("GetInvitedEventsByUserId/{userId}")]
+    public async Task<ActionResult> GetInvitedEventsByUserId(string userId)
+    {
+        // Get all Attendees that have matching userId
+        var attendees = _unitOfWork.Attendees.GetSome(a => a.AppUserId == userId);
+        // Add every unique event id to a collection
+        var eventIds = new List<int>();
+        foreach (var attendee in attendees)
+        {
+            if (!eventIds.Contains(attendee.EventId))
+                eventIds.Add(attendee.EventId);
+        }
+        // Get event data
+        var invitedEvents = new List<EventResponseDto>();
+        foreach (var eventId in eventIds)
+        {
+            invitedEvents.Add(_mapper.Map<EventResponseDto>(await _unitOfWork.Events.GetByIdAsync(eventId)));
+        }
+
+        return Ok(invitedEvents);
+    }
+
+
     [HttpGet("GetUserEvents")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "AppUser")]
     public async Task<ActionResult> GetUserEvents()
     {
         // Extract the user's Id from the token(claims)
-        string ownerId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
+        string loggedInUserId = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
         //string ownerId = "81702d33-3eef-4221-8690-f9c07f686eb1"; // (Test user)
-        if (ownerId == null)
+        if (loggedInUserId == null)
         {
             return BadRequest(new AuthResult()
             {
@@ -54,22 +77,46 @@ public class EventController : ControllerBase
                 Messages = new List<string>() { "User id is null" }
             });
         }
-
-        var userEvents = await _unitOfWork.Events.GetAllAsync(); // Get entire list of events from db
+        
         var resultList = new List<EventResponseDto>();
+
+        #region User's owned events
+        var userEvents = await _unitOfWork.Events.GetAllAsync(); // Get entire list of events from db
         foreach (var userEvent in userEvents)
         {
             // Add all events that have a matching owner id
-            if (userEvent.OwnerId == ownerId)
+            if (userEvent.OwnerId == loggedInUserId)
             {
                 var resultEvent = _mapper.Map<EventResponseDto>(userEvent);
                 // Add attendee data using event id
                 resultEvent.Attendees = _unitOfWork.Attendees.GetSome(a => a.EventId == resultEvent.Id).ToList();
-                // Add owner data as well base on owner id
+                // Add owner data as well (based on owner id)
                 resultEvent.Owner = _mapper.Map<AppUserDto>(await _userManager.FindByIdAsync(resultEvent.OwnerId));
                 resultList.Add(resultEvent); 
             } 
         }
+        #endregion
+
+        #region Events user is invited to
+        // Get all Attendees that have matching userId
+        var attendees = _unitOfWork.Attendees.GetSome(a => a.AppUserId == loggedInUserId);
+        // Add every unique event id to a collection
+        var eventIds = new List<int>();
+        foreach (var attendee in attendees)
+        {
+            if (!eventIds.Contains(attendee.EventId))
+                eventIds.Add(attendee.EventId);
+        }
+        // Get event data
+        foreach (var eventId in eventIds)
+        {
+            var foundEvent = _mapper.Map<EventResponseDto>(await _unitOfWork.Events.GetByIdAsync(eventId));
+            // Add owner data as well (based on owner id)
+            foundEvent.Owner = _mapper.Map<AppUserDto>(await _userManager.FindByIdAsync(foundEvent.OwnerId));
+            resultList.Add(foundEvent);
+        }
+        #endregion
+
 
         return Ok(resultList);
     }
