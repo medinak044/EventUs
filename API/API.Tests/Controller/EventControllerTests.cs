@@ -1,4 +1,5 @@
 ﻿using API.Controllers;
+using API.DTOs;
 using API.Interfaces;
 using API.Models;
 using AutoMapper;
@@ -46,15 +47,18 @@ public class EventControllerTests
     public async Task EventController_CreateEvent_ReturnOk()
     {
         // Arrange
-        // EventRequestDto
+        var eventRequestDto = A.Fake<EventRequestDto>(); 
+        var userEvent = A.Fake<Event>();
+        A.CallTo(()=> _mapper.Map<Event>(eventRequestDto)).Returns(userEvent);
+        A.CallTo(()=> _unitOfWork.SaveAsync()).Returns(true);
         var controller = new EventController(_unitOfWork, _userManager, _mapper);
 
         // Act
-        //var result = await controller.CreateEvent();
+        var result = await controller.CreateEvent(eventRequestDto);
 
         // Assert
-        //result.Should().NotBeNull();
-        //result.Should().BeOfType(typeof(OkObjectResult));
+        result.Should().NotBeNull();
+        result.Should().BeOfType(typeof(OkObjectResult));
     }
 
 
