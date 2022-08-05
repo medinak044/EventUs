@@ -35,29 +35,7 @@ export class EventPageComponent implements OnInit {
 
     // Refresh collection of Events
     getUserEvents() {
-        // Gets the logged in user's events
-        this.events$ = this.eventService.getUserEvents()
-        this.eventService.getUserEvents().subscribe({
-            next: (res) => { console.log(res) }
-        })
-
-        // Gets the events the user is invited to (exclude events the user owns)
-        // this.eventService.getInvitedEventsByUserId(this.loggedInUser.id).subscribe
-        // this.eventService.getUserEvents().subscribe({
-        //     next: (eventList: UserEvent[]) => {
-        //         let eventIdSet = new Set()
-        //         eventList.forEach((e: UserEvent) => eventIdSet.add(e.id))
-
-        //         this.eventService.getAllAttendees().subscribe({
-        //             next: (attendees: Attendee[]) => {
-
-        //             },
-        //             error: (err) => { console.log(err) }
-        //         })
-        //     },
-        //     error: (err) => { console.log(err) }
-        // })
-
+        this.events$ = this.eventService.getUserEvents() // Gets events relavent to the logged in user
     }
 
     switchFormState(isFormActive: boolean) {
