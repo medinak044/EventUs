@@ -28,6 +28,11 @@ export class EventService {
       (`${environment.apiUrl}/${this.eventControllerUrl}/GetAllEvents/${userId}`)
   }
 
+  getInvitedEventsByUserId(userId: string): Observable<Event[]> {
+    return this.http.get<Event[]>
+      (`${environment.apiUrl}/${this.eventControllerUrl}/GetInvitedEventsByUserId/${userId}`)
+  }
+
   // Gets user events based on jwt token claims (user id)
   getUserEvents(): Observable<UserEvent[]> {
     return this.http.get<UserEvent[]>

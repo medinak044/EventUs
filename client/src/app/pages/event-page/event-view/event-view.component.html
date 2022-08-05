@@ -9,7 +9,8 @@
         <div class="col-12 col-md-4 mb-4 mb-md-0">
             <app-event-card [eventDetails]="eventDetails"></app-event-card>
 
-            <button class="btn btn-warning mt-2 col-6 mx-auto" (click)="initEditEvent()">Edit this event</button>
+            <button class="btn btn-warning mt-2 col-6 mx-auto" (click)="initEditEvent()"
+                *ngIf="html_IsLoggedInUser()">Edit this event</button>
         </div>
 
         <div class="col-12 col-md-8">
@@ -31,7 +32,8 @@
 
                                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                     <button type="button" class="btn btn-danger"
-                                        (click)="removeAttendeeFromEvent(attendee.id)">Remove</button>
+                                        (click)="removeAttendeeFromEvent(attendee.id)"
+                                        *ngIf="html_IsLoggedInUser()">Remove</button>
                                     <button type="button" class="btn btn-primary">Message</button>
                                 </div>
                             </div>
@@ -52,7 +54,8 @@
 
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" (click)="initCheckListItem(attendee.id)">
+                                data-bs-target="#exampleModal" (click)="initCheckListItem(attendee.id)"
+                                *ngIf="html_IsLoggedInUser()">
                                 + Add checklist Item
                             </button>
 

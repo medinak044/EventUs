@@ -25,11 +25,8 @@ export class EventCardComponent implements OnInit {
   }
 
   html_IsLoggedInUser(): boolean {
-    if (this.eventDetails.ownerId == this.appUserService.getLocalStorageUser().id) {
-      return true
-    } else {
-      return false
-    }
+    return (this.eventDetails.ownerId
+      == this.appUserService.getLocalStorageUser().id) ? true : false
   }
 
   emitRemoveEvent(eventId: number) {

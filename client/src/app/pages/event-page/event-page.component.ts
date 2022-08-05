@@ -33,27 +33,31 @@ export class EventPageComponent implements OnInit {
         this.getUserEvents() // Get all logged in user's events
     }
 
+    // Refresh collection of Events
     getUserEvents() {
-        this.events$ = this.eventService.getUserEvents() // Refresh collection of Events
+        // Gets the logged in user's events
+        this.events$ = this.eventService.getUserEvents()
+        this.eventService.getUserEvents().subscribe({
+            next: (res) => { console.log(res) }
+        })
 
-        // let tempEvents: UserEvent[]
-
+        // Gets the events the user is invited to (exclude events the user owns)
+        // this.eventService.getInvitedEventsByUserId(this.loggedInUser.id).subscribe
         // this.eventService.getUserEvents().subscribe({
-        //     next: (res: UserEvent[]) => {
-        //         res.forEach((e: UserEvent) => {
-        //             this.appUserService.getUserById(e.ownerId).subscribe({
-        //                 next: (res: AppUser) => {
-        //                     e.owner = res
-        //                     tempEvents.push(e) // Get the owner data for each event, then add event to list
-        //                     // this.events?.push(e) // Get the owner data for each event, then add event to list
-        //                     console.log(e)
-        //                 },
-        //                 error: (err) => { console.log(err) }
-        //             })
+        //     next: (eventList: UserEvent[]) => {
+        //         let eventIdSet = new Set()
+        //         eventList.forEach((e: UserEvent) => eventIdSet.add(e.id))
+
+        //         this.eventService.getAllAttendees().subscribe({
+        //             next: (attendees: Attendee[]) => {
+
+        //             },
+        //             error: (err) => { console.log(err) }
         //         })
         //     },
         //     error: (err) => { console.log(err) }
         // })
+
     }
 
     switchFormState(isFormActive: boolean) {

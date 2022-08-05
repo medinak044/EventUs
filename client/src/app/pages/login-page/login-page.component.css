@@ -25,12 +25,12 @@
 
 .hover-fade:not(:hover) {
     animation: fade-out 0s;
-    opacity: 0.1;
+    opacity: 0.3;
 }
 
 @keyframes fade-in {
     from {
-        opacity: 0.1;
+        opacity: 0.3;
     }
 
     to {

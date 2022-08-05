@@ -4,6 +4,9 @@ import { Attendee } from 'src/app/models/attendee';
 import { EventService } from 'src/app/services/event.service';
 import { CheckListItem } from 'src/app/models/checkListItem';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { AppUserService } from 'src/app/services/app-user.service';
+import { AppUser } from 'src/app/models/appUser';
+import { AppUserLoggedIn } from 'src/app/models/appUserLoggedIn';
 
 @Component({
   selector: 'app-event-view',
@@ -15,6 +18,7 @@ export class EventViewComponent implements OnInit {
   @Output() sentEventDetails = new EventEmitter<any>()  // Emit the event id to the parent component
   @Output() isFormActive = new EventEmitter<any>()  // Emit the event id to the parent component
 
+  loggedInUser!: AppUserLoggedIn
   attendees!: Attendee[]
   defaultImg: string = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
 
@@ -26,12 +30,19 @@ export class EventViewComponent implements OnInit {
   })
 
   constructor(
+    public appUserService: AppUserService,
     public eventService: EventService,
     private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
+    this.loggedInUser = this.appUserService.getLocalStorageUser()
     this.getEventAttendees() // Get all attendee data for currently viewed event
+  }
+
+  html_IsLoggedInUser(): boolean {
+    return (this.eventDetails.ownerId
+      == this.appUserService.getLocalStorageUser().id) ? true : false
   }
 
   getEventAttendees() {
@@ -44,6 +55,8 @@ export class EventViewComponent implements OnInit {
   }
 
   checkBox(isChecked: boolean, checkListItem: CheckListItem) {
+    if (!this.html_IsLoggedInUser()) return
+
     checkListItem.isChecked = isChecked
 
     this.eventService.updateCheckListItem(checkListItem.id, checkListItem).subscribe({
