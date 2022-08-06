@@ -125,6 +125,16 @@ public class AccountController : ControllerBase
             });
         }
 
+        // Prevent new user from being created if "AppUser" default role don't exist
+        if (await _roleManager.FindByNameAsync("AppUser") == null)
+        {
+            return BadRequest(new AuthResult()
+            {
+                Success = false,
+                Messages = new List<string>() { "AppUser default account role doesn't exist" }
+            });
+        }
+
         // Grab the new user from db
         AppUser newUserFromDb = await _userManager.FindByEmailAsync(requestDto.Email);
         if (newUserFromDb == null)
@@ -136,7 +146,7 @@ public class AccountController : ControllerBase
             });
         }
 
-        // Add user to a default role
+        // Add user to a default role after user has been created
         await _userManager.AddToRoleAsync(newUser, RoleNames.RoleTypeEnum.AppUser.ToString());
 
         // Give token to user (to be stored in browser local storage client-side)

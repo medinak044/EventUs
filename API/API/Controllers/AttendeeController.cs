@@ -50,7 +50,7 @@ public class AttendeeController : ControllerBase
             // Event role
             attendee.EventRole = await _unitOfWork.EventRoles.GetByIdAsync(attendee.RoleId);
             // AppUserDto
-            attendee.AppUser = _mapper.Map<AppUserDto>(await _userManager.FindByIdAsync(attendee.AppUserId));
+            attendee.AppUser = _mapper.Map<AppUser>(await _userManager.FindByIdAsync(attendee.AppUserId));
             // Event (Just the id, don't include event data)
             //attendee.Event = await _unitOfWork.Events.GetByIdAsync(attendee.EventId);
             // CheckListItems
@@ -73,7 +73,7 @@ public class AttendeeController : ControllerBase
         var foundEvent = await _unitOfWork.Events.GetByIdAsync(attendeeRequestDto.EventId);
         if (foundEvent == null)
         {
-            return BadRequest(new AuthResult()
+            return BadRequest(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "Event not found" }
@@ -85,7 +85,7 @@ public class AttendeeController : ControllerBase
         {
             if (attendee.EventId == attendeeRequestDto.EventId)
             {
-                return BadRequest(new AuthResult()
+                return BadRequest(new RequestResult()
                 {
                     Success = false,
                     Messages = new List<string>() { "Attendee already attends this event" }
@@ -96,7 +96,7 @@ public class AttendeeController : ControllerBase
         var foundEventRole = await _unitOfWork.EventRoles.GetByIdAsync(attendeeRequestDto.RoleId);
         if (foundEventRole == null)
         {
-            return BadRequest(new AuthResult()
+            return BadRequest(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "EventRole not found" }
@@ -115,7 +115,7 @@ public class AttendeeController : ControllerBase
         await _unitOfWork.Attendees.UpdateAsync(newAttendee);
         if (await _unitOfWork.SaveAsync() == false)
         {
-            return BadRequest(new AuthResult()
+            return BadRequest(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "Something went wrong while saving" }
@@ -123,7 +123,7 @@ public class AttendeeController : ControllerBase
         }
 
 
-        return Ok(new AuthResult()
+        return Ok(new RequestResult()
         {
             Success = true,
             Messages = new List<string>() { "Attendee created" }
@@ -139,7 +139,7 @@ public class AttendeeController : ControllerBase
         // Check if exists in db
         if (await _unitOfWork.Attendees.ExistsAsync(a => a.Id == attendeeId) == null)
         {
-            return NotFound(new AuthResult()
+            return NotFound(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "Event not found" }
@@ -154,7 +154,7 @@ public class AttendeeController : ControllerBase
         await _unitOfWork.Attendees.UpdateAsync(mappedAttendee);
         if (!await _unitOfWork.SaveAsync())
         {
-            return BadRequest(new AuthResult()
+            return BadRequest(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "Something went wrong while updating" }
@@ -176,7 +176,7 @@ public class AttendeeController : ControllerBase
         await _unitOfWork.Attendees.RemoveAsync(attendeeToDelete);
         if (await _unitOfWork.SaveAsync() == false)
         {
-            return BadRequest(new AuthResult()
+            return BadRequest(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "Something went wrong while saving" }

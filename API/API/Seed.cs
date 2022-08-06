@@ -28,6 +28,17 @@ public class Seed
     // Make sure default user data, account roles, exists for the app to function
     public async void SeedDataContext()
     {
+        #region Account Roles (Identity framework)
+        if (await _roleManager.FindByNameAsync("AppUser") == null)
+        {
+            await _roleManager.CreateAsync(new IdentityRole("AppUser"));
+        }
+        if (await _roleManager.FindByNameAsync("Admin") == null)
+        {
+            await _roleManager.CreateAsync(new IdentityRole("Admin"));
+        }
+        #endregion
+
         #region AppUsers (Identity framework)
         var demoIdentityPassword = "Password!23";
 
@@ -41,6 +52,10 @@ public class Seed
                 Email = "admin@example.com",
             };
             await _userManager.CreateAsync(adminUser, demoIdentityPassword);
+            // After user is created, add role
+            var foundUser = await _userManager.FindByEmailAsync(adminUser.Email);
+            await _userManager.AddToRoleAsync(foundUser, "AppUser");
+            await _userManager.AddToRoleAsync(foundUser, "Admin");
         }
 
         if (await _userManager.FindByEmailAsync("appuser@example.com") == null)
@@ -53,17 +68,9 @@ public class Seed
                 Email = "appuser@example.com",
             };
             await _userManager.CreateAsync(appUser, demoIdentityPassword);
-        }
-        #endregion
-
-        #region Account Roles (Identity framework)
-        if (await _roleManager.FindByNameAsync("AppUser") == null)
-        {
-            await _roleManager.CreateAsync(new IdentityRole("AppUser"));
-        }
-        if (await _roleManager.FindByNameAsync("Admin") == null)
-        {
-            await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            // After user is created, add role
+            var foundUser = await _userManager.FindByEmailAsync(appUser.Email);
+            await _userManager.AddToRoleAsync(foundUser, "AppUser");
         }
         #endregion
 

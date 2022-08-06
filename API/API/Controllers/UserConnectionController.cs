@@ -60,7 +60,7 @@ public class UserConnectionController : ControllerBase
         string addedById = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
         if (addedById == null)
         {
-            return BadRequest(new AuthResult()
+            return BadRequest(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { $"addedById is null: {addedById}" }
@@ -68,7 +68,7 @@ public class UserConnectionController : ControllerBase
         }
         if (addedById == savedUserId)
         {
-            return BadRequest(new AuthResult()
+            return BadRequest(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "Cannot add yourself as a saved user" }
@@ -85,14 +85,14 @@ public class UserConnectionController : ControllerBase
         await _unitOfWork.UserConnections.AddAsync(userConnection);
         if (!await _unitOfWork.SaveAsync())
         {
-            return BadRequest(new AuthResult()
+            return BadRequest(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "Something went wrong while saving" }
             });
         } 
 
-        return Ok(new AuthResult()
+        return Ok(new RequestResult()
         {
             Success = true,
             Messages = new List<string>() { "Successfully created a user connection" }
@@ -113,14 +113,14 @@ public class UserConnectionController : ControllerBase
         await _unitOfWork.UserConnections.RemoveAsync(userConnectionToDelete);
         if (await _unitOfWork.SaveAsync() == false)
         {
-            return BadRequest(new AuthResult()
+            return BadRequest(new RequestResult()
             {
                 Success = false,
                 Messages = new List<string>() { "Something went wrong while saving" }
             });
         }
 
-        return Ok(new AuthResult()
+        return Ok(new RequestResult()
         {
             Success = true,
             Messages = new List<string>() { "Successfully deleted a user connection" }
