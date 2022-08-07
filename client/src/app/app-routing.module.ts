@@ -25,7 +25,6 @@ const routes: Routes = [
     children: [
       { path: 'view-users', component: ViewUsersComponent },
       { path: 'events', component: EventPageComponent },
-      // { path: 'events/:userId', component: EventPageComponent },
       { path: 'profile/:userId', component: ProfileComponent },
       { path: 'edit-user/:userId', component: EditUserComponent },
       { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },

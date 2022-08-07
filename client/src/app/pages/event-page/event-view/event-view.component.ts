@@ -98,7 +98,7 @@ export class EventViewComponent implements OnInit {
         description: [checkListItem.description],
         attendeeId: [attendeeId]
       })
-      console.log(this.checkListItemForm.value)
+      // console.log(this.checkListItemForm.value)
     }
   }
 
