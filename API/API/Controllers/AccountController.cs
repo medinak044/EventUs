@@ -217,6 +217,17 @@ public class AccountController : ControllerBase
             });
         }
 
+        #region DEMO: Prevent demo Admin user from changing/deleting users
+        if (existingUser.Email == "admin@example.com")
+        {
+            return BadRequest(new AuthResult()
+            {
+                Success = false,
+                Messages = new List<string>() { "Demo Admin not allowed to edit user data" }
+            });
+        }
+        #endregion
+
         // Map values
         existingUser = _mapper.Map<AppUserDto, AppUser>(updatedUserDto, existingUser);
 
@@ -241,6 +252,17 @@ public class AccountController : ControllerBase
                 Messages = new List<string>() { "User doesn't exist" }
             });
         }
+
+        #region DEMO: Prevent demo Admin user from changing/deleting users
+        if (existingUser.Email == "admin@example.com")
+        {
+            return BadRequest(new AuthResult()
+            {
+                Success = false,
+                Messages = new List<string>() { "Demo Admin not allowed to edit user data" }
+            });
+        }
+        #endregion
 
         // Delete user from db
         await _userManager.DeleteAsync(existingUser);
