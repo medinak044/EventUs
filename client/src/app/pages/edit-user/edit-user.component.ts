@@ -70,23 +70,27 @@ export class EditUserComponent implements OnInit {
   }
 
   editSubmit() {
-    // Map registerForm to another model to be sent to api
-    const { firstName, lastName, userName, email } = this.editForm.value
+    if (this.currentUser.email != "admin@example.com") {
+      // Map registerForm to another model to be sent to api
+      const { firstName, lastName, userName, email } = this.editForm.value
 
-    let updatedUser: AppUser = new AppUser()
-    updatedUser.id = this.userIdParam
-    updatedUser.firstName = firstName
-    updatedUser.lastName = lastName
-    updatedUser.userName = userName
-    updatedUser.email = email
+      let updatedUser: AppUser = new AppUser()
+      updatedUser.id = this.userIdParam
+      updatedUser.firstName = firstName
+      updatedUser.lastName = lastName
+      updatedUser.userName = userName
+      updatedUser.email = email
 
-    this.appUserService.updateUser(updatedUser).subscribe({
-      next: (res: any) => {
-        // Navigate back to previous route
-        this.router.navigateByUrl(this.previousUrl)
-      },
-      error: (err: any) => this.validationErrors = err // Add errors
-    })
+      this.appUserService.updateUser(updatedUser).subscribe({
+        next: (res: any) => {
+          // Navigate back to previous route
+          this.router.navigateByUrl(this.previousUrl)
+        },
+        error: (err: any) => this.validationErrors = err // Add errors
+      })
+    } else {
+      console.error("Demo admin not allowed to edit user data")
+    }
   }
 
   // ---- Role CRUD (beginning) ---- //

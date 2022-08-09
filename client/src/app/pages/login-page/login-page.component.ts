@@ -17,6 +17,7 @@ export class LoginPageComponent implements OnInit {
     password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
   })
   get f() { return this.loginForm.controls } // Getter method for displaying error messages
+  loginButtonIsPressed: boolean = false
 
   constructor(
     private appUserService: AppUserService,
@@ -36,6 +37,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   loginSubmit() {
+    this.loginButtonIsPressed = true
     const { email, password } = this.loginForm.value
 
     let newLoginForm: AppUserLogin = new AppUserLogin()

@@ -41,29 +41,19 @@ export class AdminComponent implements OnInit {
       error: err => console.log(err)
     })
   }
-  // getAllUsers() {
-  //   this.appUserService.getAllUsers().subscribe({
-  //     next: (appUsers: any) => {
-  //       console.log(appUsers[0].roles)
-  //       this.appUsers = [
-  //         appUsers.find((u: AppUserAdminDto) => u.id == this.currentUser.id), // Shift currently logged in user to top of table
-  //         ...appUsers.filter((u: AppUserAdminDto) => (u.id != this.currentUser.id)) // Omit currently logged in user at original index
-  //       ]
-  //       // this.userAmount = this.appUsers.length
-  //     },
-  //     error: err => console.log(err)
-  //   })
-  // }
 
   deleteUser(userId: string) {
-    // Makeshift way (without using .subscribe()) to update UI due to some httperror after deleting
-    this.appUsers = this.appUsers.filter(a => a.id !== userId)
+    if (this.currentUser.email != "admin@example.com") {
+      this.appUsers = this.appUsers.filter(a => a.id !== userId)
 
-    this.appUserService.deleteUser(userId)
-      .subscribe({
-        next: () => { },
-        error: (err) => { console.log(err) }
-      })
+      this.appUserService.deleteUser(userId)
+        .subscribe({
+          next: () => { },
+          error: (err) => { console.log(err) }
+        })
+    } else {
+      console.error("Demo admin not allowed to edit user data")
+    }
   }
 
   // ---- Role CRUD (beginning) ---- //
