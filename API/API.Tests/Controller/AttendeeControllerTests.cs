@@ -16,50 +16,32 @@ using Xunit;
 
 namespace API.Tests.Controller;
 
-public class EventControllerTests
+public class AttendeeControllerTests
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly UserManager<AppUser> _userManager;
     private readonly IMapper _mapper;
 
-    public EventControllerTests()
+    public AttendeeControllerTests()
     {
         _unitOfWork = A.Fake<IUnitOfWork>();
         _userManager = A.Fake<UserManager<AppUser>>();
         _mapper = A.Fake<IMapper>();
     }
 
-    private EventController CreateNewController()
+    private AttendeeController CreateNewController()
     {
-        return new EventController(_unitOfWork, _userManager, _mapper);
+        return new AttendeeController(_unitOfWork, _userManager, _mapper);
     }
 
     [Fact]
-    public async Task EventController_GetAllEvents_ReturnOk()
+    public async Task AttendeeController_GetAllAttendees_ReturnOk()
     {
         // Arrange
         var controller = CreateNewController();
 
         // Act
-        var result = await controller.GetAllEvents();
-
-        // Assert
-        result.Should().NotBeNull();
-        result.Should().BeOfType(typeof(OkObjectResult));
-    }
-    
-    [Fact]
-    public async Task EventController_CreateEvent_ReturnOk()
-    {
-        // Arrange
-        var eventRequestDto = A.Fake<EventRequestDto>(); 
-        var userEvent = A.Fake<Event>();
-        A.CallTo(()=> _mapper.Map<Event>(eventRequestDto)).Returns(userEvent);
-        A.CallTo(()=> _unitOfWork.SaveAsync()).Returns(true);
-        var controller = CreateNewController();
-
-        // Act
-        var result = await controller.CreateEvent(eventRequestDto);
+        var result = await controller.GetAllAttendees();
 
         // Assert
         result.Should().NotBeNull();
@@ -67,20 +49,23 @@ public class EventControllerTests
     }
 
     [Fact]
-    public async Task EventController_RemoveEvent_ReturnOk()
+    public async Task AttendeeController_CreateAttendee_ReturnOk()
     {
         // Arrange
-        int eventId = 1; 
-        var eventToDelete = A.Fake<Event>();
+        var attendeeRequestDto = A.Fake<AttendeeRequestDto>();
+        var foundEvent = A.Fake<Event>();
+        var foundAttendees = A.Fake<List<Attendee>>();
+        var foundEventRole = A.Fake<EventRole>();
+        var newAttendee = A.Fake<Attendee>();
+        A.CallTo(() => _mapper.Map<Event>(attendeeRequestDto.Id)).Returns(foundEvent);
         A.CallTo(() => _unitOfWork.SaveAsync()).Returns(true);
         var controller = CreateNewController();
 
         // Act
-        var result = await controller.RemoveEvent(eventId);
+        var result = await controller.CreateAttendee(attendeeRequestDto);
 
         // Assert
         result.Should().NotBeNull();
         result.Should().BeOfType(typeof(OkObjectResult));
     }
-
 }
