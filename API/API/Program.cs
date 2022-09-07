@@ -1,6 +1,7 @@
 using API;
 using API.Configurations;
 using API.Data;
+using API.Extensions;
 using API.Interfaces;
 using API.Models;
 using API.Repository;
@@ -80,13 +81,14 @@ builder.Services.AddAuthentication(options =>
 #endregion
 
 // Database connection
-builder.Services.AddDbContext<DataContext>(options =>
-{
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionPostgreSQL"));
-    //options.UseSqlServer(builder.Configuration.GetConnectionString("ProdConnection")); // Prod
-    //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionSQLServer"));
-    //options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnectionSQLite"));
-});
+builder.Services.AddApplicationServices(builder.Configuration);
+//builder.Services.AddDbContext<DataContext>(options =>
+//{
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionPostgreSQL"));
+//    //options.UseSqlServer(builder.Configuration.GetConnectionString("ProdConnection")); // Prod
+//    //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionSQLServer"));
+//    //options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnectionSQLite"));
+//});
 
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(
