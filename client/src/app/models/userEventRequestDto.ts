@@ -4,6 +4,6 @@ export interface UserEventRequestDto {
     description: string
     startDate?: Date
     endDate?: Date
-    image: string
+    image?: string
     ownerId: string
 }
