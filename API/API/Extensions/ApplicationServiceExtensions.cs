@@ -10,6 +10,8 @@ public static class ApplicationServiceExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
     {
         //services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        // (PostgreSQL Logic below)
         services.AddDbContext<DataContext>(options =>
         {
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -18,7 +20,8 @@ public static class ApplicationServiceExtensions
 
             // Depending on if in development or production, use either Heroku-provided
             // connection string, or development connection string from env var.
-            if (env == "Development")
+            //if (env == "Development")
+            if (false)
             {
                 // Use connection string from file.
                 connStr = config.GetConnectionString("DefaultConnectionPostgreSQL");
@@ -26,7 +29,8 @@ public static class ApplicationServiceExtensions
             else
             {
                 // Use connection string provided at runtime by Heroku.
-                var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+                //var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+                var connUrl = config.GetConnectionString("DefaultConnectionHerokuSQL");
 
                 // Parse connection URL to connection string for Npgsql
                 connUrl = connUrl.Replace("postgres://", string.Empty);
