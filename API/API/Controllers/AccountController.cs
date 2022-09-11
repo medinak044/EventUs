@@ -308,13 +308,21 @@ public class AccountController : ControllerBase
         };
 
         #region Account Roles (Identity framework)
+        var accountRoleNames = new List<string>();
+
         if (await _roleManager.FindByNameAsync("AppUser") == null)
         {
-            await _roleManager.CreateAsync(new IdentityRole("AppUser"));
+            accountRoleNames.Add("AppUser");
         }
         if (await _roleManager.FindByNameAsync("Admin") == null)
         {
-            await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            accountRoleNames.Add("Admin");
+        }
+
+        foreach (var accountRoleName in accountRoleNames)
+        {
+            await _roleManager.CreateAsync(new IdentityRole(accountRoleName));
+            result.Messages.Add($"{accountRoleName} IdentityRole added");
         }
         #endregion
 
@@ -335,6 +343,7 @@ public class AccountController : ControllerBase
             var foundUser = await _userManager.FindByEmailAsync(adminUser.Email);
             await _userManager.AddToRoleAsync(foundUser, "AppUser");
             await _userManager.AddToRoleAsync(foundUser, "Admin");
+            result.Messages.Add("Admin user added");
         }
 
         if (await _userManager.FindByEmailAsync("appuser@example.com") == null)
@@ -350,38 +359,46 @@ public class AccountController : ControllerBase
             // After user is created, add role
             var foundUser = await _userManager.FindByEmailAsync(appUser.Email);
             await _userManager.AddToRoleAsync(foundUser, "AppUser");
+            result.Messages.Add("App user added");
         }
         #endregion
 
         #region Event roles
         var eventRoles = new List<EventRole>();
 
-        if (_unitOfWork.EventRoles.GetSome(e => e.Role == "Attendee") == null)
+        if (_unitOfWork.EventRoles.GetSome(e => e.Role == "Attendee").Count() == 0)
         {
-            var eventRole = new EventRole()
-            {
-                Role = "Owner"
-            };
+            var eventRole = new EventRole() { Role = "Attendee" };
             eventRoles.Add(eventRole);
         }
-        if (_unitOfWork.EventRoles.GetSome(e => e.Role == "Organizer") == null)
+        if (_unitOfWork.EventRoles.GetSome(e => e.Role == "Organizer").Count() == 0)
         {
-            var eventRole = new EventRole()
-            {
-                Role = "Owner"
-            };
+            var eventRole = new EventRole() { Role = "Organizer" };
             eventRoles.Add(eventRole);
         }
-        if (_unitOfWork.EventRoles.GetSome(e => e.Role == "Owner") == null)
+        if (_unitOfWork.EventRoles.GetSome(e => e.Role == "Owner").Count() == 0)
         {
-            var eventRole = new EventRole()
-            {
-                Role = "Owner"
-            };
+            var eventRole = new EventRole() { Role = "Owner" };
             eventRoles.Add(eventRole);
         }
 
-        await _context.EventRoles.AddRangeAsync(eventRoles);
+        foreach (var eventRole in eventRoles)
+        {
+            await _unitOfWork.EventRoles.AddAsync(eventRole);
+            if (await _unitOfWork.SaveAsync() == false)
+            {
+                return BadRequest(new RequestResult()
+                {
+                    Success = false,
+                    Messages = new List<string>() { "Something went wrong while saving" }
+                });
+            }
+            else
+            {
+                result.Messages.Add($"{eventRole.Role} EventRole added");
+            }
+        }
+
         #endregion
 
 

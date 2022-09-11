@@ -84,8 +84,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddApplicationServices(builder.Configuration);
 //builder.Services.AddDbContext<DataContext>(options =>
 //{
-//    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionPostgreSQL"));
-//    //options.UseSqlServer(builder.Configuration.GetConnectionString("ProdConnection")); // Prod
+//    //options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionPostgreSQL"));
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("ProdConnection")); // Prod
 //    //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionSQLServer"));
 //    //options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnectionSQLite"));
 //});
