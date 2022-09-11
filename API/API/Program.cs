@@ -139,6 +139,11 @@ app.UseCors(myAllowSpecificOrigins);
 
 app.UseAuthorization();
 
+//#region Tell API server to use static files (Angular frontend)
+//app.UseDefaultFiles(); // If index.html exists, use it
+//app.UseStaticFiles();
+//#endregion
+
 app.MapControllers();
 
 app.Run();
