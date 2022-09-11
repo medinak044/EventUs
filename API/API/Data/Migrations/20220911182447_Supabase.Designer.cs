@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220911172727_HerokuPostgreSQL")]
-    partial class HerokuPostgreSQL
+    [Migration("20220911182447_Supabase")]
+    partial class Supabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

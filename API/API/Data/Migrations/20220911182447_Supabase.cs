@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace API.Data.Migrations
 {
-    public partial class HerokuPostgreSQL : Migration
+    public partial class Supabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -21,15 +21,14 @@ public static class ApplicationServiceExtensions
             // Depending on if in development or production, use either Heroku-provided
             // connection string, or development connection string from env var.
             //if (env == "Development")
-            if (false)
+            if (true)
             {
                 // Use connection string from file.
-                connStr = config.GetConnectionString("DefaultConnectionPostgreSQL");
+                connStr = config.GetConnectionString("PostgreSQL_Supabase_Connection");
             }
-            else
+            else // (Heroku connection string builder)
             {
-                // Use connection string provided at runtime by Heroku.
-                //var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+                // Use connection string provided by Heroku.
                 var connUrl = config.GetConnectionString("DefaultConnectionHerokuSQL");
 
                 // Parse connection URL to connection string for Npgsql
