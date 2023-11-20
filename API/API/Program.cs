@@ -81,14 +81,14 @@ builder.Services.AddAuthentication(options =>
 #endregion
 
 // Database connection
-builder.Services.AddApplicationServices(builder.Configuration);
-//builder.Services.AddDbContext<DataContext>(options =>
-//{
-//    //options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionPostgreSQL"));
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("ProdConnection")); // Prod
-//    //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionSQLServer"));
-//    //options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnectionSQLite"));
-//});
+//builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    //options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionPostgreSQL"));
+    //options.UseSqlServer(builder.Configuration.GetConnectionString("ProdConnection")); // Prod
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionSQLServer"));
+    //options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnectionSQLite"));
+});
 
 var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 builder.Services.AddCors(

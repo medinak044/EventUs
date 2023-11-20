@@ -12,4 +12,10 @@ public class CheckListItemRepository : GenericRepository<CheckListItem>, ICheckL
         _context = context;
     }
 
+    //public override Task<bool> RemoveAsync(CheckListItem entity)
+    //{
+    //    Console.WriteLine($"Checklist item deleted: {entity.Id}");
+    //    return base.RemoveAsync(entity);
+    //}
+
 }
