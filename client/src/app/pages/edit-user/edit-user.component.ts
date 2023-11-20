@@ -70,7 +70,8 @@ export class EditUserComponent implements OnInit {
   }
 
   editSubmit() {
-    if (this.currentUser.email != "admin@example.com") {
+    // if (this.currentUser.email != "admin@example.com") {
+    if (true) {
       // Map registerForm to another model to be sent to api
       const { firstName, lastName, userName, email } = this.editForm.value
 
