@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountRole } from 'src/app/models/accountRole';
 import { AccountRoleDto } from 'src/app/models/accountRoleDto';
@@ -18,7 +18,7 @@ export class EditUserComponent implements OnInit {
   userIdParam!: string
   appUserToBeEdited!: AppUser
   appUserToBeEdited_Roles: AccountRole[] = [] // From currently displayed user
-  editForm: FormGroup = this.fb.group({
+  editForm: UntypedFormGroup = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     userName: ['', Validators.required],
@@ -35,7 +35,7 @@ export class EditUserComponent implements OnInit {
     public adminService: AdminService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private previousRouteService: PreviousRouteService
   ) { }
 

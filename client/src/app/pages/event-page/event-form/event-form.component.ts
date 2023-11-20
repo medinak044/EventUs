@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { AppUser } from 'src/app/models/appUser';
 import { UserEvent } from 'src/app/models/userEvent';
 import { UserEventRequestDto } from 'src/app/models/userEventRequestDto';
@@ -19,7 +19,7 @@ export class EventFormComponent implements OnInit {
 
   eventExists!: boolean // Determines whether or not 
 
-  eventForm: FormGroup = this.fb.group({
+  eventForm: UntypedFormGroup = this.fb.group({
     title: [''],
     location: [''],
     description: [''],
@@ -32,7 +32,7 @@ export class EventFormComponent implements OnInit {
   constructor(
     public appUserService: AppUserService,
     public eventService: EventService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
   ) { }
 
   ngOnInit(): void {

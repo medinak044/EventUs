@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormControl, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppUserLogin } from 'src/app/models/appUserLogin';
 import { AppUserService } from 'src/app/services/app-user.service';
@@ -12,7 +12,7 @@ import { PreviousRouteService } from 'src/app/services/previous-route.service';
 })
 export class LoginPageComponent implements OnInit {
   previousUrl!: string
-  loginForm: FormGroup = this.fb.group({
+  loginForm: UntypedFormGroup = this.fb.group({
     email: ['', Validators.pattern('[a-z0-9]+@[a-z]+\.[a-z]{2,3}')],
     password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
   })
@@ -22,7 +22,7 @@ export class LoginPageComponent implements OnInit {
   constructor(
     private appUserService: AppUserService,
     private router: Router,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private previousRouteService: PreviousRouteService,
   ) { }
 

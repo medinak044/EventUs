@@ -3,7 +3,7 @@ import { UserEvent } from 'src/app/models/userEvent';
 import { Attendee } from 'src/app/models/attendee';
 import { EventService } from 'src/app/services/event.service';
 import { CheckListItem } from 'src/app/models/checkListItem';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { AppUserService } from 'src/app/services/app-user.service';
 import { AppUser } from 'src/app/models/appUser';
 import { AppUserLoggedIn } from 'src/app/models/appUserLoggedIn';
@@ -22,7 +22,7 @@ export class EventViewComponent implements OnInit {
   attendees!: Attendee[]
   defaultImg: string = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
 
-  checkListItemForm: FormGroup = this.fb.group({
+  checkListItemForm: UntypedFormGroup = this.fb.group({
     id: [0],
     isChecked: [false],
     description: [''],
@@ -32,7 +32,7 @@ export class EventViewComponent implements OnInit {
   constructor(
     public appUserService: AppUserService,
     public eventService: EventService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
   ) { }
 
   ngOnInit(): void {

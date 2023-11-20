@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, FormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppUser } from 'src/app/models/appUser';
 import { AppUserRegister } from 'src/app/models/appUserRegister';
@@ -13,7 +13,7 @@ import { PreviousRouteService } from 'src/app/services/previous-route.service';
 })
 export class RegisterComponent implements OnInit {
   previousUrl!: string
-  registerForm: FormGroup = this.fb.group({
+  registerForm: UntypedFormGroup = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     userName: ['', Validators.required],
@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private appUserService: AppUserService,
     private router: Router,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private previousRouteService: PreviousRouteService,
   ) {
   }
@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit {
   }
 
   mustMatch(password: any, confirmPassword: any) {
-    return (formGroup: FormGroup) => {
+    return (formGroup: UntypedFormGroup) => {
       const passwordControl = formGroup.controls[password]
       const confirmPasswordControl = formGroup.controls[confirmPassword]
 
