@@ -50,6 +50,7 @@ public class Seed
                 LastName = "Admin_L",
                 UserName = "Admin_UserName",
                 Email = "admin@example.com",
+                DateAdded = DateTime.Now,
             };
             await _userManager.CreateAsync(adminUser, demoIdentityPassword);
             // After user is created, add role
@@ -66,6 +67,7 @@ public class Seed
                 LastName = "AppUser_L",
                 UserName = "AppUser_UserName",
                 Email = "appuser@example.com",
+                DateAdded = DateTime.Now,
             };
             await _userManager.CreateAsync(appUser, demoIdentityPassword);
             // After user is created, add role

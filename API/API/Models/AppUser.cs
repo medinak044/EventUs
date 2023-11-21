@@ -9,5 +9,6 @@ public class AppUser: IdentityUser
     public string? LastName { get; set; }
     public Address? Address { get; set; }
     public ICollection<Event>? Events { get; set; }
+    public DateTime DateAdded { get; set; }
     // Profile image url/source, (users can upload images to Cloudinary)
 }
