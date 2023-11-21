@@ -8,4 +8,6 @@ export class AppUserLoggedIn {
     token = "" // Includes Id, UserName, Email in claims
     refreshToken = ""
     roles?: string[]
+  dateAdded = ""
+  dateAddedStr = ""
 }

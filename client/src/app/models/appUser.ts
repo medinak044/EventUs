@@ -5,4 +5,6 @@ export class AppUser {
     lastName = ""
     userName = ""
     email = ""
+  dateAdded = ""
+  dateAddedStr = ""
 }

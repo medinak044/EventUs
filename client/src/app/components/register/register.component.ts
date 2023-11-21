@@ -35,11 +35,13 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // If user is already logged in 
+    // If user is already logged in
     if (localStorage.getItem('user')) {
       console.log('register: User is already logged in, redirecting to home page')
       this.router.navigateByUrl('/home')
     }
+    let today = new Date()
+    console.log(today)
 
     this.previousUrl = this.previousRouteService.getPreviousUrl()!
   }
@@ -69,6 +71,7 @@ export class RegisterComponent implements OnInit {
     newRegisterForm.userName = userName
     newRegisterForm.email = email
     newRegisterForm.password = password
+    // newRegisterForm.dateCreated = new Date() // Today's date
 
     this.appUserService.register(newRegisterForm).subscribe({
       next: (res: any) => { this.router.navigateByUrl(this.previousUrl) },

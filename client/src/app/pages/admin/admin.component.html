@@ -11,8 +11,9 @@
                 <th>LastName</th>
                 <th>UserName</th>
                 <th>Email</th>
-                <th>City</th>
-                <th>State</th>
+<!--                <th>City</th>-->
+<!--                <th>State</th>-->
+                <th>Date Created</th>
                 <th>Roles</th>
             </thead>
 
@@ -23,8 +24,9 @@
                     <td>{{appUser.lastName || html_FalsyValue}}</td>
                     <td>{{appUser.userName || html_FalsyValue}}</td>
                     <td>{{appUser.email || html_FalsyValue}}</td>
-                    <td>(City)</td>
-                    <td>(State)</td>
+<!--                    <td>(City)</td>-->
+<!--                    <td>(State)</td>-->
+                  <td>{{(appUser.dateAddedStr) || html_FalsyValue}}</td>
                     <!-- <td>{{((appUser.roles!.length > 0)? appUser.roles : html_FalsyValue)}}</td> -->
                     <td>
                         <p *ngFor="let role of appUser.roles">{{role}}</p>

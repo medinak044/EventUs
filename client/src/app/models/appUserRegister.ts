@@ -5,4 +5,5 @@ export class AppUserRegister {
     userName = ""
     email = ""
     password = ""
+    // dateCreated?: Date
 }

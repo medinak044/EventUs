@@ -33,6 +33,15 @@ export class AdminComponent implements OnInit {
   getAllUsers_Admin() {
     this.adminService.getAllUsers_Admin().subscribe({
       next: (appUsers: any) => {
+        // Convert string C# DateTime to MM/dd/yyyy
+        for (let i = 0; i < appUsers.length; i++) {
+          // appUsers[i].dateCreated = new Date(Date.parse(appUsers[i].dateCreated))
+          let aU = appUsers[i]
+          let parsedDate = aU.dateAdded.split(/[-T]/) // "2023-11-20T20:49:23.0270753";
+          aU.dateAddedStr = `${parsedDate[1]}/${parsedDate[2]}/${parsedDate[0]}` // MM/dd/yyyy
+          // console.log(aU)
+        }
+
         this.appUsers = [
           appUsers.find((u: AppUserAdminDto) => u.id == this.currentUser.id), // Shift currently logged in user to top of table
           ...appUsers.filter((u: AppUserAdminDto) => (u.id != this.currentUser.id)) // Omit currently logged in user at original index
@@ -43,7 +52,8 @@ export class AdminComponent implements OnInit {
   }
 
   deleteUser(userId: string) {
-    if (this.currentUser.email != "admin@example.com") {
+    // if (this.currentUser.email != "admin@example.com")
+    if (true) {
       this.appUsers = this.appUsers.filter(a => a.id !== userId)
 
       this.appUserService.deleteUser(userId)

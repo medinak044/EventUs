@@ -60,6 +60,11 @@ public class AccountController : ControllerBase
     public async Task<ActionResult> GetAllUsers()
     {
         var users = _mapper.Map<List<AppUserDto>>(await _userManager.Users.ToListAsync());
+        // Convert date to string so JavaScript can parse the value
+        foreach (var user in users)
+        {
+            user.DateAddedStr = user.DateAdded.ToString("MM/dd/yy");
+        }
         return Ok(users);
     }
 
@@ -67,6 +72,7 @@ public class AccountController : ControllerBase
     public async Task<ActionResult> GetUserById(string userId)
     {
         var user = _mapper.Map<AppUserDto>(await _userManager.FindByIdAsync(userId));
+        user.DateAddedStr = user.DateAdded.ToString("MM/dd/yy"); ; // Convert date to string so JavaScript can parse the value
         return Ok(user);
     }
 
@@ -117,6 +123,8 @@ public class AccountController : ControllerBase
         }
 
         AppUser newUser = _mapper.Map<AppUser>(requestDto);
+
+        newUser.DateAdded = DateTime.Now;
 
         var newUserIsCreated = await _userManager.CreateAsync(newUser, requestDto.Password);
         if (!newUserIsCreated.Succeeded)
@@ -337,6 +345,7 @@ public class AccountController : ControllerBase
                 LastName = "Admin_L",
                 UserName = "Admin_UserName",
                 Email = "admin@example.com",
+                DateAdded = DateTime.Now,
             };
             await _userManager.CreateAsync(adminUser, demoIdentityPassword);
             // After user is created, add role
@@ -354,6 +363,7 @@ public class AccountController : ControllerBase
                 LastName = "AppUser_L",
                 UserName = "AppUser_UserName",
                 Email = "appuser@example.com",
+                DateAdded = DateTime.Now,
             };
             await _userManager.CreateAsync(appUser, demoIdentityPassword);
             // After user is created, add role
