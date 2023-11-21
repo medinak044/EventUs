@@ -4,6 +4,7 @@ import { AppUser } from 'src/app/models/appUser';
 import { UserConnectionResponseDto } from 'src/app/models/userConnectionResponseDto';
 import { AppUserService } from 'src/app/services/app-user.service';
 import { UserConnectionService } from 'src/app/services/user-connection.service';
+import {AppUserAdminDto} from "../../models/appUserAdminDto";
 
 @Component({
   selector: 'app-view-users',
@@ -12,11 +13,21 @@ import { UserConnectionService } from 'src/app/services/user-connection.service'
 })
 export class ViewUsersComponent implements OnInit {
   appUsers: AppUser[] = []
+  appUsersFiltered: AppUser[] = []
+  _filterText: string = ""
   userAmount?: Number
   defaultImg?: string = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
 
   loggedInUser!: AppUser
   alreadyAddedUsers_Id?: string[] // Get all the logged in user's added users' ids
+
+  get filterText(): string {
+    return this._filterText
+  }
+  set filterText(value:string) {
+    this._filterText = value
+    this.appUsersFiltered = this.filterUserByUsername(value)
+  }
 
   constructor(
     public appUserService: AppUserService,
@@ -45,6 +56,7 @@ export class ViewUsersComponent implements OnInit {
       next: (appUsers: any) => {
         this.appUsers = appUsers.filter((u: any) => u.id != this.loggedInUser.id) // Get array of users, excluding logged in user from the results
         this.userAmount = this.appUsers.length
+        this.appUsersFiltered = this.appUsers // Set the same values as well
       },
       error: err => console.log(err)
     })
@@ -61,6 +73,17 @@ export class ViewUsersComponent implements OnInit {
     })
   }
 
+  filterUserByUsername(filterTerm: string){
+    if (this.appUsers.length === 0 || this.filterText === "") {
+      return this.appUsers
+    } else {
+      // Return a filtered array
+      return this.appUsers.filter((appUser) => {
+        // Check if input text matches or partially matches
+        return appUser.userName.toLowerCase().startsWith(filterTerm.toLowerCase())
+      })
+    }
+  }
   // Pagination, switching through groups of paginated results (<< 1,2,3 >>)
 
 }

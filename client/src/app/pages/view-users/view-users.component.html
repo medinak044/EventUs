@@ -8,13 +8,19 @@
 </div>
 
 
+
 <div class="container mt-5 fade-in">
     <div class="card card-sm">
         <div class="card-header d-flex bg-primary justify-content-between align-items-center"
             style="color: rgb(215, 215, 215);">
             <div>
                 <h6><b>Find users</b> </h6>
-            </div>
+
+                <input type="text"
+                       placeholder="Search by username"
+                       [(ngModel)]="filterText"
+                >
+          </div>
             <div class="d-flex align-items-center">
                 <div class="mr-2 text-small text-nowrap" style="margin-right: 0.25rem;">Filter by state</div>
                 <div class="dropdown">
@@ -24,8 +30,8 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li class="dropdown-item">All States</li>
-                        <li class="dropdown-item">Alaska, AK</li>
-                        <li class="dropdown-item">Alabama, AL</li>
+<!--                        <li class="dropdown-item">Alaska, AK</li>-->
+<!--                        <li class="dropdown-item">Alabama, AL</li>-->
                     </ul>
                 </div>
             </div>
@@ -33,7 +39,7 @@
     </div>
 
     <div style="height: 43rem; overflow: auto;">
-        <div class="card" *ngFor="let user of appUsers">
+        <div class="card" *ngFor="let user of appUsersFiltered">
             <div class="row">
                 <div class="col-md-2">
                     <img class="img-fluid" style="width:100%;

@@ -4,12 +4,18 @@
         <div class="text-center">
             <h1>Users ({{appUsers.length}})</h1>
         </div>
+      <div class="container">
+        <input type="text"
+               placeholder="Search by username"
+               [(ngModel)]="filterText"
+        >
+      </div>
         <br>
         <table class="table table-striped container">
             <thead>
+                <th>UserName</th>
                 <th>FirstName</th>
                 <th>LastName</th>
-                <th>UserName</th>
                 <th>Email</th>
 <!--                <th>City</th>-->
 <!--                <th>State</th>-->
@@ -18,11 +24,11 @@
             </thead>
 
             <tbody>
-                <tr *ngFor="let appUser of appUsers">
-                    <td><i class="fa fa-solid fa-star" *ngIf="appUser.id == currentUser.id"></i> {{appUser.firstName ||
+                <tr *ngFor="let appUser of appUsersFiltered">
+                  <td><i class="fa fa-solid fa-star" *ngIf="appUser.id == currentUser.id"></i> {{appUser.userName || html_FalsyValue}}</td>
+                    <td>{{appUser.firstName ||
                         html_FalsyValue}}</td>
                     <td>{{appUser.lastName || html_FalsyValue}}</td>
-                    <td>{{appUser.userName || html_FalsyValue}}</td>
                     <td>{{appUser.email || html_FalsyValue}}</td>
 <!--                    <td>(City)</td>-->
 <!--                    <td>(State)</td>-->

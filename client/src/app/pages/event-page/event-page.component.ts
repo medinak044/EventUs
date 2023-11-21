@@ -16,11 +16,21 @@ import { EventService } from 'src/app/services/event.service';
 })
 export class EventPageComponent implements OnInit {
     loggedInUser!: AppUserLoggedIn
-    events?: UserEvent[] // Collection of Events of the logged in user
+    events: UserEvent[] = [] // Collection of Events of the logged in user
     events$?: Observable<UserEvent[]>
     currentEvent?: any // When this is populated with Event data, open the component
 
+    eventsFiltered: UserEvent[] = []
+    _filterText: string = ""
     isCreatingNewEvent: boolean = false // Switch display over to event form
+
+  get filterText(): string {
+    return this._filterText
+  }
+  set filterText(value:string) {
+    this._filterText = value
+    this.eventsFiltered = this.filterEventByTitle(value)
+  }
 
     constructor(
         public appUserService: AppUserService,
@@ -36,6 +46,13 @@ export class EventPageComponent implements OnInit {
     // Refresh collection of Events
     getUserEvents() {
         this.events$ = this.eventService.getUserEvents() // Gets events relavent to the logged in user
+      // Get non-observable values, associated with the logged-in user
+      this.eventService.getUserEvents().subscribe(
+        (res:UserEvent[]) => {
+          this.events = res
+          this.eventsFiltered = res // Set the same values as well
+        }
+      )
     }
 
     switchFormState(isFormActive: boolean) {
@@ -61,4 +78,16 @@ export class EventPageComponent implements OnInit {
             })
         }
     }
+
+  filterEventByTitle(filterTerm: string){
+    if (this.events.length === 0 || this.filterText === "") {
+      return this.events
+    } else {
+      // Return a filtered array
+      return this.events.filter((event) => {
+        // Check if input text matches or partially matches
+        return event.title.toLowerCase().startsWith(filterTerm.toLowerCase())
+      })
+    }
+  }
 }

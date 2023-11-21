@@ -16,8 +16,18 @@ export class AdminComponent implements OnInit {
   html_FalsyValue: string = "NULL" // For html template only
 
   appUsers: AppUserAdminDto[] = []
+  appUsersFiltered: AppUserAdminDto[] = []
+  _filterText: string = ""
   currentUser: any
   allAvailableRoles: AccountRole[] = []
+
+  get filterText(): string {
+    return this._filterText
+  }
+  set filterText(value:string) {
+    this._filterText = value
+    this.appUsersFiltered = this.filterUserByUsername(value)
+  }
 
   constructor(
     public appUserService: AppUserService,
@@ -46,6 +56,7 @@ export class AdminComponent implements OnInit {
           appUsers.find((u: AppUserAdminDto) => u.id == this.currentUser.id), // Shift currently logged in user to top of table
           ...appUsers.filter((u: AppUserAdminDto) => (u.id != this.currentUser.id)) // Omit currently logged in user at original index
         ]
+        this.appUsersFiltered = this.appUsers // Set the same values as well
       },
       error: err => console.log(err)
     })
@@ -83,4 +94,18 @@ export class AdminComponent implements OnInit {
   }
 
   // ---- Role CRUD (end) ---- //
+
+
+
+  filterUserByUsername(filterTerm: string){
+      if (this.appUsers.length === 0 || this.filterText === "") {
+        return this.appUsers
+      } else {
+        // Return a filtered array
+        return this.appUsers.filter((appUser) => {
+          // Check if input text matches or partially matches
+          return appUser.userName.toLowerCase().startsWith(filterTerm.toLowerCase())
+        })
+      }
+  }
 }
