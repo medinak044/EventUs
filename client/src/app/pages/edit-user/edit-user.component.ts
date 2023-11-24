@@ -7,6 +7,7 @@ import { AppUser } from 'src/app/models/appUser';
 import { AdminService } from 'src/app/services/admin.service';
 import { AppUserService } from 'src/app/services/app-user.service';
 import { PreviousRouteService } from 'src/app/services/previous-route.service';
+import {AppUserUpdateDto} from "../../models/appUserUpdateDto";
 
 @Component({
   selector: 'app-edit-user',
@@ -75,12 +76,14 @@ export class EditUserComponent implements OnInit {
       // Map registerForm to another model to be sent to api
       const { firstName, lastName, userName, email } = this.editForm.value
 
-      let updatedUser: AppUser = new AppUser()
+      let updatedUser: AppUserUpdateDto = new AppUserUpdateDto()
       updatedUser.id = this.userIdParam
       updatedUser.firstName = firstName
       updatedUser.lastName = lastName
       updatedUser.userName = userName
       updatedUser.email = email
+
+      console.log(updatedUser)
 
       this.appUserService.updateUser(updatedUser).subscribe({
         next: (res: any) => {

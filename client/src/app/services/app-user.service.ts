@@ -8,6 +8,7 @@ import { AppUserLogin } from '../models/appUserLogin';
 import { AppUserLoggedIn } from '../models/appUserLoggedIn';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import {AppUserUpdateDto} from "../models/appUserUpdateDto";
 
 @Injectable({
   providedIn: 'root'
@@ -38,8 +39,8 @@ export class AppUserService {
       (`${environment.apiUrl}/${this.controllerUrl}/GetAllUsers`)
   }
 
-  updateUser(appUser: AppUser): Observable<AppUser> {
-    return this.http.post<AppUser>
+  updateUser(appUser: AppUserUpdateDto): Observable<AppUserUpdateDto> {
+    return this.http.post<AppUserUpdateDto>
       (`${environment.apiUrl}/${this.controllerUrl}/UpdateUser`, appUser)
   }
 

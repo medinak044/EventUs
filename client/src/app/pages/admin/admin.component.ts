@@ -66,6 +66,7 @@ export class AdminComponent implements OnInit {
     // if (this.currentUser.email != "admin@example.com")
     if (true) {
       this.appUsers = this.appUsers.filter(a => a.id !== userId)
+      this.appUsersFiltered = this.appUsers
 
       this.appUserService.deleteUser(userId)
         .subscribe({

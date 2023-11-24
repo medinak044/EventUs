@@ -212,7 +212,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("UpdateUser")]
-    public async Task<ActionResult> UpdateUser(AppUserDto updatedUserDto)
+    public async Task<ActionResult> UpdateUser(AppUserUpdateDto updatedUserDto)
     {
         if (!ModelState.IsValid)
             return BadRequest();
@@ -240,7 +240,7 @@ public class AccountController : ControllerBase
         #endregion
 
         // Map values
-        existingUser = _mapper.Map<AppUserDto, AppUser>(updatedUserDto, existingUser);
+        existingUser = _mapper.Map<AppUserUpdateDto, AppUser>(updatedUserDto, existingUser);
 
         // Save updated values to db
         await _userManager.UpdateAsync(existingUser);
