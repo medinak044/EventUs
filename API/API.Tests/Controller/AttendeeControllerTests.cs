@@ -68,4 +68,39 @@ public class AttendeeControllerTests
         result.Should().NotBeNull();
         result.Should().BeOfType(typeof(OkObjectResult));
     }
+
+    [Fact]
+    public async Task AttendeeController_UpdateAttendee_ReturnOk()
+    {
+        // Arrange
+        var attendeeRequestDto = A.Fake<AttendeeRequestDto>();
+        int attendeeId = 1;
+
+        A.CallTo(() => _unitOfWork.SaveAsync()).Returns(true);
+        var controller = CreateNewController();
+
+        // Act
+        var result = await controller.UpdateAttendee(attendeeId, attendeeRequestDto);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType(typeof(OkObjectResult));
+    }
+
+    [Fact]
+    public async Task AttendeeController_RemoveAttendee_ReturnOk()
+    {
+        // Arrange
+        int attendeeId = 1;
+
+        A.CallTo(() => _unitOfWork.SaveAsync()).Returns(true);
+        var controller = CreateNewController();
+
+        // Act
+        var result = await controller.RemoveAttendee(attendeeId);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType(typeof(OkObjectResult));
+    }
 }

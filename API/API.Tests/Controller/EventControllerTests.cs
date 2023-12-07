@@ -83,4 +83,22 @@ public class EventControllerTests
         result.Should().BeOfType(typeof(OkObjectResult));
     }
 
+    [Fact]
+    public async Task EventController_UpdateEvent_ReturnOk()
+    {
+        // Arrange
+        int eventId = 1;
+        var eventDto = A.Fake<EventRequestDto>();
+        var eventToDelete = A.Fake<Event>();
+        A.CallTo(() => _unitOfWork.SaveAsync()).Returns(true);
+        var controller = CreateNewController();
+
+        // Act
+        var result = await controller.UpdateEvent(eventId, eventDto);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType(typeof(OkObjectResult));
+    }
+
 }
