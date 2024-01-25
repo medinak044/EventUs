@@ -25,6 +25,8 @@ export class RegisterComponent implements OnInit {
   })
   get f() { return this.registerForm.controls } // Getter method for displaying error messages
   validationErrors: string[] = []
+  registerButtonIsPressed: boolean = false
+  registerErrorMessage: string = ""
 
   constructor(
     private appUserService: AppUserService,
@@ -62,6 +64,7 @@ export class RegisterComponent implements OnInit {
   }
 
   registerSubmit() {
+    this.registerButtonIsPressed = true
     // Map registerForm to another model to be sent to api
     const { firstName, lastName, userName, email, password } = this.registerForm.value
 
@@ -75,7 +78,11 @@ export class RegisterComponent implements OnInit {
 
     this.appUserService.register(newRegisterForm).subscribe({
       next: (res: any) => { this.router.navigateByUrl(this.previousUrl) },
-      error: (err: any) => this.validationErrors = err // Add errors
+      error: (err: any) => {
+        this.registerButtonIsPressed = false // Reset the loading visual if unable to connect to api
+        this.registerErrorMessage = "Database is waking up, please submit again."
+        this.validationErrors = err
+      }
     })
   }
 }

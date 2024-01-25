@@ -18,6 +18,7 @@ export class LoginPageComponent implements OnInit {
   })
   get f() { return this.loginForm.controls } // Getter method for displaying error messages
   loginButtonIsPressed: boolean = false
+  loginErrorMessage: string = ""
 
   constructor(
     private appUserService: AppUserService,
@@ -50,7 +51,11 @@ export class LoginPageComponent implements OnInit {
           // console.log(`Login details: ${user}`)
           this.router.navigateByUrl(this.previousUrl)
         },
-        error: (err: any) => { console.log(err) }
+        error: (err: any) => {
+          this.loginButtonIsPressed = false // Reset the loading visual if unable to connect to api
+          this.loginErrorMessage = "Database is waking up, please submit again."
+          console.log(err)
+        }
       })
   }
 

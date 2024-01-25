@@ -69,6 +69,15 @@
                         <div class="form-group">
                             <button [disabled]="registerForm.invalid"
                                 class="btn btn-success btn-block">Register</button>
+                            <br>
+                            <div class="d-flex justify-content-center" *ngIf="registerButtonIsPressed">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                            <br />
+                            <span style="font-size: 75%; opacity: 0.5;"
+                                *ngIf="registerErrorMessage">{{registerErrorMessage}}</span>
                         </div>
                     </form>
                 </div>

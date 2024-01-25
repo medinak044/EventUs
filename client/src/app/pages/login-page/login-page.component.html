@@ -34,6 +34,9 @@
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
                             </div>
+                            <br />
+                            <span style="font-size: 75%; opacity: 0.5;"
+                                *ngIf="loginErrorMessage">{{loginErrorMessage}}</span>
                         </div>
                     </form>
                 </div>

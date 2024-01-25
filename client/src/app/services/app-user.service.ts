@@ -8,7 +8,7 @@ import { AppUserLogin } from '../models/appUserLogin';
 import { AppUserLoggedIn } from '../models/appUserLoggedIn';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import {AppUserUpdateDto} from "../models/appUserUpdateDto";
+import { AppUserUpdateDto } from "../models/appUserUpdateDto";
 
 @Injectable({
   providedIn: 'root'
